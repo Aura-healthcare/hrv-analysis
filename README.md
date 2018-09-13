@@ -88,7 +88,7 @@ Here are the main references used to compute the set of features and for signal 
 
 ## License
 
-This project is licensed under the *GNU GENERAL PUBLIC License* - see the [LICENSE.md]() file for details
+This project is licensed under the *GNU GENERAL PUBLIC License* - see the [LICENSE.md](https://github.com/Aura-healthcare/Aura_data_analysis_platform/blob/dev_robin/hrv_library/LICENSE) file for details
 
 ## Acknowledgments
 
