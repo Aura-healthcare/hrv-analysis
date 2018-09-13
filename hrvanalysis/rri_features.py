@@ -54,7 +54,7 @@ def get_time_domain_features(nn_intervals):
     - **cvsd**: The coefficient of variation of successive differences (van Dellen et al., 1985), 
     the rmssd divided by mean_nni.
     
-    - **range_nni**: différence between the maximum and minimum nn_interval.
+    - **range_nni**: difference between the maximum and minimum nn_interval.
     
     
     References
