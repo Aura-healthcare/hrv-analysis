@@ -86,7 +86,14 @@ def get_time_domain_features(nn_intervals):
     # Features only for long term recordings
     sdnn = np.std(nn_intervals, ddof=1)  # ddof = 1 : unbiased estimator => divide std by n-1
     cvnn = sdnn / mean_nni
-    
+
+    # Heart Rate equivalent features
+    heart_rate_list = np.divide(60000, nn_intervals)
+    mean_hr = np.mean(heart_rate_list)
+    min_hr = min(heart_rate_list)
+    max_hr = max(heart_rate_list)
+    std_hr = np.std(heart_rate_list)
+
     time_domain_features = {
         'mean_nni': mean_nni, 
         'sdnn': sdnn, 
@@ -99,7 +106,11 @@ def get_time_domain_features(nn_intervals):
         'median_nni': median_nni,
         'range_nni': range_nni,
         'cvsd': cvsd,
-        'cvnn': cvnn
+        'cvnn': cvnn,
+        'mean_hr': mean_hr,
+        "max_hr": max_hr,
+        "min_hr": min_hr,
+        "std_hr": std_hr,
     }
     
     return time_domain_features
