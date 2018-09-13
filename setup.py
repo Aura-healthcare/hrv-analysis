@@ -17,7 +17,6 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     install_requires=[
         "astropy>=3.0.4",
-        "future>=0.16.0",
         "nolds>=0.4.1",
         "numpy>=1.15.1",
         "scipy>=1.1.0",
