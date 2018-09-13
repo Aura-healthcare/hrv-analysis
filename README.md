@@ -36,9 +36,11 @@ you can also clone the repository:
 
 ### Getting started 
 
-There are 3 types of features you can get from NN Intervals: 
+There are 4 types of features you can get from NN Intervals: 
 
-> Time domain features : **Mean_NN, SDNN, SDSD, NN50, pNN50, NN20, pNN20, RMSSD, Median_NN, Range_NN**
+> Time domain features : **Mean_NNI, SDNN, SDSD, NN50, pNN50, NN20, pNN20, RMSSD, Median_NN, Range_NN, CVSD, CV_NNI, Mean_HR, Max_HR, Min_HR, STD_HR**
+
+> Geometrical domain features : **Triangular_index, TINN**
 
 > Frequency domain features : **LF, HF, VLF, LH/HF ratio, LFnu, HFnu, Total_Power**
 
@@ -51,20 +53,27 @@ from hrvanalysis.rri_features import get_time_domain_features
 nn_intervals = 
 time_domain_features = get_time_domain_features(nn_intervals)
 >>> time_domain_features
-{'mean_nn': 718.248,
+{'mean_nni': 718.248,
  'sdnn': 43.113074968427306,
  'sdsd': 19.519367520775713,
- 'nn50': 24,
- 'pnn50': 2.4,
- 'nn20': 225,
- 'pnn20': 22.5,
+ 'nni_50': 24,
+ 'pnni_50': 2.4,
+ 'nni_20': 225,
+ 'pnni_20': 22.5,
  'rmssd': 19.519400785039664,
- 'Median_nn': 722.5,
- 'Range_nn': 249}
+ 'median_nni': 722.5,
+ 'range_nni': 249,
+ 'cvsd': 0.027176408127888504,
+ 'cvnni': 0.060025332431732914,
+ 'mean_hr': 83.84733227281252,
+ 'max_hr': 101.69491525423729,
+ 'min_hr': 71.51370679380214,
+ 'std_hr': 5.196775370674054}
 ```
 
 You can find how to use methods, references and details about each feature in the documentation of each function:
 - get_time_domain_features
+- get_geometrical_features
 - get_frequency_domain_features
 - get_csi_cvi_features
 - get_poincare_plot_features
