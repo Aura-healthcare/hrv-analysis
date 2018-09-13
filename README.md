@@ -47,7 +47,7 @@ There are 3 types of features you can get from NN Intervals:
 As an exemple, what you can compute to get Time domain analysis is :
 
 ```python
-from hrvanalysis import get_time_domain_features
+from hrvanalysis.rri_features import get_time_domain_features
 nn_intervals = 
 time_domain_features = get_time_domain_features(nn_intervals)
 >>> time_domain_features
