@@ -20,7 +20,8 @@ setuptools.setup(
         "nolds>=0.4.1",
         "numpy>=1.15.1",
         "scipy>=1.1.0",
-        "pandas>=0.23.4"
+        "pandas>=0.23.4",
+        "matplotlib>=2.2.2"
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
