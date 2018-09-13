@@ -55,8 +55,19 @@ def get_time_domain_features(nn_intervals):
     the rmssd divided by mean_nni.
     
     - **range_nni**: difference between the maximum and minimum nn_interval.
-    
-    
+
+    - **cvsd**: Coefficient of variation of successive differences equal to the rmssd divided by mean_nni.
+
+    - **cvnni**: Coefficient of variation equal to the ratio of sdnn divided by mean_nni.
+
+    - **mean_hr**: The mean Heart Rate
+
+    - **max_hr**: Max heart rate
+
+    - **min_hr**: Min heart rate
+
+    - **std_hr**: Standard deviation of heart rate
+
     References
     ----------
     - Signal Processing Methods for Heart Rate Variability - Gari D. Clifford, 2002
@@ -85,7 +96,7 @@ def get_time_domain_features(nn_intervals):
     
     # Features only for long term recordings
     sdnn = np.std(nn_intervals, ddof=1)  # ddof = 1 : unbiased estimator => divide std by n-1
-    cvnn = sdnn / mean_nni
+    cvnni = sdnn / mean_nni
 
     # Heart Rate equivalent features
     heart_rate_list = np.divide(60000, nn_intervals)
@@ -106,7 +117,7 @@ def get_time_domain_features(nn_intervals):
         'median_nni': median_nni,
         'range_nni': range_nni,
         'cvsd': cvsd,
-        'cvnn': cvnn,
+        'cvnni': cvnni,
         'mean_hr': mean_hr,
         "max_hr": max_hr,
         "min_hr": min_hr,
