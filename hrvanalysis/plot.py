@@ -42,7 +42,7 @@ def plot_distrib(nn_intervals, bin_length=8):
     plt.show()
 
 
-def plot_psd(nn_intervals):
+def plot_psd(freq, psd, method="Welch"):
     """
     Function plotting the power spectral density of the NN Intervals
 
@@ -51,9 +51,21 @@ def plot_psd(nn_intervals):
     nn_intervals - list of Normal to Normal Interval
     """
 
-    # TO DO
-    pass
-    return None
+    style.use('ggplot')
+    plt.figure(figsize=(12, 8))
+    plt.xlabel("Frequency (Hz)", fontsize=15)
+    plt.ylabel("PSD (s2/ Hz)", fontsize=15)
+
+    if method == "Lomb":
+        plt.title("Lomb's periodogram", fontsize=20)
+        plt.plot(freq, psd / (1000 * len(psd)))
+    elif method == "Welch":
+        plt.title("Welch's periodogram", fontsize=20)
+        plt.plot(freq, psd / (1000 * len(psd)))
+    else:
+        raise ValueError("Not a valid method. Choose between 'Lomb' and 'Welch'")
+
+    plt.show()
 
 
 def plot_poincare(nn_intervals):
