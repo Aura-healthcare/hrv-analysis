@@ -127,7 +127,47 @@ def get_time_domain_features(nn_intervals):
     return time_domain_features
 
 
-# TO DO -> GEOMETRICAl FEATURES
+def get_geometrical_features(nn_intervals):
+    """
+    Function returning a dictionnary containing geometrical time domain features for HRV analyses.
+    Must use this function on recordings from 20 minutes to 24 Hours window.
+
+    Arguments
+    ---------
+    nn_intervals - list of Normal to Normal Interval
+
+    Returns
+    ---------
+    geometrical_features - dictionnary containing geometrical time domain features for HRV analyses. There are details
+    about each features below.
+
+    Notes
+    ----------
+    Details about feature engineering...
+
+    - **triangular_index**: The HRV triangular index measurement is the integral of the density distribution (= the
+    number of all NN intervals) divided by the maximum of the density distribution.
+
+    - **tinn**: The triangular interpolation of NN interval histogram (TINN) is the baseline width of the distribution
+     measured as a base of a triangle, approximating the NN interval distribution
+
+    References
+    ----------
+    - Heart rate variability - Standards of measurement, physiological interpretation, and clinical use, Task Force of
+    The European Society of Cardiology and The North American Society of Pacing and Electrophysiology, 1996
+
+    """
+
+    triangular_index = len(nn_intervals) / max(np.histogram(nn_intervals, bins=range(300, 2000, 8))[0])
+    tinn = None
+
+    geometrical_features = {
+        "triangular_index": triangular_index,
+        "tinn": tinn
+    }
+
+    return geometrical_features
+
 
 # ----------------- FREQUENCY DOMAIN FEATURES ----------------- #
 
