@@ -8,9 +8,9 @@ Website : https://www.aura.healthcare
 
 Github : https://github.com/Aura-healthcare
 
-version : 0.0.1
+version : 1.0.0
 
-![alt text](https://github.com/rhenanbartels/hrv/blob/develop/docs/figures/rri_fig.png)
+![alt text](https://github.com/robinchampseix/hrvanalysis/blob/develop_hrvanalysis/figures/timeserie_distrib_plot.png)
 
 ### Installion / Prerequisites
 
