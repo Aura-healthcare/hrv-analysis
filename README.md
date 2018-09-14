@@ -8,6 +8,8 @@ Website : https://www.aura.healthcare
 
 Github : https://github.com/Aura-healthcare
 
+<img src="/Users/robinchampseix/Desktop/test.png" alt="Moving Average Image"  width=600px;>
+
 version : 0.0.1
 
 ![alt text](https://github.com/rhenanbartels/hrv/blob/develop/docs/figures/rri_fig.png)
