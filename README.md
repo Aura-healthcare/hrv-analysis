@@ -84,9 +84,10 @@ You can find how to use methods, references and details about each feature in th
 There are also several plot functions that allow you to see, for example, the Power spectral density for frequency domain features :
 
 ```python
-from hrvanalysis.plot import plot_psd
-nn_intervals = 
-plot_psd(nn_intervals)
+from hrvanalysis.plot import plot_psd, plot_distrib
+
+plot_psd(frequency, power, method="Welch")
+plot_distrib(nn_intervals)
 ```
 
 ![alt text](https://github.com/robinchampseix/hrvanalysis/blob/develop_hrvanalysis/figures/welch_density_plot.png)
