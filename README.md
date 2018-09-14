@@ -4,13 +4,14 @@
 
 The development of this library started in July 2018 as part of Aura Healthcare project and is maintained by Robin Champseix.
 
+![alt text](https://github.com/robinchampseix/hrvanalysis/blob/develop_hrvanalysis/figures/timeserie_distrib_plot.png)
+
 Website : https://www.aura.healthcare 
 
 Github : https://github.com/Aura-healthcare
 
 version : 1.0.0
 
-![alt text](https://github.com/robinchampseix/hrvanalysis/blob/develop_hrvanalysis/figures/timeserie_distrib_plot.png)
 
 ### Installion / Prerequisites
 
@@ -79,6 +80,9 @@ You can find how to use methods, references and details about each feature in th
 - get_csi_cvi_features
 - get_poincare_plot_features
 - get_sampen
+
+![alt text](https://github.com/robinchampseix/hrvanalysis/blob/develop_hrvanalysis/figures/welch_density_plot.png)
+
 
 ## References
 
