@@ -10,6 +10,7 @@ Github : https://github.com/Aura-healthcare
 
 version : 0.0.1
 
+![alt text](https://github.com/rhenanbartels/hrv/blob/develop/docs/figures/rri_fig.png)
 
 ### Installion / Prerequisites
 
