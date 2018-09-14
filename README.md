@@ -52,8 +52,10 @@ As an exemple, what you can compute to get Time domain analysis is :
 
 ```python
 from hrvanalysis.rri_features import get_time_domain_features
+
 nn_intervals = 
 time_domain_features = get_time_domain_features(nn_intervals)
+
 >>> time_domain_features
 {'mean_nni': 718.248,
  'sdnn': 43.113074968427306,
@@ -86,7 +88,8 @@ There are also several plot functions that allow you to see, for example, the Po
 ```python
 from hrvanalysis.plot import plot_psd, plot_distrib
 
-plot_psd(frequency, power, method="Welch")
+nn_intervals = 
+plot_psd(nn_intervals, method="Welch")
 plot_distrib(nn_intervals)
 ```
 
