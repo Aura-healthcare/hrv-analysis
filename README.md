@@ -89,7 +89,7 @@ There are also several plot functions that allow you to see, for example, the Po
 from hrvanalysis.plot import plot_psd, plot_distrib
 
 nn_intervals = 
-plot_psd(nn_intervals, method="Welch")
+plot_psd(nn_intervals, method="Lomb")
 plot_distrib(nn_intervals)
 ```
 
