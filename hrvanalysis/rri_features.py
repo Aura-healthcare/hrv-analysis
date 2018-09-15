@@ -172,7 +172,7 @@ def get_geometrical_features(nn_intervals):
 # ----------------- FREQUENCY DOMAIN FEATURES ----------------- #
 
 def get_frequency_domain_features(nn_intervals, method="Welch", sampling_frequency=7, interpolation_method="linear",
-                                  vlf_band=(0.0033, 0.04), lf_band=(0.04, 0.15), hf_band=(0.15, 0.40), plot=0):
+                                  vlf_band=(0.0033, 0.04), lf_band=(0.04, 0.15), hf_band=(0.15, 0.40)):
     
     """
     Function returning a dictionnary containing frequency domain features for HRV analyses.
@@ -196,6 +196,27 @@ def get_frequency_domain_features(nn_intervals, method="Welch", sampling_frequen
     There are details about each features given in "get_features_from_psd" function.
 
     """
+
+    # ----------  Compute frequency & Power of signal  ---------- #
+    freq, psd = get_freq_psd_from_nn_intervals(nn_intervals=nn_intervals, method=method,
+                                               sampling_frequency=sampling_frequency,
+                                               interpolation_method=interpolation_method, vlf_band=vlf_band,
+                                               hf_band=hf_band)
+
+    # ----------  Calcul features  ---------- #
+    freqency_domain_features = get_features_from_psd(freq=freq, psd=psd,
+                                                     vlf_band=vlf_band,
+                                                     lf_band=lf_band,
+                                                     hf_band=hf_band)
+
+    return freqency_domain_features
+
+
+def get_freq_psd_from_nn_intervals(nn_intervals, method="Welch", sampling_frequency=7, interpolation_method="linear",
+                                   vlf_band=(0.0033, 0.04), hf_band=(0.15, 0.40)):
+    """
+    TO DO
+    """
     timestamps = create_time_info(nn_intervals)
 
     # ---------- Interpolation of signal ---------- #
@@ -204,32 +225,21 @@ def get_frequency_domain_features(nn_intervals, method="Welch", sampling_frequen
 
         timestamps_interpolation = create_interpolation_time(nn_intervals, sampling_frequency)
         nni_interpolation = funct(timestamps_interpolation)
-        
+
         # ---------- Remove DC Component ---------- #
         nni_normalized = nni_interpolation - np.mean(nni_interpolation)
-    
-    #  ----------  Calcul Power Spectral Density  ---------- #
-    # Describes the distribution of power into frequency components composing that signal.
+
+        #  ----------  Calcul Power Spectral Density  ---------- #
+        # Describes the distribution of power into frequency components composing that signal.
         freq, psd = signal.welch(x=nni_normalized, fs=sampling_frequency, window='hann')
-    
+
     elif method == "Lomb":
         freq, psd = LombScargle(timestamps, nn_intervals, normalization='psd').autopower(minimum_frequency=vlf_band[0],
                                                                                          maximum_frequency=hf_band[1])
     else:
         raise ValueError("Not a valid method. Choose between 'Lomb' and 'Welch'")
-        
-    # ----------  Calcul features  ---------- #
-    freqency_domain_features = get_features_from_psd(freq=freq, psd=psd,
-                                                     vlf_band=vlf_band,
-                                                     lf_band=lf_band,
-                                                     hf_band=hf_band)
-    
-    # TO DO 
-    # Plotting options
-    if plot == 1:
-        pass
-    
-    return freqency_domain_features
+
+    return freq, psd
 
 
 def create_time_info(nn_intervals):

@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 from matplotlib import style
+from rri_features import get_freq_psd_from_nn_intervals
 
 
 def plot_timeseries(nn_intervals):
@@ -42,15 +43,19 @@ def plot_distrib(nn_intervals, bin_length=8):
     plt.show()
 
 
-def plot_psd(freq, psd, method="Welch"):
+def plot_psd(nn_intervals, method="Welch", sampling_frequency=7, interpolation_method="linear"):
     """
     Function plotting the power spectral density of the NN Intervals
 
     Arguments
     ---------
     nn_intervals - list of Normal to Normal Interval
+    TO DO
     """
 
+    freq, psd = get_freq_psd_from_nn_intervals(nn_intervals=nn_intervals, method=method,
+                                               sampling_frequency=sampling_frequency,
+                                               interpolation_method=interpolation_method)
     style.use('ggplot')
     plt.figure(figsize=(12, 8))
     plt.xlabel("Frequency (Hz)", fontsize=15)
