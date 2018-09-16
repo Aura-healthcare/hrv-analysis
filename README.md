@@ -13,29 +13,6 @@ Github : https://github.com/Aura-healthcare
 version : 1.0.0
 
 
-### Installion / Prerequisites
-
-#### Dependencies
-
-hrvanalysis requires the following:
-- Python (>= 3.4)
-- astropy = 3.0.4
-- future = 0.16.0
-- nolds = 0.4.1
-- numpy = 1.15.1
-- scipy = 1.1.0
-
-#### User installation
-
-The easiest way to install hrvanalysis is using ``pip`` :
-
-    $ pip install -U hrvanalysis
-
-you can also clone the repository:
-
-    $ git clone https://github.com/robinchampseix/hrvanalysis.git
-    $ python setup.py install
-
 ### Getting started 
 
 There are 4 types of features you can get from NN Intervals: 
@@ -89,11 +66,36 @@ There are also several plot functions that allow you to see, for example, the Po
 from hrvanalysis.plot import plot_psd, plot_distrib
 
 nn_intervals = 
-plot_psd(nn_intervals, method="Lomb")
+plot_psd(nn_intervals, method="Welch")
 plot_distrib(nn_intervals)
 ```
 
 ![alt text](https://github.com/robinchampseix/hrvanalysis/blob/develop_hrvanalysis/figures/welch_density_plot.png)
+
+
+### Installion / Prerequisites
+
+#### Dependencies
+
+hrvanalysis requires the following:
+- Python (>= 3.4)
+- astropy = 3.0.4
+- future = 0.16.0
+- nolds = 0.4.1
+- numpy = 1.15.1
+- scipy = 1.1.0
+
+
+#### User installation
+
+The easiest way to install hrvanalysis is using ``pip`` :
+
+    $ pip install -U hrvanalysis
+
+you can also clone the repository:
+
+    $ git clone https://github.com/robinchampseix/hrvanalysis.git
+    $ python setup.py install
 
 
 ## References
@@ -108,13 +110,16 @@ Here are the main references used to compute the set of features and for signal 
     
 > Using Lorenz plot and Cardiac Sympathetic Index of heart rate variability for detecting seizures for patients with epilepsy, Jesper Jeppesen et al, 2014
 
+
 ## Authors
 
 **Robin Champseix** - *Initial work* - (https://github.com/robinchampseix)
 
+
 ## License
 
 This project is licensed under the *GNU GENERAL PUBLIC License* - see the [LICENSE.md](https://github.com/Aura-healthcare/Aura_data_analysis_platform/blob/dev_robin/hrv_library/LICENSE) file for details
+
 
 ## Acknowledgments
 
