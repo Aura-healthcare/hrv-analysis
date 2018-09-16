@@ -13,7 +13,7 @@ Github : https://github.com/Aura-healthcare
 version : 1.0.0
 
 
-### Getting started 
+## Getting started 
 
 There are 4 types of features you can get from NN Intervals: 
 
@@ -73,7 +73,7 @@ plot_distrib(nn_intervals)
 ![alt text](https://github.com/robinchampseix/hrvanalysis/blob/develop_hrvanalysis/figures/welch_density_plot.png)
 
 
-### Installion / Prerequisites
+## Installion / Prerequisites
 
 #### Dependencies
 
@@ -118,7 +118,7 @@ Here are the main references used to compute the set of features and for signal 
 
 ## License
 
-This project is licensed under the *GNU GENERAL PUBLIC License* - see the [LICENSE.md](https://github.com/Aura-healthcare/Aura_data_analysis_platform/blob/dev_robin/hrv_library/LICENSE) file for details
+This project is licensed under the *GNU GENERAL PUBLIC License* - see the [LICENSE.md](https://github.com/robinchampseix/hrvanalysis/blob/master/LICENSE) file for details
 
 
 ## Acknowledgments
