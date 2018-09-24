@@ -3,6 +3,11 @@ import nolds
 from scipy import interpolate
 from scipy import signal
 from astropy.stats import LombScargle
+from collections import namedtuple
+
+
+welch_method = "Welch"
+lomb_method = "Lomb"
 
 # ----------------- TIME DOMAIN FEATURES ----------------- #
 
@@ -171,9 +176,15 @@ def get_geometrical_features(nn_intervals):
 
 # ----------------- FREQUENCY DOMAIN FEATURES ----------------- #
 
-def get_frequency_domain_features(nn_intervals, method="Welch", sampling_frequency=7, interpolation_method="linear",
-                                  vlf_band=(0.0033, 0.04), lf_band=(0.04, 0.15), hf_band=(0.15, 0.40)):
-    
+# Named Tuple for different frequency bands
+Vlf_band = namedtuple("Vlf_band", ["low", "high"])
+Lf_band = namedtuple("Lf_band", ["low", "high"])
+Hf_band = namedtuple("Hf_band", ["low", "high"])
+
+
+def get_frequency_domain_features(nn_intervals, method=welch_method, sampling_frequency=7,
+                                  interpolation_method="linear", vlf_band=Vlf_band(0.0033, 0.04),
+                                  lf_band=Lf_band(0.04, 0.15), hf_band=Hf_band(0.15, 0.40)):
     """
     Function returning a dictionnary containing frequency domain features for HRV analyses.
     Must use this function on short term recordings, from 2 to 5 minutes window.
@@ -212,8 +223,9 @@ def get_frequency_domain_features(nn_intervals, method="Welch", sampling_frequen
     return freqency_domain_features
 
 
-def get_freq_psd_from_nn_intervals(nn_intervals, method="Welch", sampling_frequency=7, interpolation_method="linear",
-                                   vlf_band=(0.0033, 0.04), hf_band=(0.15, 0.40)):
+def get_freq_psd_from_nn_intervals(nn_intervals, method=welch_method, sampling_frequency=7,
+                                   interpolation_method="linear", vlf_band=Vlf_band(0.0033, 0.04),
+                                   hf_band=Hf_band(0.15, 0.40)):
     """
     Function returning the frequency and power of the signal
 
@@ -238,7 +250,7 @@ def get_freq_psd_from_nn_intervals(nn_intervals, method="Welch", sampling_freque
     timestamps = create_time_info(nn_intervals)
 
     # ---------- Interpolation of signal ---------- #
-    if method == "Welch":
+    if method == welch_method:
         funct = interpolate.interp1d(x=timestamps, y=nn_intervals, kind=interpolation_method)
 
         timestamps_interpolation = create_interpolation_time(nn_intervals, sampling_frequency)
@@ -251,9 +263,9 @@ def get_freq_psd_from_nn_intervals(nn_intervals, method="Welch", sampling_freque
         # Describes the distribution of power into frequency components composing that signal.
         freq, psd = signal.welch(x=nni_normalized, fs=sampling_frequency, window='hann')
 
-    elif method == "Lomb":
-        freq, psd = LombScargle(timestamps, nn_intervals, normalization='psd').autopower(minimum_frequency=vlf_band[0],
-                                                                                         maximum_frequency=hf_band[1])
+    elif method == lomb_method:
+        freq, psd = LombScargle(timestamps, nn_intervals, normalization='psd').autopower(minimum_frequency=vlf_band.low,
+                                                                                         maximum_frequency=hf_band.high)
     else:
         raise ValueError("Not a valid method. Choose between 'Lomb' and 'Welch'")
 
