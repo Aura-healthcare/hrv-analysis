@@ -1,67 +1,76 @@
+#!/usr/bin/env python
+"""This script provides method for heart rate variability anaylysis"""
+
+from collections import namedtuple
 import numpy as np
 import nolds
 from scipy import interpolate
 from scipy import signal
 from astropy.stats import LombScargle
-from collections import namedtuple
 
+# Frequency Methods name
+WELCH_METHOD = "Welch"
+LOMB_METHOD = "Lomb"
 
-welch_method = "Welch"
-lomb_method = "Lomb"
+# Named Tuple for different frequency bands
+VlfBand = namedtuple("Vlf_band", ["low", "high"])
+LfBand = namedtuple("Lf_band", ["low", "high"])
+HfBand = namedtuple("Hf_band", ["low", "high"])
 
 # ----------------- TIME DOMAIN FEATURES ----------------- #
 
 
 def get_time_domain_features(nn_intervals):
     """
-    Function returning a dictionnary containing time domain features for 
+    Function returning a dictionnary containing time domain features for
     HRV analysis.
 
-    Mostly used on long term recordings (24h) but some studies use this 
+    Mostly used on long term recordings (24h) but some studies use this
     features on short term recordings, from 2 to 5 minutes window.
-    
+
     Arguments
     ----------
     nn_intervals - list of Normal to Normal Interval
-    
+
     Returns
     ----------
-    time_domain_features - dictionnary containing time domain features for 
+    time_domain_features - dictionnary containing time domain features for
     HRV analyses. There are details about each features below.
-    
+
     Notes
     ----------
     Details about feature engineering...
-    
+
     - **mean_nni**: The mean of RR intervals
-    
-    - **sdnn**: The standard deviation of the time interval between successive normal heart 
+
+    - **sdnn**: The standard deviation of the time interval between successive normal heart
     beats (i.e. the RR intervals)
-    
+
     - **sdsd**: The standard deviation of differences between adjacent RR intervals
-    
+
     - **rmssd**: The square root of the mean of the sum of the squares of differences between
-    adjacent NN intervals. Reflects high frequency (fast or parasympathetic) influences on hrV 
+    adjacent NN intervals. Reflects high frequency (fast or parasympathetic) influences on hrV
     (*i.e.*, those influencing larger changes from one beat to the next).
-    
+
     - **median_nni**: Median Absolute values of the successive differences between the RR intervals.
 
     - **nni_50**: Number of interval differences of successive RR intervals greater than 50 ms.
 
-    - **pnni_50**: The proportion derived by dividing nni_50 (The number of interval differences of 
+    - **pnni_50**: The proportion derived by dividing nni_50 (The number of interval differences of
     successive RR intervals greater than 50 ms) by the total number of RR intervals.
 
     - **nni_20**: Number of interval differences of successive RR intervals greater than 20 ms.
 
-    - **pnni_20**: The proportion derived by dividing nni_20 (The number of interval differences of 
+    - **pnni_20**: The proportion derived by dividing nni_20 (The number of interval differences of
     successive RR intervals greater than 20 ms) by the total number of RR intervals.
 
-    - **cvsd**: The coefficient of variation of successive differences (van Dellen et al., 1985), 
+    - **cvsd**: The coefficient of variation of successive differences (van Dellen et al., 1985),
     the rmssd divided by mean_nni.
-    
+
     - **range_nni**: difference between the maximum and minimum nn_interval.
 
-    - **cvsd**: Coefficient of variation of successive differences equal to the rmssd divided by mean_nni.
+    - **cvsd**: Coefficient of variation of successive differences equal to the rmssd divided by
+    mean_nni.
 
     - **cvnni**: Coefficient of variation equal to the ratio of sdnn divided by mean_nni.
 
@@ -76,29 +85,30 @@ def get_time_domain_features(nn_intervals):
     References
     ----------
     - Signal Processing Methods for Heart Rate Variability - Gari D. Clifford, 2002
-    - Heart rate variability - Standards of measurement, physiological interpretation, and clinical use, Task Force of
-    The European Society of Cardiology and The North American Society of Pacing and Electrophysiology, 1996
-    
+    - Heart rate variability - Standards of measurement, physiological interpretation, and clinical
+    use, Task Force of The European Society of Cardiology and The North American Society of Pacing
+    and Electrophysiology, 1996
+
     """
-    
+
     diff_nni = np.diff(nn_intervals)
     length_int = len(nn_intervals)
-    
+
     mean_nni = np.mean(nn_intervals)
     sdsd = np.std(diff_nni)
     rmssd = np.sqrt(np.mean(diff_nni ** 2))
     median_nni = np.median(nn_intervals)
-    
+
     nni_50 = sum(abs(diff_nni) > 50)
     pnni_50 = 100 * nni_50 / length_int
     nni_20 = sum(abs(diff_nni) > 20)
     pnni_20 = 100 * nni_20 / length_int
-    
+
     range_nni = max(nn_intervals) - min(nn_intervals)
-    
+
     # Feature found on github et non in documentation
     cvsd = rmssd / mean_nni
-    
+
     # Features only for long term recordings
     sdnn = np.std(nn_intervals, ddof=1)  # ddof = 1 : unbiased estimator => divide std by n-1
     cvnni = sdnn / mean_nni
@@ -111,9 +121,9 @@ def get_time_domain_features(nn_intervals):
     std_hr = np.std(heart_rate_list)
 
     time_domain_features = {
-        'mean_nni': mean_nni, 
-        'sdnn': sdnn, 
-        'sdsd': sdsd, 
+        'mean_nni': mean_nni,
+        'sdnn': sdnn,
+        'sdsd': sdsd,
         'nni_50': nni_50,
         'pnni_50': pnni_50,
         'nni_20': nni_20,
@@ -128,7 +138,7 @@ def get_time_domain_features(nn_intervals):
         "min_hr": min_hr,
         "std_hr": std_hr,
     }
-    
+
     return time_domain_features
 
 
@@ -143,31 +153,35 @@ def get_geometrical_features(nn_intervals):
 
     Returns
     ---------
-    geometrical_features - dictionnary containing geometrical time domain features for HRV analyses. There are details
+    geometrical_features - dictionnary containing geometrical time domain features for HRV analyses.
+    There are details
     about each features below.
 
     Notes
     ----------
     Details about feature engineering...
 
-    - **triangular_index**: The HRV triangular index measurement is the integral of the density distribution (= the
-    number of all NN intervals) divided by the maximum of the density distribution.
+    - **triangular_index**: The HRV triangular index measurement is the integral of the density
+    distribution (= the number of all NN intervals) divided by the maximum of the density
+    distribution.
 
-    - **tinn**: The triangular interpolation of NN interval histogram (TINN) is the baseline width of the distribution
-     measured as a base of a triangle, approximating the NN interval distribution
+    - **tinn**: The triangular interpolation of NN interval histogram (TINN) is the baseline width
+     of the distribution measured as a base of a triangle, approximating the NN interval
+     distribution
 
     References
     ----------
-    - Heart rate variability - Standards of measurement, physiological interpretation, and clinical use, Task Force of
-    The European Society of Cardiology and The North American Society of Pacing and Electrophysiology, 1996
+    - Heart rate variability - Standards of measurement, physiological interpretation, and clinical
+    use, Task Force of The European Society of Cardiology and The North American Society of Pacing
+    and Electrophysiology, 1996
 
     """
 
-    triangular_index = len(nn_intervals) / max(np.histogram(nn_intervals, bins=range(300, 2000, 8))[0])
+    triang_idx = len(nn_intervals) / max(np.histogram(nn_intervals, bins=range(300, 2000, 8))[0])
     tinn = None
 
     geometrical_features = {
-        "triangular_index": triangular_index,
+        "triangular_index": triang_idx,
         "tinn": tinn
     }
 
@@ -176,26 +190,21 @@ def get_geometrical_features(nn_intervals):
 
 # ----------------- FREQUENCY DOMAIN FEATURES ----------------- #
 
-# Named Tuple for different frequency bands
-Vlf_band = namedtuple("Vlf_band", ["low", "high"])
-Lf_band = namedtuple("Lf_band", ["low", "high"])
-Hf_band = namedtuple("Hf_band", ["low", "high"])
 
-
-def get_frequency_domain_features(nn_intervals, method=welch_method, sampling_frequency=7,
-                                  interpolation_method="linear", vlf_band=Vlf_band(0.0033, 0.04),
-                                  lf_band=Lf_band(0.04, 0.15), hf_band=Hf_band(0.15, 0.40)):
+def get_frequency_domain_features(nn_intervals, method=WELCH_METHOD, sampling_frequency=7,
+                                  interpolation_method="linear", vlf_band=VlfBand(0.0033, 0.04),
+                                  lf_band=LfBand(0.04, 0.15), hf_band=HfBand(0.15, 0.40)):
     """
     Function returning a dictionnary containing frequency domain features for HRV analyses.
     Must use this function on short term recordings, from 2 to 5 minutes window.
-    
+
     Arguments
     ---------
     nn_intervals - list of Normal to Normal Interval
     method - Method used to calculate the psd. Choice are Welch's FFT or Lomb method.
-    sampling_frequency - frequence at which the signal is sampled. Common value range from 
+    sampling_frequency - frequence at which the signal is sampled. Common value range from
     1 Hz to 10 Hz, by default set to 7 Hz. No need to specify if Lomb method is used.
-    interpolation_method - kind of interpolation as a string, by default "linear". No need to 
+    interpolation_method - kind of interpolation as a string, by default "linear". No need to
     specify if lomb method is used
     vlf_band - Very low frequency band for features extraction from power spectral density
     lf_band - Low frequency band for features extraction from power spectral density
@@ -211,8 +220,8 @@ def get_frequency_domain_features(nn_intervals, method=welch_method, sampling_fr
     # ----------  Compute frequency & Power of signal  ---------- #
     freq, psd = get_freq_psd_from_nn_intervals(nn_intervals=nn_intervals, method=method,
                                                sampling_frequency=sampling_frequency,
-                                               interpolation_method=interpolation_method, vlf_band=vlf_band,
-                                               hf_band=hf_band)
+                                               interpolation_method=interpolation_method,
+                                               vlf_band=vlf_band, hf_band=hf_band)
 
     # ----------  Calcul features  ---------- #
     freqency_domain_features = get_features_from_psd(freq=freq, psd=psd,
@@ -223,9 +232,9 @@ def get_frequency_domain_features(nn_intervals, method=welch_method, sampling_fr
     return freqency_domain_features
 
 
-def get_freq_psd_from_nn_intervals(nn_intervals, method=welch_method, sampling_frequency=7,
-                                   interpolation_method="linear", vlf_band=Vlf_band(0.0033, 0.04),
-                                   hf_band=Hf_band(0.15, 0.40)):
+def get_freq_psd_from_nn_intervals(nn_intervals, method=WELCH_METHOD, sampling_frequency=7,
+                                   interpolation_method="linear", vlf_band=VlfBand(0.0033, 0.04),
+                                   hf_band=HfBand(0.15, 0.40)):
     """
     Function returning the frequency and power of the signal
 
@@ -250,7 +259,7 @@ def get_freq_psd_from_nn_intervals(nn_intervals, method=welch_method, sampling_f
     timestamps = create_time_info(nn_intervals)
 
     # ---------- Interpolation of signal ---------- #
-    if method == welch_method:
+    if method == WELCH_METHOD:
         funct = interpolate.interp1d(x=timestamps, y=nn_intervals, kind=interpolation_method)
 
         timestamps_interpolation = create_interpolation_time(nn_intervals, sampling_frequency)
@@ -263,9 +272,10 @@ def get_freq_psd_from_nn_intervals(nn_intervals, method=welch_method, sampling_f
         # Describes the distribution of power into frequency components composing that signal.
         freq, psd = signal.welch(x=nni_normalized, fs=sampling_frequency, window='hann')
 
-    elif method == lomb_method:
-        freq, psd = LombScargle(timestamps, nn_intervals, normalization='psd').autopower(minimum_frequency=vlf_band.low,
-                                                                                         maximum_frequency=hf_band.high)
+    elif method == LOMB_METHOD:
+        freq, psd = LombScargle(timestamps, nn_intervals,
+                                normalization='psd').autopower(minimum_frequency=vlf_band.low,
+                                                               maximum_frequency=hf_band.high)
     else:
         raise ValueError("Not a valid method. Choose between 'Lomb' and 'Welch'")
 
@@ -275,18 +285,18 @@ def get_freq_psd_from_nn_intervals(nn_intervals, method=welch_method, sampling_f
 def create_time_info(nn_intervals):
     """
     Function creating time interval of all nn_intervals
-    
+
     Arguments
     ---------
     nn_intervals - list of Normal to Normal Interval
-    
+
     Returns
     ---------
     nni_tmstp - time interval between first NN Interval and final NN Interval
     """
     # Convert in seconds
-    nni_tmstp = np.cumsum(nn_intervals) / 1000.0 
-    
+    nni_tmstp = np.cumsum(nn_intervals) / 1000.0
+
     # Force to start at 0
     return nni_tmstp - nni_tmstp[0]
 
@@ -294,12 +304,12 @@ def create_time_info(nn_intervals):
 def create_interpolation_time(nn_intervals, sampling_frequency=7):
     """
     Function creating the interpolation time used for Fourier transform's method
-    
+
     Arguments
     ---------
     nn_intervals - list of Normal to Normal Interval
     sampling_frequency - frequence at which the signal is sampled
-    
+
     Returns
     ---------
     nni_interpolation_tmstp - timestamp for interpolation
@@ -310,15 +320,16 @@ def create_interpolation_time(nn_intervals, sampling_frequency=7):
     return nni_interpolation_tmstp
 
 
-def get_features_from_psd(freq, psd, vlf_band=(0, 0.04), lf_band=(0.04, 0.15), hf_band=(0.15, 0.40)):
+def get_features_from_psd(freq, psd, vlf_band=VlfBand(0, 0.04), lf_band=LfBand(0.04, 0.15),
+                          hf_band=HfBand(0.15, 0.40)):
     """
     Function computing frequency domain features from the power spectral decomposition.
-    
+
     Arguments
     ---------
     freq - Array of sample frequencies
     psd - Power spectral density or power spectrum
-    
+
     Returns
     ---------
     freqency_domain_features - dictionnary containing frequency domain features for HRV analyses.
@@ -327,37 +338,39 @@ def get_features_from_psd(freq, psd, vlf_band=(0, 0.04), lf_band=(0.04, 0.15), h
     Notes
     ---------
     Details about feature engineering...
-    
+
     - **total_power** : Total power density spectra
-    
+
     - **vlf** : variance ( = power ) in HRV in the Very low Frequency (.003 to .04 Hz by default).
-    Reflect an intrinsic rhythm produced by the heart which is modulated primarily by sympathetic activity.
-    
-    - **lf** : variance ( = power ) in HRV in the low Frequency (.04 to .15 Hz). Reflects a  mixture of sympathetic
-    and parasympathetic activity, but in long-term recordings like ours, it reflects sympathetic activity and can be
-    reduced by the beta-adrenergic antagonist propanolol
-    
+    Reflect an intrinsic rhythm produced by the heart which is modulated primarily by sympathetic
+    activity.
+
+    - **lf** : variance ( = power ) in HRV in the low Frequency (.04 to .15 Hz). Reflects a
+    mixture of sympathetic and parasympathetic activity, but in long-term recordings like ours,
+    it reflects sympathetic activity and can be reduced by the beta-adrenergic antagonist propanolol
+
     - **hf**: variance ( = power ) in HRV in the High Frequency (.15 to .40 Hz by default).
-    Reflects fast changes in beat-to-beat variability due to parasympathetic (vagal) activity. 
+    Reflects fast changes in beat-to-beat variability due to parasympathetic (vagal) activity.
     Sometimes called the respiratory band because it corresponds to HRV changes related to the
-    respiratory cycle and can be increased by slow, deep breathing (about 6 or 7 breaths per 
+    respiratory cycle and can be increased by slow, deep breathing (about 6 or 7 breaths per
     minute) and decreased by anticholinergic drugs or vagal blockade.
-    
-    - **lf_hf_ratio** : lf/hf ratio is sometimes used by some investigators as a quantitative mirror 
+
+    - **lf_hf_ratio** : lf/hf ratio is sometimes used by some investigators as a quantitative mirror
     of the sympatho/vagal balance.
-    
+
     - **lfnu** : normalized lf power
-    
+
     - **hfnu** : normalized hf power
-    
+
     References
     ----------
     - Signal Processing Methods for Heart Rate Variability - Gari D. Clifford, 2002
-    - Heart rate variability - Standards of measurement, physiological interpretation, and clinical use, Task Force of
-    The European Society of Cardiology and The North American Society of Pacing and Electrophysiology, 1996
+    - Heart rate variability - Standards of measurement, physiological interpretation, and clinical
+    use, Task Force of The European Society of Cardiology and The North American Society of Pacing
+    and Electrophysiology, 1996
 
     """
-    
+
     # Calcul of indices between desired frequency bands
     vlf_indexes = np.logical_and(freq >= vlf_band[0], freq < vlf_band[1])
     lf_indexes = np.logical_and(freq >= lf_band[0], freq < lf_band[1])
@@ -386,17 +399,18 @@ def get_features_from_psd(freq, psd, vlf_band=(0, 0.04), lf_band=(0.04, 0.15), h
         'total_power': total_power,
         'vlf': vlf
     }
-    
+
     return freqency_domain_features
+
 
 # ----------------- NON lINEAR DOMAIN FEATURES ----------------- #
 
 
 def get_csi_cvi_features(nn_intervals):
     """
-    Function returning a dictionnary containing 3 features from non linear domain  
+    Function returning a dictionnary containing 3 features from non linear domain
     for hrV analyses.
-    Must use this function on short term recordings, for 30 , 50, 100 Rr Intervals 
+    Must use this function on short term recordings, for 30 , 50, 100 Rr Intervals
     or seconds window.
 
     Arguments
@@ -405,36 +419,36 @@ def get_csi_cvi_features(nn_intervals):
 
     Returns
     ---------
-    csi_cvi_features - dictionnary containing non linear domain features 
-    for hrV analyses. Thera are details about each features are given below. 
-    
+    csi_cvi_features - dictionnary containing non linear domain features
+    for hrV analyses. Thera are details about each features are given below.
+
     Notes
     ---------
-    - **csi** : 
-    - **cvi** : 
-    - **Modified_csi** : 
-    
+    - **csi** :
+    - **cvi** :
+    - **Modified_csi** :
+
     References
     ----------
-    - Using Lorenz plot and Cardiac Sympathetic Index of heart rate variability for detecting seizures for patients
-    with epilepsy, Jesper Jeppesen et al, 2014
+    - Using Lorenz plot and Cardiac Sympathetic Index of heart rate variability for detecting
+    seizures for patients with epilepsy, Jesper Jeppesen et al, 2014
     """
 
     # Measures the width and length of poincare cloud
     poincare_plot_features = get_poincare_plot_features(nn_intervals)
     T = 4 * poincare_plot_features['sd1']
     L = 4 * poincare_plot_features['sd2']
-    
+
     csi = L / T
     cvi = np.log10(L * T)
-    modified_csi = L**2 / T
-    
+    modified_csi = L ** 2 / T
+
     csi_cvi_features = {
         'csi': csi,
         'cvi': cvi,
         'Modified_csi': modified_csi
     }
-    
+
     return csi_cvi_features
 
 
@@ -450,19 +464,19 @@ def get_poincare_plot_features(nn_intervals):
 
     Returns
     ---------
-    poincare_plot_features - dictionnary containing non linear domain features 
-    for hrV analyses. Thera are details about each features are given below. 
-    
+    poincare_plot_features - dictionnary containing non linear domain features
+    for hrV analyses. Thera are details about each features are given below.
+
     Notes
     ---------
-    - **sd1** : 
-    - **sd2** : 
-    - **ratio_sd1_sd2** : 
-    
+    - **sd1** :
+    - **sd2** :
+    - **ratio_sd1_sd2** :
+
     References
     ----------
-    - Pre-ictal heart rate variability assessment of epileptic seizures by means of linear and non- linear analyses,
-    Soroor Behbahani, Nader Jafarnia Dabanloo et al - 2013
+    - Pre-ictal heart rate variability assessment of epileptic seizures by means of linear
+    and non- linear analyses, Soroor Behbahani, Nader Jafarnia Dabanloo et al - 2013
 
     """
     diff_nn_intervals = np.diff(nn_intervals)
@@ -471,7 +485,7 @@ def get_poincare_plot_features(nn_intervals):
     # measures the length of the poincare cloud
     sd2 = np.sqrt(2 * np.std(nn_intervals, ddof=1) ** 2 - 0.5 * np.std(diff_nn_intervals, ddof=1) ** 2)
     ratio_sd1_sd2 = sd1 / sd2
-    
+
     poincare_plot_features = {
         'sd1': sd1,
         'sd2': sd2,
