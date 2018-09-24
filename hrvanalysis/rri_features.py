@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""This script provides method for heart rate variability anaylysis"""
+"""This script provides methods for heart rate variability analysis"""
 
 from collections import namedtuple
 import numpy as np

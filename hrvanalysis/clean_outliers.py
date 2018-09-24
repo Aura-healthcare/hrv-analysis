@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+"""This script provides methods to clean Rr Intervals"""
+
 import pandas as pd
 import numpy as np
 
@@ -42,8 +45,8 @@ def interpolate_cleaned_outlier(rr_intervals_cleaned):
     ---------
     rr_intervals_interpolated - new list with outliers replaced by interpolated values
     """
-    s = pd.Series(rr_intervals_cleaned)
-    rr_intervals_interpolated = s.interpolate(method="linear")
+    series_rr_intervals_cleaned = pd.Series(rr_intervals_cleaned)
+    rr_intervals_interpolated = series_rr_intervals_cleaned.interpolate(method="linear")
     return rr_intervals_interpolated
 
 
@@ -128,11 +131,19 @@ def clean_ectopic_beats(rr_intervals, method="Malik", custom_rule=None):
 
 
 def is_outlier(rr_interval, next_rr_interval, method="Malik", custom_rule=None):
+    """
+
+    :param rr_interval:
+    :param next_rr_interval:
+    :param method:
+    :param custom_rule:
+    :return:
+    """
     if method == "Malik":
         return abs(rr_interval - next_rr_interval) <= 0.2 * rr_interval
     elif method == "Kamath":
-        return 0 <= (next_rr_interval - rr_interval) <= 0.325 * rr_interval or 0 <= (rr_interval - next_rr_interval) \
-               <= 0.245 * rr_interval
+        return 0 <= (next_rr_interval - rr_interval) <= 0.325 * rr_interval or 0 <= \
+               (rr_interval - next_rr_interval) <= 0.245 * rr_interval
     elif method == "custom":
         return abs(rr_interval - next_rr_interval) <= custom_rule * rr_interval
     else:

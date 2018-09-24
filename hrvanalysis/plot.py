@@ -1,6 +1,10 @@
+#!/usr/bin/env python
+"""This script provides methods to plot RR / NN Intervals"""
+
 import matplotlib.pyplot as plt
 from matplotlib import style
 from rri_features import get_freq_psd_from_nn_intervals
+
 
 
 def plot_timeseries(nn_intervals):
@@ -51,10 +55,10 @@ def plot_psd(nn_intervals, method="Welch", sampling_frequency=7, interpolation_m
     ---------
     nn_intervals - list of Normal to Normal Interval.
     method - Method used to calculate the psd. Choice are Welch's FFT or Lomb method.
-    sampling_frequency - frequence at which the signal is sampled. Common value range from 1 Hz to 10 Hz, by default
-    set to 7 Hz. No need to specify if Lomb method is used.
-    interpolation_method - kind of interpolation as a string, by default "linear". No need to specify if lomb method
-    is used.
+    sampling_frequency - frequence at which the signal is sampled. Common value range from 1 Hz
+    to 10 Hz, by default set to 7 Hz. No need to specify if Lomb method is used.
+    interpolation_method - kind of interpolation as a string, by default "linear". No need to
+    specify if lomb method is used.
     """
 
     freq, psd = get_freq_psd_from_nn_intervals(nn_intervals=nn_intervals, method=method,
