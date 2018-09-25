@@ -181,6 +181,7 @@ def get_geometrical_features(nn_intervals):
     """
 
     triang_idx = len(nn_intervals) / max(np.histogram(nn_intervals, bins=range(300, 2000, 8))[0])
+    # To do
     tinn = None
 
     geometrical_features = {

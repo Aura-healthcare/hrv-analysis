@@ -74,6 +74,7 @@ def plot_psd(nn_intervals, method="Welch", sampling_frequency=7, interpolation_m
     elif method == "Welch":
         plt.title("FFT Spectrum : Welch's periodogram", fontsize=20)
         plt.plot(freq, psd / (1000 * len(psd)))
+        plt.xlim(0, 0.5)
     else:
         raise ValueError("Not a valid method. Choose between 'Lomb' and 'Welch'")
 
