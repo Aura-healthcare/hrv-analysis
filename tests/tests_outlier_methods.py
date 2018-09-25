@@ -3,7 +3,7 @@
 
 import unittest
 import numpy as np
-from clean_outliers import clean_outlier, interpolate_cleaned_outlier, clean_ectopic_beats
+from hrvanalysis.clean_outliers import clean_outlier, interpolate_cleaned_outlier, clean_ectopic_beats
 
 
 class MyTestCase(unittest.TestCase):

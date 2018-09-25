@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""This script provides methods to clean Rr Intervals"""
+"""This script provides several methods to clean abnormal and ectopic Rr Intervals."""
 
 import pandas as pd
 import numpy as np
@@ -13,15 +13,19 @@ def clean_outlier(rr_intervals, low_rri=300, high_rri=2000):
     """
     Function that replace RR Interval outlier by nan
 
-    Arguments
+    Parameters
     ---------
-    rr_intervals - raw signal extracted
-    low_rri - lowest RrInterval to be considered plausible
-    high_rri - highest RrInterval to be considered plausible
+    rr_intervals : list
+        raw signal extracted
+    low_rri : int
+        lowest RrInterval to be considered plausible
+    high_rri : int
+        highest RrInterval to be considered plausible
 
     Returns
     ---------
-    rr_intervals_cleaned - list of RR Intervals without outliers
+    rr_intervals_cleaned : list
+        list of RR Intervals without outliers
 
     """
 
@@ -33,19 +37,21 @@ def clean_outlier(rr_intervals, low_rri=300, high_rri=2000):
     return rr_intervals_cleaned
 
 
-def interpolate_cleaned_outlier(rr_intervals_cleaned):
+def interpolate_cleaned_outlier(rr_intervals):
     """
     Function that interpolate Nan values with linear interpolation
 
-    Arguments
+    Parameters
     ---------
-    rr_intervals_cleaned - RrIntervals without outliers values
+    rr_intervals : list
+        RrIntervals list
 
     Returns
     ---------
-    rr_intervals_interpolated - new list with outliers replaced by interpolated values
+    rr_intervals_interpolated : list
+        new list with outliers replaced by interpolated values
     """
-    series_rr_intervals_cleaned = pd.Series(rr_intervals_cleaned)
+    series_rr_intervals_cleaned = pd.Series(rr_intervals)
     rr_intervals_interpolated = series_rr_intervals_cleaned.interpolate(method="linear")
     return rr_intervals_interpolated
 
@@ -54,16 +60,20 @@ def clean_ectopic_beats(rr_intervals, method="Malik", custom_rule=None):
     """
     RR intervals differing by more than the removing_rule from the one proceeding it are removed.
 
-    Arguments
+    Parameters
     ---------
-    rr_intervals - list of Rr Intervals
-    method - method to use to clean outlier. Malik, Kamath, Karlsson, mean_last9 or Custom
-    custom_rule - percentage criteria of difference with previous Rr
-    Interval at which we consider that it is abnormal
+    rr_intervals : list
+        list of Rr Intervals
+    method : str
+        method to use to clean outlier. Malik, Kamath, Karlsson, mean_last9 or Custom
+    custom_rule : int
+        percentage criteria of difference with previous Rr Interval at which we consider
+        that it is abnormal
 
     Returns
     ---------
-    nn_intervals - list of NN Interval
+    nn_intervals : list
+        list of NN Interval
 
     """
 
@@ -132,12 +142,24 @@ def clean_ectopic_beats(rr_intervals, method="Malik", custom_rule=None):
 
 def is_outlier(rr_interval, next_rr_interval, method="Malik", custom_rule=None):
     """
+    Test if the rr_interval is an outlier
 
-    :param rr_interval:
-    :param next_rr_interval:
-    :param method:
-    :param custom_rule:
-    :return:
+    Parameters
+    ----------
+    rr_interval : int
+        RrInterval
+    next_rr_interval : int
+        consecutive RrInterval
+    method : str
+        method to use to clean outlier. Malik, Kamath, Karlsson, mean_last9 or Custom
+    custom_rule : int
+        percentage criteria of difference with previous Rr Interval at which we consider
+        that it is abnormal
+
+    Returns
+    ----------
+    bool
+        True if RrInterval is valid, False if not
     """
     if method == "Malik":
         return abs(rr_interval - next_rr_interval) <= 0.2 * rr_interval
@@ -154,20 +176,25 @@ def is_valid_sample(nn_intervals, outlier_count, removing_rule=0.04):
     """
     Test if the sample meet the condition to be used for analysis
 
-    Arguments
+    Parameters
     ----------
-    nn_intervals - list of Normal to Normal Interval
-    outlier_count - count of outliers or ectopic beats removed from the interval
-    removing_rule - rule to follow to determine whether the sample is valid or not
+    nn_intervals : list
+        list of Normal to Normal Interval
+    outlier_count : int
+        count of outliers or ectopic beats removed from the interval
+    removing_rule : str
+        rule to follow to determine whether the sample is valid or not
 
     Returns
     ----------
-    Boolean - True if sample is valid, False if not
+    bool
+        True if sample is valid, False if not
     """
+    result = True
     if outlier_count / len(nn_intervals) > removing_rule:
         print("Too much outlier for analyses ! You should descard the sample")
-        return False
+        result = False
     if len(nn_intervals) < 240:
         print("Not enough Heart beat for Nyquist criteria ! ")
-        return False
-    return True
+        result = False
+    return result
