@@ -28,17 +28,17 @@ def get_time_domain_features(nn_intervals):
     Mostly used on long term recordings (24h) but some studies use this
     features on short term recordings, from 2 to 5 minutes window.
 
-    Arguments
+    Parameters
     ----------
     nn_intervals - list of Normal to Normal Interval
 
     Returns
-    ----------
+    -------
     time_domain_features - dictionnary containing time domain features for
     HRV analyses. There are details about each features below.
 
     Notes
-    ----------
+    -----
     Details about feature engineering...
 
     - **mean_nni**: The mean of RR intervals
@@ -99,9 +99,9 @@ def get_time_domain_features(nn_intervals):
     rmssd = np.sqrt(np.mean(diff_nni ** 2))
     median_nni = np.median(nn_intervals)
 
-    nni_50 = sum(abs(diff_nni) > 50)
+    nni_50 = sum(np.abs(diff_nni) > 50)
     pnni_50 = 100 * nni_50 / length_int
-    nni_20 = sum(abs(diff_nni) > 20)
+    nni_20 = sum(np.abs(diff_nni) > 20)
     pnni_20 = 100 * nni_20 / length_int
 
     range_nni = max(nn_intervals) - min(nn_intervals)
