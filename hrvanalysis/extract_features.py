@@ -459,9 +459,11 @@ def get_csi_cvi_features(nn_intervals):
 
     Notes
     ---------
-    - **csi** :
-    - **cvi** :
-    - **Modified_csi** :
+    - **csi** : Cardiac Sympathetic Index.
+
+    - **cvi** : Cadiac Vagal Index.
+
+    - **Modified_csi** : Modified CSI (L^2/T) is an alternative measure in search of seizure detection.
 
     References
     ----------
@@ -496,18 +498,24 @@ def get_poincare_plot_features(nn_intervals):
 
     Parameters
     ---------
-    nn_intervals - list of Normal to Normal Interval
+    nn_intervals : list
+        Normal to Normal Interval
 
     Returns
     ---------
-    poincare_plot_features - dictionary containing non linear domain features
-    for hrV analyses. Thera are details about each features are given below.
+    poincare_plot_features : dict
+        dictionary containing non linear domain features for hrV analyses. There
+        are details about each features are given below.
 
     Notes
     ---------
-    - **sd1** :
-    - **sd2** :
-    - **ratio_sd1_sd2** :
+    - **sd1** : The standard deviation of projection of the Poincaré plot on the line \
+    perpendicular to the line of identity.
+
+    - **sd2** : SD2 is defined as the standard deviation of the projection of the Poincaré \
+    plot on the line of identity (y=x).
+
+    - **ratio_sd2_sd1** : Ratio between SD2 and SD1.
 
     References
     ----------
@@ -520,12 +528,12 @@ def get_poincare_plot_features(nn_intervals):
     sd1 = np.sqrt(np.std(diff_nn_intervals, ddof=1) ** 2 * 0.5)
     # measures the length of the poincare cloud
     sd2 = np.sqrt(2 * np.std(nn_intervals, ddof=1) ** 2 - 0.5 * np.std(diff_nn_intervals, ddof=1) ** 2)
-    ratio_sd1_sd2 = sd1 / sd2
+    ratio_sd2_sd1 = sd2 / sd1
 
     poincare_plot_features = {
         'sd1': sd1,
         'sd2': sd2,
-        'ratio_sd1_sd2': ratio_sd1_sd2
+        'ratio_sd2_sd1': ratio_sd2_sd1
     }
 
     return poincare_plot_features
@@ -538,11 +546,13 @@ def get_sampen(nn_intervals):
 
     Parameters
     ---------
-    nn_intervals - list of Normal to Normal Interval
+    nn_intervals : list
+        Normal to Normal Interval
 
     Returns
     ---------
-    sampen - the sample entropy of the data
+    sampen : float
+        The sample entropy of the data
 
     References
     ----------

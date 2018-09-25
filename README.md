@@ -4,7 +4,7 @@
 
 The development of this library started in July 2018 as part of Aura Healthcare project and is maintained by Robin Champseix.
 
-![alt text](https://github.com/robinchampseix/hrvanalysis/blob/develop_hrvanalysis/figures/timeserie_distrib_plot.png)
+![alt text](https://github.com/robinchampseix/hrvanalysis/blob/master/figures/timeserie_distrib_plot.png)
 
 Website : https://www.aura.healthcare 
 
@@ -70,7 +70,7 @@ plot_psd(nn_intervals, method="Welch")
 plot_distrib(nn_intervals)
 ```
 
-![alt text](https://github.com/robinchampseix/hrvanalysis/blob/develop_hrvanalysis/figures/welch_density_plot.png)
+![alt text](https://github.com/robinchampseix/hrvanalysis/blob/master/figures/lomb_density_plot.png)
 
 
 ## Installion / Prerequisites
