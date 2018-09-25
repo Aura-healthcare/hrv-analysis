@@ -35,12 +35,16 @@ release = '1.0.0'
 #
 # needs_sphinx = '1.0'
 
+autosummary_generate = True  # Make _autosummary files and include them
+
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
+    'sphinx.ext.autosummary',
+    'sphinx.ext.napoleon'
 ]
 
 # Add any paths that contain templates here, relative to this directory.

@@ -1,13 +1,13 @@
 #!/usr/bin/env python
-"""This script provides methods to tests functions of the module"""
+"""This script provides methods to test clean_outliers methods."""
 
 import unittest
 import numpy as np
-from hrvanalysis.clean_outliers import clean_outlier, interpolate_cleaned_outlier, clean_ectopic_beats
+from hrvanalysis.hrvanalysis.clean_outliers import clean_outlier, interpolate_cleaned_outlier, clean_ectopic_beats
 
 
-class MyTestCase(unittest.TestCase):
-    """Class for UniTests of different methods in hrvanalysis module"""
+class CleanOutliersTestCase(unittest.TestCase):
+    """Class for UniTests of different methods in clean_outliers module"""
 
     def test_high_low_outlier(self):
         rri_list = [700, 600, 2300, 200, 1000, 230, 1200]

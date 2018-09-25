@@ -328,8 +328,8 @@ def get_freq_psd_from_nn_intervals(nn_intervals, method=WELCH_METHOD, sampling_f
 
     elif method == LOMB_METHOD:
         freq, psd = LombScargle(timestamps, nn_intervals,
-                                normalization='psd').autopower(minimum_frequency=vlf_band.low,
-                                                               maximum_frequency=hf_band.high)
+                                normalization='psd').autopower(minimum_frequency=vlf_band[0],
+                                                               maximum_frequency=hf_band[1])
     else:
         raise ValueError("Not a valid method. Choose between 'Lomb' and 'Welch'")
 
@@ -390,6 +390,12 @@ def get_features_from_psd(freq, psd, vlf_band=VlfBand(0, 0.04), lf_band=LfBand(0
         Array of sample frequencies.
     psd : list
         Power spectral density or power spectrum.
+    vlf_band : tuple
+        Very low frequency bands for features extraction from power spectral density.
+    lf_band : tuple
+        Low frequency bands for features extraction from power spectral density.
+    hf_band : tuple
+        High frequency bands for features extraction from power spectral density.
 
     Returns
     ---------

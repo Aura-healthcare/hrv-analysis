@@ -30,7 +30,7 @@ As an exemple, what you can compute to get Time domain analysis is :
 ```python
 from hrvanalysis.extract_features import get_time_domain_features
  
-#nn_intervals is a list containing integer value of Rr Intervals
+# nn_intervals is a list containing integers value of Rr Intervals
 time_domain_features = get_time_domain_features(nn_intervals)
 
 >>> time_domain_features
