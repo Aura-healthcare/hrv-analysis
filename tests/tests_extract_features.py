@@ -28,10 +28,9 @@ class ExtractFeaturesTestCase(unittest.TestCase):
 
     def test_if_time_info_created_is_correct(self):
         # TO DO
-        nn_intervals = []
-        nni_tmstp = create_time_info(nn_intervals)
-        real_timestamp = []
-        self.assertEqual(nni_tmstp, real_timestamp)
+        nn_intervals = [1000, 900, 1200, 950, 850, 1100]
+        is_equal = create_time_info(nn_intervals) == [0, 0.9, 2.1, 3.05, 3.9, 5]
+        self.assertTrue(is_equal)
 
     def test_if_interpolated_time_created_is_correct(self):
         # TO DO

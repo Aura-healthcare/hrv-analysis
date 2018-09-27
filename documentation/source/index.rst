@@ -10,8 +10,7 @@ Welcome to hrvanalysis documentation!
     :maxdepth: 1 
     :caption: Contents:
 
-.. include:: hrvanalysis.rst
-.. include:: modules.rst
+    hrvanalysis
 
 Indices and tables
 ==================
