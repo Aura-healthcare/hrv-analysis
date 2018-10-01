@@ -65,7 +65,7 @@ There are also several plot functions that allow you to see, for example, the Po
 ```python
 from hrvanalysis.plot import plot_psd, plot_distrib
 
-nn_intervals = 
+# nn_intervals is a list containing integers value of Rr Intervals
 plot_psd(nn_intervals, method="Welch")
 plot_distrib(nn_intervals)
 ```
