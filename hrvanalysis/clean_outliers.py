@@ -16,11 +16,11 @@ def clean_outlier(rr_intervals, low_rri=300, high_rri=2000):
     Parameters
     ---------
     rr_intervals : list
-        raw signal extracted
+        raw signal extracted.
     low_rri : int
-        lowest RrInterval to be considered plausible
+        lowest RrInterval to be considered plausible.
     high_rri : int
-        highest RrInterval to be considered plausible
+        highest RrInterval to be considered plausible.
 
     Returns
     ---------
@@ -37,23 +37,25 @@ def clean_outlier(rr_intervals, low_rri=300, high_rri=2000):
     return rr_intervals_cleaned
 
 
-def interpolate_cleaned_outlier(rr_intervals):
+def interpolate_nan_values(rr_intervals, method):
     """
     Function that interpolate Nan values with linear interpolation
 
     Parameters
     ---------
     rr_intervals : list
-        RrIntervals list
+        RrIntervals list.
+    method : str
+        Method used to interpolate Nan values of series.
 
     Returns
     ---------
-    rr_intervals_interpolated : list
-        new list with outliers replaced by interpolated values
+    interpolated_rr_intervals : list
+        new list with outliers replaced by interpolated values.
     """
     series_rr_intervals_cleaned = pd.Series(rr_intervals)
-    rr_intervals_interpolated = series_rr_intervals_cleaned.interpolate(method="linear")
-    return rr_intervals_interpolated
+    interpolated_rr_intervals = series_rr_intervals_cleaned.interpolate(method=method)
+    return interpolated_rr_intervals
 
 
 def clean_ectopic_beats(rr_intervals, method="Malik", custom_rule=None):
@@ -65,10 +67,10 @@ def clean_ectopic_beats(rr_intervals, method="Malik", custom_rule=None):
     rr_intervals : list
         list of Rr Intervals
     method : str
-        method to use to clean outlier. Malik, Kamath, Karlsson, mean_last9 or Custom
+        method to use to clean outlier. Malik, Kamath, Karlsson, mean_last9 or Custom.
     custom_rule : int
         percentage criteria of difference with previous Rr Interval at which we consider
-        that it is abnormal
+        that it is abnormal.
 
     Returns
     ---------
