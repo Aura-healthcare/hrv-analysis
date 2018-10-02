@@ -3,7 +3,7 @@
 
 import unittest
 import numpy as np
-from hrvanalysis.hrvanalysis.clean_outliers import clean_outlier, interpolate_cleaned_outlier, clean_ectopic_beats
+from hrvanalysis.clean_outliers import clean_outlier, interpolate_nan_values, clean_ectopic_beats
 
 
 class CleanOutliersTestCase(unittest.TestCase):
@@ -16,8 +16,8 @@ class CleanOutliersTestCase(unittest.TestCase):
 
     def test_interpolate_cleaned_outlier(self):
         rri_list = [10, 11, np.nan, 13, 15, np.nan, np.nan, 17, 17]
-        print(list(interpolate_cleaned_outlier(rri_list).values))
-        self.assertAlmostEqual(interpolate_cleaned_outlier(rri_list).values,
+        print(list(interpolate_nan_values(rri_list).values))
+        self.assertAlmostEqual(interpolate_nan_values(rri_list).values,
                                [10, 11, 12, 13, 15, 15.667, 16.333, 17, 17])
 
     def test_1_successive_outlier_malik(self):

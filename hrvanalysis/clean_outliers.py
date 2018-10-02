@@ -6,10 +6,10 @@ import numpy as np
 
 
 # ----------------- ClEAN OUTlIER / ECTOPIC BEATS ----------------- #
-# TO DO / ONGOING ...
+# TO DO / ONGOING
 
 
-def clean_outlier(rr_intervals, low_rri=300, high_rri=2000):
+def clean_outlier(rr_intervals, print_outliers=True, low_rri=300, high_rri=2000):
     """
     Function that replace RR Interval outlier by nan
 
@@ -21,6 +21,8 @@ def clean_outlier(rr_intervals, low_rri=300, high_rri=2000):
         lowest RrInterval to be considered plausible.
     high_rri : int
         highest RrInterval to be considered plausible.
+    print_outliers : bool
+        Print information about deleted outliers.
 
     Returns
     ---------
@@ -32,8 +34,18 @@ def clean_outlier(rr_intervals, low_rri=300, high_rri=2000):
     # Conversion RrInterval to Heart rate ==> rri (ms) =  1000 / (bpm / 60)
     # rri 2000 => bpm 30 / rri 300 => bpm 200
     rr_intervals_cleaned = [x if high_rri >= x >= low_rri else np.nan for x in rr_intervals]
-    nan_count = sum(np.isnan(rr_intervals_cleaned))
-    print("{} outlier(s) have been deleted.".format(nan_count))
+
+    if print_outliers:
+        outliers_list = []
+        for x in rr_intervals:
+            if high_rri >= x >= low_rri:
+                pass
+            else:
+                outliers_list.append(x)
+
+        nan_count = sum(np.isnan(rr_intervals_cleaned))
+        print("{} outlier(s) have been deleted. The outliers values are : {}".format(nan_count, outliers_list))
+
     return rr_intervals_cleaned
 
 
@@ -54,7 +66,8 @@ def interpolate_nan_values(rr_intervals, method):
         new list with outliers replaced by interpolated values.
     """
     series_rr_intervals_cleaned = pd.Series(rr_intervals)
-    interpolated_rr_intervals = series_rr_intervals_cleaned.interpolate(method=method)
+    # Interpolate nan values and convert pandas object to list of values
+    interpolated_rr_intervals = series_rr_intervals_cleaned.interpolate(method=method).values.tolist()
     return interpolated_rr_intervals
 
 
