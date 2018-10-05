@@ -1,9 +1,11 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """This script provides methods to plot RR / NN Intervals list."""
 
 import matplotlib.pyplot as plt
 from matplotlib import style
-from extract_features import get_freq_psd_from_nn_intervals
+from hrvanalysis.extract_features import get_freq_psd_from_nn_intervals
 
 
 def plot_timeseries(nn_intervals):

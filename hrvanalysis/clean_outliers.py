@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """This script provides several methods to clean abnormal and ectopic Rr Intervals."""
 
 import pandas as pd
