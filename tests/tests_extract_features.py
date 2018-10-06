@@ -46,6 +46,7 @@ class ExtractFeaturesTestCase(unittest.TestCase):
         self.assertAlmostEqual(function_time_domain_features, real_function_time_domain_features)
 
     def test_if_geometrical_domain_features_are_correct(self):
+        nn_intervals = load_test_data(TEST_DATA_FILENAME)
         function_geometrical_domain_features = get_geometrical_features(nn_intervals)
         real_function_geometrical_domain_features = {'triangular_index': 11.363636363636363,
                                                      'tinn': None}
@@ -70,6 +71,7 @@ class ExtractFeaturesTestCase(unittest.TestCase):
         self.assertTrue(all_is_equal)
 
     def test_if_csi_cvi_features_are_correct(self):
+        nn_intervals = load_test_data(TEST_DATA_FILENAME)
         function_csi_cvi_features = get_csi_cvi_features(nn_intervals)
         real_csi_cvi_features = {'csi': 4.300520404060338,
                                  'cvi': 4.117977429005704,
@@ -77,6 +79,7 @@ class ExtractFeaturesTestCase(unittest.TestCase):
         self.assertAlmostEqual(function_csi_cvi_features, real_csi_cvi_features)
 
     def test_if_pointcare_plot_features_features_are_correct(self):
+        nn_intervals = load_test_data(TEST_DATA_FILENAME)
         function_pointcare_plot_features = get_poincare_plot_features(nn_intervals)
         real_pointcare_plot_features = {'sd1': 13.80919037557993,
                                         'sd2': 59.38670497373513,
@@ -84,6 +87,7 @@ class ExtractFeaturesTestCase(unittest.TestCase):
         self.assertAlmostEqual(function_pointcare_plot_features, real_pointcare_plot_features)
 
     def test_if_sampen_feature_is_correct(self):
+        nn_intervals = load_test_data(TEST_DATA_FILENAME)
         function_sampen_features = get_sampen(nn_intervals)
         sampen_plot_features = {'sampen': 1.2046675751816824}
         self.assertAlmostEqual(function_sampen_features, sampen_plot_features)
