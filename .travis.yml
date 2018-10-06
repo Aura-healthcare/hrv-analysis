@@ -5,12 +5,10 @@ before_install:
   - pip install codecov
 install:
     - pip install -r requirements.txt
-    - pwd
-    - ls
 script:
   - export PYTHONPATH=$PYTHONPATH:$(pwd)
   - python tests/tests_clean_outliers_methods.py
-  - python tests/test_extract_features.py
+  - python tests/tests_extract_features.py
   - coverage run tests/tests_clean_outliers_methods.py
   - coverage run tests/tests_extract_features.py
 after_success:
