@@ -12,4 +12,4 @@ script:
   - coverage run tests/tests_clean_outliers_methods.py
   - coverage run tests/tests_extract_features.py
 after_success:
-  - codecov
+  - codecov -f hrvanalysis/extract_features.py hrvanalysis/clean_outliers.py
