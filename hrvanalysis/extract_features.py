@@ -353,7 +353,7 @@ def create_time_info(nn_intervals):
         list of time intervals between first NN Interval and final NN Interval.
     """
     # Convert in seconds
-    nni_tmstp = np.cumsum(nn_intervals) / 1000.0
+    nni_tmstp = np.cumsum(nn_intervals) / 1000
 
     # Force to start at 0
     return nni_tmstp - nni_tmstp[0]
