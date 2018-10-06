@@ -1,24 +1,31 @@
 #!/usr/bin/env python
 """This script provides methods to test extract_features methods."""
 
+import os
 import unittest
 import numpy as np
 from hrvanalysis.extract_features import (get_time_domain_features, get_geometrical_features,
-                                          create_time_info, create_interpolation_time,
-                                          get_csi_cvi_features, get_poincare_plot_features,
-                                          get_sampen)
+                                          create_interpolation_time, get_sampen,
+                                          get_csi_cvi_features, get_poincare_plot_features)
 
-# Load test rr_intervals data
-text_file = open("test_nn_intervals.txt", "r")
-lines = text_file.readlines()
-NN_INTERVALS = list(map(lambda x: int(x.strip()), lines))
+
+TEST_DATA_FILENAME = os.path.join(os.path.dirname(__file__), 'test_nn_intervals.txt')
+
+
+def load_test_data(path):
+    # Load test rr_intervals data
+    text_file = open(path, "r")
+    lines = text_file.readlines()
+    nn_intervals = list(map(lambda x: int(x.strip()), lines))
+    return nn_intervals
 
 
 class ExtractFeaturesTestCase(unittest.TestCase):
     """Class for UniTests of different methods in extract_features module"""
 
     def test_if_time_domain_features_are_correct(self):
-        function_time_domain_features = get_time_domain_features(NN_INTERVALS)
+        nn_intervals = load_test_data(TEST_DATA_FILENAME)
+        function_time_domain_features = get_time_domain_features(nn_intervals)
         real_function_time_domain_features = {'mean_nni': 718.248,
                                               'sdnn': 43.113074968427306,
                                               'sdsd': 19.519367520775713,
@@ -39,7 +46,7 @@ class ExtractFeaturesTestCase(unittest.TestCase):
         self.assertAlmostEqual(function_time_domain_features, real_function_time_domain_features)
 
     def test_if_geometrical_domain_features_are_correct(self):
-        function_geometrical_domain_features = get_geometrical_features(NN_INTERVALS)
+        function_geometrical_domain_features = get_geometrical_features(nn_intervals)
         real_function_geometrical_domain_features = {'triangular_index': 11.363636363636363,
                                                      'tinn': None}
         self.assertAlmostEqual(function_geometrical_domain_features,
@@ -63,24 +70,25 @@ class ExtractFeaturesTestCase(unittest.TestCase):
         self.assertTrue(all_is_equal)
 
     def test_if_csi_cvi_features_are_correct(self):
-        function_csi_cvi_features = get_csi_cvi_features(NN_INTERVALS)
+        function_csi_cvi_features = get_csi_cvi_features(nn_intervals)
         real_csi_cvi_features = {'csi': 4.300520404060338,
                                  'cvi': 4.117977429005704,
                                  'Modified_csi': 1021.5749458778378}
         self.assertAlmostEqual(function_csi_cvi_features, real_csi_cvi_features)
 
     def test_if_pointcare_plot_features_features_are_correct(self):
-        function_pointcare_plot_features = get_poincare_plot_features(NN_INTERVALS)
+        function_pointcare_plot_features = get_poincare_plot_features(nn_intervals)
         real_pointcare_plot_features = {'sd1': 13.80919037557993,
                                         'sd2': 59.38670497373513,
                                         'ratio_sd2_sd1': 4.300520404060338}
         self.assertAlmostEqual(function_pointcare_plot_features, real_pointcare_plot_features)
 
     def test_if_sampen_feature_is_correct(self):
-        function_sampen_features = get_sampen(NN_INTERVALS)
+        function_sampen_features = get_sampen(nn_intervals)
         sampen_plot_features = {'sampen': 1.2046675751816824}
         self.assertAlmostEqual(function_sampen_features, sampen_plot_features)
 
 
 if __name__ == '__main__':
+
     unittest.main()
