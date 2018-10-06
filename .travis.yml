@@ -10,4 +10,4 @@ script:
   - python tests/tests_clean_outliers_methods.py
   - coverage run tests/tests_clean_outliers_methods.py
 after_success:
-  - codecov --file coverage/lcov.info --disable search
+  - codecov
