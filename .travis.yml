@@ -1,0 +1,8 @@
+language: python
+python:
+    - "3.7"
+install:
+    - pip install -r requirements.txt
+script:
+  - export PYTHONPATH=$PYTHONPATH:$(pwd)
+  - python tests/tests_clean_outliers_methods.py
