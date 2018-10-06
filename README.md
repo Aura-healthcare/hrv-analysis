@@ -1,7 +1,7 @@
 # Heart Rate Variability analysis
 
-[![Build Status](https://travis-ci.com/robinchampseix/hrvanalysis.svg?branch=develop_hrvanalysis)](https://travis-ci.com/robinchampseix/hrvanalysis)
-[![codecov](https://codecov.io/gh/robinchampseix/hrvanalysis/branch/develop_hrvanalysis/graphs/badge.svg)](https://codecov.io/gh/robinchampseix/hrvanalysis)
+[![Build Status](https://travis-ci.com/robinchampseix/hrvanalysis.svg?branch=master)](https://travis-ci.com/robinchampseix/hrvanalysis)
+[![codecov](https://codecov.io/gh/robinchampseix/hrvanalysis/branch/master/graphs/badge.svg)](https://codecov.io/gh/robinchampseix/hrvanalysis)
 
 
 
