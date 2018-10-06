@@ -14,8 +14,8 @@ TEST_DATA_FILENAME = os.path.join(os.path.dirname(__file__), 'test_nn_intervals.
 
 def load_test_data(path):
     # Load test rr_intervals data
-    text_file = open(path, "r")
-    lines = text_file.readlines()
+    with open(path, "r") as text_file:
+        lines = text_file.readlines()
     nn_intervals = list(map(lambda x: int(x.strip()), lines))
     return nn_intervals
 
