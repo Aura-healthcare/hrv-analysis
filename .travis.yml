@@ -7,6 +7,6 @@ install:
 script:
   - export PYTHONPATH=$PYTHONPATH:$(pwd)
   - python tests/tests_clean_outliers_methods.py
-  - coverage run tests.py
+  - coverage run tests/tests_clean_outliers_methods.py
 after_success:
   - codecov
