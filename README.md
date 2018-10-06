@@ -1,5 +1,7 @@
 # Heart Rate Variability analysis
 
+[![Build Status](https://travis-ci.com/robinchampseix/hrvanalysis.svg?branch=master)](https://travis-ci.com/robinchampseix/hrvanalysis)
+
 **hrvanalysis** is a Python module for Heart Rate Variability analysis of RrIntervals built on top of SciPy, AstroPy, Nolds and NumPy and distributed under the GPLv3 license.
 
 The development of this library started in July 2018 as part of Aura Healthcare project and is maintained by Robin Champseix.
