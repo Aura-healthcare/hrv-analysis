@@ -3,6 +3,10 @@ python:
     - "3.6"
 install:
     - pip install -r requirements.txt
+    - pip install codecov
 script:
   - export PYTHONPATH=$PYTHONPATH:$(pwd)
   - python tests/tests_clean_outliers_methods.py
+  - coverage run tests.py
+after_success:
+  - codecov
