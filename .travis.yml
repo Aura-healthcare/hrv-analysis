@@ -1,12 +1,13 @@
 language: python
 python:
     - "3.6"
+before_install:
+  - pip install --user codecov
 install:
     - pip install -r requirements.txt
-    - pip install codecov
 script:
   - export PYTHONPATH=$PYTHONPATH:$(pwd)
   - python tests/tests_clean_outliers_methods.py
   - coverage run tests/tests_clean_outliers_methods.py
 after_success:
-  - codecov
+  - codecov --file coverage/lcov.info --disable search
