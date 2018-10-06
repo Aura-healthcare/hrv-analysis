@@ -10,6 +10,6 @@ script:
   - python tests/tests_clean_outliers_methods.py
   - python tests/test_extract_features.py
   - coverage run tests/tests_clean_outliers_methods.py
-  - coverage run tests/test_extract_features.py
+  - coverage run tests/tests_extract_features.py
 after_success:
   - codecov
