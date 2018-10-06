@@ -111,3 +111,6 @@ venv.bak/
 
 # Makefile
 Makefile
+
+# travis CI file
+.travis.yml
