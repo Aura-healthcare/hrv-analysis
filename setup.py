@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+""" This script provides setup requirements to install hrvanalysis via pip"""
 
 import setuptools
 import hrvanalysis
 
 # Get long description in READ.md file
 with open("README.md", "r") as fh:
-    long_description = fh.read()
+    LONG_DESCRIPTION = fh.read()
 
 setuptools.setup(
     name="hrvanalysis",
@@ -15,7 +16,7 @@ setuptools.setup(
     license="GPLv3",
     author_email="robin.champseix@gmail.com",
     description="a package to calculate features from Rr Interval for HRV analyses",
-    long_description=long_description,
+    long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
     include_package_data=True,
     url="https://github.com/robinchampseix/hrvanalysis",

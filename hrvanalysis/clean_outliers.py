@@ -8,7 +8,8 @@ import numpy as np
 
 
 # ----------------- ClEAN OUTlIER / ECTOPIC BEATS ----------------- #
-# TO DO / ONGOING
+# TODO / ONGOING
+# TODO : set static names for methods
 
 
 def clean_outlier(rr_intervals, print_outliers=True, low_rri=300, high_rri=2000):
@@ -35,18 +36,19 @@ def clean_outlier(rr_intervals, print_outliers=True, low_rri=300, high_rri=2000)
 
     # Conversion RrInterval to Heart rate ==> rri (ms) =  1000 / (bpm / 60)
     # rri 2000 => bpm 30 / rri 300 => bpm 200
-    rr_intervals_cleaned = [x if high_rri >= x >= low_rri else np.nan for x in rr_intervals]
+    rr_intervals_cleaned = [rri if high_rri >= rri >= low_rri else np.nan for rri in rr_intervals]
 
     if print_outliers:
         outliers_list = []
-        for x in rr_intervals:
-            if high_rri >= x >= low_rri:
+        for rri in rr_intervals:
+            if high_rri >= rri >= low_rri:
                 pass
             else:
-                outliers_list.append(x)
+                outliers_list.append(rri)
 
         nan_count = sum(np.isnan(rr_intervals_cleaned))
-        print("{} outlier(s) have been deleted. The outliers values are : {}".format(nan_count, outliers_list))
+        print("{} outlier(s) have been deleted. The outliers values are : {}".format(nan_count,
+                                                                                     outliers_list))
 
     return rr_intervals_cleaned
 
@@ -69,8 +71,8 @@ def interpolate_nan_values(rr_intervals, method):
     """
     series_rr_intervals_cleaned = pd.Series(rr_intervals)
     # Interpolate nan values and convert pandas object to list of values
-    interpolated_rr_intervals = series_rr_intervals_cleaned.interpolate(method=method).values.tolist()
-    return interpolated_rr_intervals
+    interpolated_rr_intervals = series_rr_intervals_cleaned.interpolate(method=method)
+    return interpolated_rr_intervals.values.tolist()
 
 
 def clean_ectopic_beats(rr_intervals, method="Malik", custom_rule=None):

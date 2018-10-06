@@ -2,10 +2,10 @@
 """This script provides methods to test extract_features methods."""
 
 import unittest
-from hrvanalysis.hrvanalysis.extract_features import (get_time_domain_features, get_geometrical_features,
-                                                      create_time_info, create_interpolation_time,
-                                                      get_csi_cvi_features, get_poincare_plot_features,
-                                                      get_sampen)
+from hrvanalysis.extract_features import (get_time_domain_features, get_geometrical_features,
+                                          create_time_info, create_interpolation_time,
+                                          get_csi_cvi_features, get_poincare_plot_features,
+                                          get_sampen)
 
 
 class ExtractFeaturesTestCase(unittest.TestCase):
