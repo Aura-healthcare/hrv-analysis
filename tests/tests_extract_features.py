@@ -59,3 +59,7 @@ class ExtractFeaturesTestCase(unittest.TestCase):
         function_sampen_features = get_sampen(nn_intervals)
         sampen_plot_features = []
         self.assertAlmostEqual(function_sampen_features, sampen_plot_features)
+
+
+if __name__ == '__main__':
+    unittest.main()
