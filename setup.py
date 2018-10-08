@@ -22,16 +22,13 @@ setuptools.setup(
     url="https://github.com/robinchampseix/hrvanalysis",
     packages=setuptools.find_packages(),
     python_requires='>=3.6',
-    setup_requires=[
-        "numpy >= 1.15.1"
-    ],
+    setup_requires="numpy==1.14.6",
     install_requires=[
-        "numpy >= 1.15.1",
-        "astropy >= 3.0.4",
-        "nolds >= 0.4.1",
-        "scipy >= 1.1.0",
-        "pandas >= 0.23.4",
-        "matplotlib >= 2.2.2"
+        "astropy",
+        "nolds",
+        "scipy",
+        "pandas",
+        "matplotlib"
     ],
     classifiers=[
         "Programming Language :: Python :: 3",

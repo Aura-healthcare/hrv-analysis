@@ -6,10 +6,15 @@
 import pandas as pd
 import numpy as np
 
+# Static name for methods params
+MALIK_RULE = "Malik"
+KARLSSON_RULE = "Karlsson"
+KAMATH_RULE = "Kamath"
+MEAN_LAST_9 = "mean_last9"
+CUSTOM_RULE = "custom"
 
 # ----------------- ClEAN OUTlIER / ECTOPIC BEATS ----------------- #
 # TODO / ONGOING
-# TODO : set static names for methods
 
 
 def clean_outlier(rr_intervals, print_outliers=True, low_rri=300, high_rri=2000):
@@ -53,7 +58,7 @@ def clean_outlier(rr_intervals, print_outliers=True, low_rri=300, high_rri=2000)
     return rr_intervals_cleaned
 
 
-def interpolate_nan_values(rr_intervals, method):
+def interpolate_nan_values(rr_intervals, method="linear"):
     """
     Function that interpolate Nan values with linear interpolation
 
@@ -114,7 +119,7 @@ def clean_ectopic_beats(rr_intervals, method="Malik", custom_rule=None):
     #
     # return nn_intervals
 
-    if method == "mean_last9":
+    if method == MEAN_LAST_9:
         nn_intervals = []
         for i, rr_interval in enumerate(rr_intervals):
 
@@ -180,15 +185,15 @@ def is_outlier(rr_interval, next_rr_interval, method="Malik", custom_rule=None):
     bool
         True if RrInterval is valid, False if not
     """
-    if method == "Malik":
+    if method == MALIK_RULE:
         return abs(rr_interval - next_rr_interval) <= 0.2 * rr_interval
-    elif method == "Kamath":
+    elif method == KAMATH_RULE:
         return 0 <= (next_rr_interval - rr_interval) <= 0.325 * rr_interval or 0 <= \
                (rr_interval - next_rr_interval) <= 0.245 * rr_interval
-    elif method == "custom":
+    elif method == CUSTOM_RULE:
         return abs(rr_interval - next_rr_interval) <= custom_rule * rr_interval
     else:
-        raise ValueError("Not a valid method. Please choose Malik or Kamath")
+        raise ValueError("Not a valid method. Please choose Malik, Kamath or custom.")
 
 
 def is_valid_sample(nn_intervals, outlier_count, removing_rule=0.04):

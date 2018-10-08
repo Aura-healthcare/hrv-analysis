@@ -3,7 +3,7 @@
 
 """This script allow user to import directly the most useful functions."""
 
-__version__ = "1.0.0"
+__version__ = "1.0.16"
 
 from hrvanalysis.extract_features import get_time_domain_features
 from hrvanalysis.extract_features import get_frequency_domain_features

@@ -13,12 +13,12 @@ class CleanOutliersTestCase(unittest.TestCase):
         rri_list = [700, 600, 2300, 200, 1000, 230, 1200]
         self.assertAlmostEqual(clean_outlier(rr_intervals=rri_list),
                          [700, 600, np.nan, np.nan, 1000, np.nan, 1200])
-    #
-    # def test_interpolate_cleaned_outlier(self):
-    #     rri_list = [10, 11, np.nan, 13, 15, np.nan, np.nan, 17, 17]
-    #     print(list(interpolate_nan_values(rri_list).values))
-    #     self.assertAlmostEqual(interpolate_nan_values(rri_list).values,
-    #                            [10, 11, 12, 13, 15, 15.667, 16.333, 17, 17])
+
+    def test_interpolate_cleaned_outlier(self):
+        rri_list = [10, 11, np.nan, 13, 15, np.nan, 16, 17, np.nan, np.nan, 20]
+        interpolated_list = list(interpolate_nan_values(rri_list))
+        expected_list = [10, 11, 12, 13, 15, 15.5, 16, 17, 18, 19, 20]
+        self.assertAlmostEqual(interpolated_list, expected_list)
 
     def test_1_successive_outlier_malik(self):
         rri_list = [100, 110, 100, 130, 100, 100, 70, 100, 120, 100]
