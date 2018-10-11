@@ -1,15 +1,15 @@
 # Heart Rate Variability analysis
 
-[![Build Status](https://travis-ci.com/robinchampseix/hrv-analysis.svg?branch=master)](https://travis-ci.com/robinchampseix/hrv-analysis)
-[![codecov](https://codecov.io/gh/robinchampseix/hrv-analysis/branch/master/graphs/badge.svg)](https://codecov.io/gh/robinchampseix/hrv-analysis)
+[![Build Status](https://travis-ci.com/robinchampseix/hrvanalysis.svg?branch=master)](https://travis-ci.com/robinchampseix/hrvanalysis)
+[![codecov](https://codecov.io/gh/robinchampseix/hrvanalysis/branch/master/graphs/badge.svg)](https://codecov.io/gh/robinchampseix/hrvanalysis)
 
 
 
-**hrva-nalysis** is a Python module for Heart Rate Variability analysis of RrIntervals built on top of SciPy, AstroPy, Nolds and NumPy and distributed under the GPLv3 license.
+**hrvanalysis** is a Python module for Heart Rate Variability analysis of RrIntervals built on top of SciPy, AstroPy, Nolds and NumPy and distributed under the GPLv3 license.
 
 The development of this library started in July 2018 as part of Aura Healthcare project and is maintained by Robin Champseix.
 
-![alt text](https://github.com/robinchampseix/hrv-analysis/blob/master/figures/timeserie_distrib_plot.png)
+![alt text](https://github.com/robinchampseix/hrvanalysis/blob/master/figures/timeserie_distrib_plot.png)
 
 Website : https://www.aura.healthcare 
 
@@ -35,7 +35,7 @@ There are 4 types of features you can get from NN Intervals:
 As an exemple, what you can compute to get Time domain analysis is :
 
 ```python
-from hrv-analysis.extract_features import get_time_domain_features
+from hrvanalysis.extract_features import get_time_domain_features
  
 # nn_intervals is a list containing integers value of NN Intervals
 time_domain_features = get_time_domain_features(nn_intervals)
@@ -73,7 +73,7 @@ These package provides methods to remove outliers and ectopic beats from signal 
 Please use this methods carefully as they might have a huge impact on features calculation.
 
 ```python
-from hrv-analysis.clean_outliers import clean_outlier, clean_ectopic_beats
+from hrvanalysis.clean_outliers import clean_outlier, clean_ectopic_beats
 
 # rr_intervals is a list containing integers value of Rr Intervals
 cleaned_rr_intervals = clean_outlier(rr_intervals=rr_intervals,  low_rri=300, high_rri=2000) # This remove outliers from signal
@@ -91,14 +91,14 @@ You can find how to use methods, references and details in the documentation of 
 There are several plot functions that allow you to see, for example, the Power spectral density for frequency domain features :
 
 ```python
-from hrv-analysis.plot import plot_psd, plot_distrib
+from hrvanalysis.plot import plot_psd, plot_distrib
 
 # nn_intervals is a list containing integers value of NN Intervals
 plot_psd(nn_intervals, method="Welch")
 plot_distrib(nn_intervals)
 ```
 
-![alt text](https://github.com/robinchampseix/hrv-analysis/blob/master/figures/lomb_density_plot.png)
+![alt text](https://github.com/robinchampseix/hrvanalysis/blob/master/figures/lomb_density_plot.png)
 
 You can find how to use methods and details in the documentation of each function:
 - plot_distrib
@@ -110,7 +110,7 @@ You can find how to use methods and details in the documentation of each functio
 
 #### Dependencies
 
-hrv-analysis requires the following:
+hrvanalysis requires the following:
 - Python (>= 3.6)
 - astropy = 3.0.4
 - future = 0.16.0
@@ -121,13 +121,13 @@ hrv-analysis requires the following:
 
 #### User installation
 
-The easiest way to install hrv-analysis is using ``pip`` :
+The easiest way to install hrvanalysis is using ``pip`` :
 
     $ pip install -U hrv-analysis
 
 you can also clone the repository:
 
-    $ git clone https://github.com/robinchampseix/hrv-analysis.git
+    $ git clone https://github.com/robinchampseix/hrvanalysis.git
     $ python setup.py install
 
 
@@ -151,7 +151,7 @@ Here are the main references used to compute the set of features and for signal 
 
 ## License
 
-This project is licensed under the *GNU GENERAL PUBLIC License* - see the [LICENSE.md](https://github.com/robinchampseix/hrv-analysis/blob/master/LICENSE) file for details
+This project is licensed under the *GNU GENERAL PUBLIC License* - see the [LICENSE.md](https://github.com/robinchampseix/hrvanalysis/blob/master/LICENSE) file for details
 
 
 ## Acknowledgments
