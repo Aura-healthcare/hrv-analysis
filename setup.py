@@ -3,15 +3,14 @@
 """ This script provides setup requirements to install hrvanalysis via pip"""
 
 import setuptools
-import hrvanalysis
 
 # Get long description in READ.md file
 with open("README.md", "r") as fh:
     LONG_DESCRIPTION = fh.read()
 
 setuptools.setup(
-    name="hrvanalysis",
-    version=hrvanalysis.__version__,
+    name="hrv-analysis",
+    version="1.0.0",
     author="Robin Champseix",
     license="GPLv3",
     author_email="robin.champseix@gmail.com",
@@ -22,13 +21,13 @@ setuptools.setup(
     url="https://github.com/robinchampseix/hrvanalysis",
     packages=setuptools.find_packages(),
     python_requires='>=3.6',
-    setup_requires="numpy==1.14.6",
     install_requires=[
-        "astropy",
-        "nolds",
-        "scipy",
-        "pandas",
-        "matplotlib"
+        "numpy>=1.15.1",
+        "astropy>=3.0.4",
+        "nolds>=0.4.1",
+        "scipy>=1.1.0",
+        "pandas>=0.23.4",
+        "matplotlib>=2.2.2"
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
