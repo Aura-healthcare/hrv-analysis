@@ -14,7 +14,8 @@ def plot_timeseries(nn_intervals):
 
     Arguments
     ---------
-    nn_intervals - list of Normal to Normal Interval
+    nn_intervals : list
+        list of Normal to Normal Interval
     """
 
     style.use('ggplot')
@@ -32,8 +33,10 @@ def plot_distrib(nn_intervals, bin_length=8):
 
     Arguments
     ---------
-    nn_intervals - list of Normal to Normal Interval
-    bin_length - size of the bin for histogram in ms, by default = 8
+    nn_intervals : list
+        list of Normal to Normal Interval
+    bin_length : int
+        size of the bin for histogram in ms, by default = 8
     """
 
     max_nn_i = max(nn_intervals)
@@ -54,12 +57,16 @@ def plot_psd(nn_intervals, method="Welch", sampling_frequency=7, interpolation_m
 
     Arguments
     ---------
-    nn_intervals - list of Normal to Normal Interval.
-    method - Method used to calculate the psd. Choice are Welch's FFT or Lomb method.
-    sampling_frequency - frequence at which the signal is sampled. Common value range from 1 Hz
-    to 10 Hz, by default set to 7 Hz. No need to specify if Lomb method is used.
-    interpolation_method - kind of interpolation as a string, by default "linear". No need to
-    specify if lomb method is used.
+    nn_intervals : list
+        list of Normal to Normal Interval.
+    method : str
+        Method used to calculate the psd. Choice are Welch's FFT or Lomb method.
+    sampling_frequency : int
+        frequence at which the signal is sampled. Common value range from 1 Hz to 10 Hz, by default
+        set to 7 Hz. No need to specify if Lomb method is used.
+    interpolation_method : str
+        kind of interpolation as a string, by default "linear". No need to specify if lomb method is
+        used.
     """
 
     freq, psd = get_freq_psd_from_nn_intervals(nn_intervals=nn_intervals, method=method,
@@ -89,7 +96,8 @@ def plot_poincare(nn_intervals):
 
     Arguments
     ---------
-    nn_intervals - list of NN intervals
+    nn_intervals : list
+        list of NN intervals
 
     Notes
     ---------

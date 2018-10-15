@@ -17,7 +17,7 @@ CUSTOM_RULE = "custom"
 # TODO / ONGOING
 
 
-def clean_outlier(rr_intervals, print_outliers=True, low_rri=300, high_rri=2000):
+def remove_outlier(rr_intervals, print_outliers=True, low_rri=300, high_rri=2000):
     """
     Function that replace RR Interval outlier by nan
 
@@ -58,29 +58,7 @@ def clean_outlier(rr_intervals, print_outliers=True, low_rri=300, high_rri=2000)
     return rr_intervals_cleaned
 
 
-def interpolate_nan_values(rr_intervals, method="linear"):
-    """
-    Function that interpolate Nan values with linear interpolation
-
-    Parameters
-    ---------
-    rr_intervals : list
-        RrIntervals list.
-    method : str
-        Method used to interpolate Nan values of series.
-
-    Returns
-    ---------
-    interpolated_rr_intervals : list
-        new list with outliers replaced by interpolated values.
-    """
-    series_rr_intervals_cleaned = pd.Series(rr_intervals)
-    # Interpolate nan values and convert pandas object to list of values
-    interpolated_rr_intervals = series_rr_intervals_cleaned.interpolate(method=method)
-    return interpolated_rr_intervals.values.tolist()
-
-
-def clean_ectopic_beats(rr_intervals, method="Malik", custom_rule=None):
+def remove_ectopic_beats(rr_intervals, method="Malik", custom_rule=None):
     """
     RR intervals differing by more than the removing_rule from the one proceeding it are removed.
 
@@ -98,7 +76,6 @@ def clean_ectopic_beats(rr_intervals, method="Malik", custom_rule=None):
     ---------
     nn_intervals : list
         list of NN Interval
-
     """
 
     # set first element in list
@@ -106,18 +83,20 @@ def clean_ectopic_beats(rr_intervals, method="Malik", custom_rule=None):
     outlier_count = 0
     previous_outlier = False
 
-    # if method == "Karlsson":
-    #     if i == len(rr_intervals)-2:
-    #         break
-    #     mean_prev_next_rri = (rr_interval + rr_intervals[i + 2]) / 2
-    #     if abs(mean_prev_next_rri - rr_intervals[i+1]) < 0.2 * mean_prev_next_rri:
-    #         nn_intervals.append(rr_intervals[i+1])
-    #     else:
-    #         nn_intervals.append(np.nan)
-    #         outlier_count += 1
-    #         previous_outlier = True
-    #
-    # return nn_intervals
+    if method == "Karlsson":
+        for i in range(len(rr_intervals)):
+            # Condition to go out of loop at limits of list
+            if i == len(rr_intervals)-2:
+                nn_intervals.append(rr_intervals[i + 1])
+                break
+
+            mean_prev_next_rri = (rr_intervals[i] + rr_intervals[i+2]) / 2
+            if abs(mean_prev_next_rri - rr_intervals[i+1]) < 0.2 * mean_prev_next_rri:
+                nn_intervals.append(rr_intervals[i+1])
+            else:
+                nn_intervals.append(np.nan)
+                outlier_count += 1
+        return nn_intervals
 
     if method == MEAN_LAST_9:
         nn_intervals = []
@@ -133,7 +112,7 @@ def clean_ectopic_beats(rr_intervals, method="Malik", custom_rule=None):
             else:
                 nn_intervals.append(np.nan)
                 outlier_count += 1
-                # previous_outlier = True
+
     else:
         for i, rr_interval in enumerate(rr_intervals[:-1]):
 
@@ -142,26 +121,71 @@ def clean_ectopic_beats(rr_intervals, method="Malik", custom_rule=None):
                 previous_outlier = False
                 continue
 
-            # TO DO pour v2 ... Check si plusieurs outliers consécutifs. Quelle règle appliquer ?
-            # while previous_outlier:
-            #   j += 1
-            #  if is_outlier(rr_interval, rr_intervals[i+1+j]):
-            #     nn_intervals.append(np.nan)
-            #    continue
-            # else:
-            #    previous_outlier = False
-
             if is_outlier(rr_interval, rr_intervals[i + 1], method=method, custom_rule=custom_rule):
                 nn_intervals.append(rr_intervals[i + 1])
             else:
-                # A débattre, Comment remplacer les outliers ?
                 nn_intervals.append(np.nan)
                 outlier_count += 1
-                previous_outlier = True
 
     print("{} ectopic beat(s) have been deleted with {} rule.".format(outlier_count, method))
 
     return nn_intervals
+
+
+def interpolate_nan_values(rr_intervals, interpolation_method="linear"):
+    """
+    Function that interpolate Nan values with linear interpolation
+
+    Parameters
+    ---------
+    rr_intervals : list
+        RrIntervals list.
+    interpolation_method : str
+        Method used to interpolate Nan values of series.
+
+    Returns
+    ---------
+    interpolated_rr_intervals : list
+        new list with outliers replaced by interpolated values.
+    """
+    series_rr_intervals_cleaned = pd.Series(rr_intervals)
+    # Interpolate nan values and convert pandas object to list of values
+    interpolated_rr_intervals = series_rr_intervals_cleaned.interpolate(method=interpolation_method)
+    return interpolated_rr_intervals.values.tolist()
+
+
+def get_nn_intervals(rr_intervals, low_rri=300, high_rri=2000, interpolation_method="linear",
+                     ectopic_beats_removal_method=KAMATH_RULE, print_outliers=True):
+    """
+    Function that computes NN Intervals from RR Intervals.
+
+    Parameters
+    ---------
+    rr_intervals : list
+        RrIntervals list.
+    interpolation_method : str
+        Method used to interpolate Nan values of series.
+    ectopic_beats_removal_method : str
+        method to use to clean outlier. Malik, Kamath, Karlsson, mean_last9 or Custom.
+    low_rri : int
+        lowest RrInterval to be considered plausible.
+    high_rri : int
+        highest RrInterval to be considered plausible.
+    print_outliers : bool
+        Print information about deleted outliers.
+
+    Returns
+    ---------
+    interpolated_nn_intervals : list
+        list of NN Interval interpolated
+    """
+    rr_intervals_cleaned = remove_outlier(rr_intervals, low_rri=low_rri, high_rri=high_rri,
+                                          print_outliers=print_outliers)
+    interpolated_rr_intervals = interpolate_nan_values(rr_intervals_cleaned, interpolation_method)
+    nn_intervals = remove_ectopic_beats(interpolated_rr_intervals,
+                                        method=ectopic_beats_removal_method)
+    interpolated_nn_intervals = interpolate_nan_values(nn_intervals, interpolation_method)
+    return interpolated_nn_intervals
 
 
 def is_outlier(rr_interval, next_rr_interval, method="Malik", custom_rule=None):
@@ -185,15 +209,16 @@ def is_outlier(rr_interval, next_rr_interval, method="Malik", custom_rule=None):
     bool
         True if RrInterval is valid, False if not
     """
+    if method not in [MALIK_RULE, KAMATH_RULE, KARLSSON_RULE, MEAN_LAST_9, CUSTOM_RULE]:
+        raise ValueError("Not a valid method. Please choose Malik, Kamath or custom.")
+
     if method == MALIK_RULE:
         return abs(rr_interval - next_rr_interval) <= 0.2 * rr_interval
     elif method == KAMATH_RULE:
         return 0 <= (next_rr_interval - rr_interval) <= 0.325 * rr_interval or 0 <= \
                (rr_interval - next_rr_interval) <= 0.245 * rr_interval
-    elif method == CUSTOM_RULE:
-        return abs(rr_interval - next_rr_interval) <= custom_rule * rr_interval
     else:
-        raise ValueError("Not a valid method. Please choose Malik, Kamath or custom.")
+        return abs(rr_interval - next_rr_interval) <= custom_rule * rr_interval
 
 
 def is_valid_sample(nn_intervals, outlier_count, removing_rule=0.04):

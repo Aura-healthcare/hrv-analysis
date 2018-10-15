@@ -1,8 +1,8 @@
 # Heart Rate Variability analysis
 
+[![PyPI version](https://badge.fury.io/py/hrv-analysis.svg)](https://badge.fury.io/py/hrv-analysis)
 [![Build Status](https://travis-ci.com/robinchampseix/hrvanalysis.svg?branch=master)](https://travis-ci.com/robinchampseix/hrvanalysis)
 [![codecov](https://codecov.io/gh/robinchampseix/hrvanalysis/branch/master/graphs/badge.svg)](https://codecov.io/gh/robinchampseix/hrvanalysis)
-
 
 
 **hrvanalysis** is a Python module for Heart Rate Variability analysis of RrIntervals built on top of SciPy, AstroPy, Nolds and NumPy and distributed under the GPLv3 license.
@@ -16,6 +16,31 @@ Website : https://www.aura.healthcare
 Github : https://github.com/Aura-healthcare
 
 version : 1.0.0
+
+
+## Installation / Prerequisites
+
+#### Dependencies
+
+hrvanalysis requires the following:
+- Python (>= 3.6)
+- astropy >= 3.0.4
+- future >= 0.16.0
+- nolds >= 0.4.1
+- numpy >= 1.15.1
+- scipy >= 1.1.0
+
+
+#### User installation
+
+The easiest way to install hrv-analysis is using ``pip`` :
+
+    $ pip install hrv-analysis
+
+you can also clone the repository:
+
+    $ git clone https://github.com/robinchampseix/hrvanalysis.git
+    $ python setup.py install
 
 
 ## Getting started 
@@ -105,30 +130,6 @@ You can find how to use methods and details in the documentation of each functio
 - plot_timeseries
 - plot_psd
 - plot_poincare
-
-## Installation / Prerequisites
-
-#### Dependencies
-
-hrvanalysis requires the following:
-- Python (>= 3.6)
-- astropy = 3.0.4
-- future = 0.16.0
-- nolds = 0.4.1
-- numpy = 1.15.1
-- scipy = 1.1.0
-
-
-#### User installation
-
-The easiest way to install hrvanalysis is using ``pip`` :
-
-    $ pip install -U hrv-analysis
-
-you can also clone the repository:
-
-    $ git clone https://github.com/robinchampseix/hrvanalysis.git
-    $ python setup.py install
 
 
 ## References
