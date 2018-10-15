@@ -126,6 +126,7 @@ def remove_ectopic_beats(rr_intervals, method="Malik", custom_rule=None):
             else:
                 nn_intervals.append(np.nan)
                 outlier_count += 1
+                previous_outlier = True
 
     print("{} ectopic beat(s) have been deleted with {} rule.".format(outlier_count, method))
 
