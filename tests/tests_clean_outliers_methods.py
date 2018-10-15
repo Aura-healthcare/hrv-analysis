@@ -66,5 +66,6 @@ class CleanOutliersTestCase(unittest.TestCase):
         expected_rri_list = [700, 600, 800, 1000, 1000, 1100, 1200]
         self.assertEqual(get_nn_intervals(rri_list), expected_rri_list)
 
+
 if __name__ == '__main__':
     unittest.main()
