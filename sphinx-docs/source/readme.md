@@ -1,21 +1,14 @@
-# Heart Rate Variability analysis
+# Getting started
+
+## hrv-analysis
 
 [![PyPI version](https://badge.fury.io/py/hrv-analysis.svg)](https://badge.fury.io/py/hrv-analysis)
 [![Build Status](https://travis-ci.com/robinchampseix/hrvanalysis.svg?branch=master)](https://travis-ci.com/robinchampseix/hrvanalysis)
 [![codecov](https://codecov.io/gh/robinchampseix/hrvanalysis/branch/master/graphs/badge.svg)](https://codecov.io/gh/robinchampseix/hrvanalysis)
 
-
 **hrvanalysis** is a Python module for Heart Rate Variability analysis of RR-intervals built on top of SciPy, AstroPy, Nolds and NumPy and distributed under the GPLv3 license.
 
 The development of this library started in July 2018 as part of Aura Healthcare project and is maintained by Robin Champseix.
-
-![alt text](https://github.com/robinchampseix/hrvanalysis/blob/master/figures/timeserie_distrib_plot.png)
-
-Website : https://www.aura.healthcare 
-
-Github : https://github.com/Aura-healthcare
-
-version : 1.0.0
 
 
 ## Installation / Prerequisites
@@ -43,7 +36,7 @@ you can also clone the repository:
     $ python setup.py install
 
 
-## Getting started 
+## Examples
 
 ### Features calculation 
 
@@ -132,27 +125,9 @@ You can find how to use methods and details in the documentation of each functio
 - plot_poincare
 
 
-## References
-
-Here are the main references used to compute the set of features and for signal processing methods:
-
-> Heart rate variability - Standards of measurement, physiological interpretation, and clinical use, Task Force of The European Society of Cardiology and The North American Society of Pacing and Electrophysiology, 1996
-    
-> Signal Processing Methods for Heart Rate Variability - Gari D. Clifford, 2002
-
-> Physiological time-series analysis using approximate entropy and sample entropy, Joshua S. Richman, J. Randall Moorman - 2000
-    
-> Using Lorenz plot and Cardiac Sympathetic Index of heart rate variability for detecting seizures for patients with epilepsy, Jesper Jeppesen et al, 2014
-
-
 ## Authors
 
 **Robin Champseix** - *Initial work* - (https://github.com/robinchampseix)
-
-
-## License
-
-This project is licensed under the *GNU GENERAL PUBLIC License* - see the [LICENSE.md](https://github.com/robinchampseix/hrvanalysis/blob/master/LICENSE) file for details
 
 
 ## Acknowledgments
