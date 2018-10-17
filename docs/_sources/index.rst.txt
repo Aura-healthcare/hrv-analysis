@@ -10,6 +10,7 @@ Welcome to hrvanalysis documentation!
     :maxdepth: 1 
     :caption: Contents:
 
+    ../../README
     hrvanalysis
 
 Indices and tables
