@@ -1,25 +1,25 @@
-hrvanalysis package
-===================
+hrv-analysis documentation
+==========================
 
 
-hrvanalysis.clean\_outliers module
-----------------------------------
+clean\_outliers methods
+-----------------------
 
 .. automodule:: hrvanalysis.clean_outliers
     :members:
     :undoc-members:
     :show-inheritance:
 
-hrvanalysis.extract\_features module
-------------------------------------
+extract\_features methods
+-------------------------
 
 .. automodule:: hrvanalysis.extract_features
     :members:
     :undoc-members:
     :show-inheritance:
 
-hrvanalysis.plot module
------------------------
+plot methods
+------------
 
 .. automodule:: hrvanalysis.plot
     :members:

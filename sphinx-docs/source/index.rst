@@ -1,4 +1,4 @@
-Welcome to hrv-analysis documentation!
+Welcome to Loïc Caimel'anal documentation!
 ======================================
 
 **hrv-analysis** is a Python module for Heart Rate Variability analysis of RR-intervals built on top of SciPy, AstroPy, Nolds and NumPy and distributed under the GPLv3 license.
