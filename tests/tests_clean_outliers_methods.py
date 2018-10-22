@@ -3,8 +3,8 @@
 
 import unittest
 import numpy as np
-from hrvanalysis.clean_outliers import (remove_outlier, interpolate_nan_values,
-                                        remove_ectopic_beats, get_nn_intervals)
+from hrvanalysis.preprocessing import (remove_outlier, interpolate_nan_values,
+                                       remove_ectopic_beats, get_nn_intervals)
 
 
 class CleanOutliersTestCase(unittest.TestCase):
@@ -36,9 +36,9 @@ class CleanOutliersTestCase(unittest.TestCase):
         self.assertEqual(remove_ectopic_beats(rr_intervals=rri_list, method="Karlsson"),
                          [110, 100, np.nan, 100, 100, np.nan, 100, np.nan, 105, 100, np.nan, 100])
 
-    def test_1_successive_outlier_mean_last_9_elt(self):
+    def test_1_successive_outlier_Acer(self):
         rri_list = [100, 100, 100, 100, 100, 100, 100, 100, 110, 930, 110, 100, 10]
-        self.assertEqual((remove_ectopic_beats(rr_intervals=rri_list, method="mean_last9")),
+        self.assertEqual((remove_ectopic_beats(rr_intervals=rri_list, method="Acer")),
                          [100, 100, 100, 100, 100, 100, 100, 100, 110, np.nan, 110, 100, np.nan])
 
     # def test_2_succesive_outliers_malik(self):

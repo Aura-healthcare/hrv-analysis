@@ -7,10 +7,10 @@ import pandas as pd
 import numpy as np
 
 # Static name for methods params
-MALIK_RULE = "Malik"
-KARLSSON_RULE = "Karlsson"
-KAMATH_RULE = "Kamath"
-MEAN_LAST_9 = "mean_last9"
+MALIK_RULE = "malik"
+KARLSSON_RULE = "karlsson"
+KAMATH_RULE = "kamath"
+ACAR_RULE = "acar"
 CUSTOM_RULE = "custom"
 
 # ----------------- ClEAN OUTlIER / ECTOPIC BEATS ----------------- #
@@ -36,6 +36,18 @@ def remove_outlier(rr_intervals, verbose=True, low_rri=300, high_rri=2000):
     rr_intervals_cleaned : list
         list of RR Intervals without outliers
 
+    References
+    ----------
+    .. [1] [16] O. Inbar, A. Oten, M. Scheinowitz, A. Rotstein, R. Dlin, R.Casaburi. Normal \
+    cardiopulmonary responses during incremental exercise in 20-70-yr-old men.
+
+    .. [2] W. C. Miller, J. P. Wallace, K. E. Eggert. Predicting max HR and the HR-VO2 relationship \
+    for exercise prescription in obesity.
+
+    .. [3] H. Tanaka, K. D. Monahan, D. R. Seals. Age-predictedmaximal heart rate revisited.
+
+    .. [4] M. Gulati, L. J. Shaw, R. A. Thisted, H. R. Black, C. N. B.Merz, M. F. Arnsdorf. Heart \
+    rate response to exercise stress testing in asymptomatic women.
     """
 
     # Conversion RrInterval to Heart rate ==> rri (ms) =  1000 / (bpm / 60)
@@ -56,7 +68,7 @@ def remove_outlier(rr_intervals, verbose=True, low_rri=300, high_rri=2000):
     return rr_intervals_cleaned
 
 
-def remove_ectopic_beats(rr_intervals, method="Malik", custom_rule=None):
+def remove_ectopic_beats(rr_intervals, method="malik", custom_rule=None):
     """
     RR intervals differing by more than the removing_rule from the one proceeding it are removed.
 
@@ -65,7 +77,7 @@ def remove_ectopic_beats(rr_intervals, method="Malik", custom_rule=None):
     rr_intervals : list
         list of Rr Intervals
     method : str
-        method to use to clean outlier. Malik, Kamath, Karlsson, mean_last9 or Custom.
+        method to use to clean outlier. malik, kamath, karlsson, acar or custom.
     custom_rule : int
         percentage criteria of difference with previous Rr Interval at which we consider
         that it is abnormal.
@@ -74,15 +86,22 @@ def remove_ectopic_beats(rr_intervals, method="Malik", custom_rule=None):
     ---------
     nn_intervals : list
         list of NN Interval
+
+    References
+    ----------
+    .. [5] Kamath M.V., Fallen E.L.: Correction of the Heart Rate Variability Signal for Ectopics \
+    and Miss- ing Beats, In: Malik M., Camm A.J.
+
+    .. [6] Geometric Methods for Heart Rate Variability Assessment - Malik M et al
     """
-    if method not in [MALIK_RULE, KAMATH_RULE, KARLSSON_RULE, MEAN_LAST_9, CUSTOM_RULE]:
-        raise ValueError("Not a valid method. Please choose Malik, Kamath or custom.")
+    if method not in [MALIK_RULE, KAMATH_RULE, KARLSSON_RULE, ACAR_RULE, CUSTOM_RULE]:
+        raise ValueError("Not a valid method. Please choose malik, kamath, karlsson, acar or custom.")
 
     if method == KARLSSON_RULE:
         nn_intervals, outlier_count = remove_outlier_karlsson(rr_intervals=rr_intervals)
 
-    elif method == MEAN_LAST_9:
-        nn_intervals, outlier_count = remove_outlier_mean_last9(rr_intervals=rr_intervals)
+    elif method == ACAR_RULE:
+        nn_intervals, outlier_count = remove_outlier_acar(rr_intervals=rr_intervals)
 
     else:
         # set first element in list
@@ -125,7 +144,9 @@ def remove_outlier_karlsson(rr_intervals):
 
     References
     ----------
-    TODO
+    .. [7]  Automatic filtering of outliers in RR intervals before analysis of heart rate \
+    variability in Holter recordings: a comparison with carefully edited data - Marcus Karlsson, \
+    Rolf Hörnsten, Annika Rydberg and Urban Wiklund
     """
     # set first element in list
     nn_intervals = [rr_intervals[0]]
@@ -145,7 +166,7 @@ def remove_outlier_karlsson(rr_intervals):
     return nn_intervals, outlier_count
 
 
-def remove_outlier_mean_last9(rr_intervals, custom_rule=0.2):
+def remove_outlier_acar(rr_intervals, custom_rule=0.2):
     """
     RR intervals differing by more than the 20 % of the mean of last 9 RrIntervals
     are removed.
@@ -165,7 +186,8 @@ def remove_outlier_mean_last9(rr_intervals, custom_rule=0.2):
 
     References
     ----------
-    TODO
+    .. [8] Automatic ectopic beat elimination in short-term heart rate variability measurements \
+    Acar B., Irina S., Hemingway H., Malik M.:
     """
     nn_intervals = []
     outlier_count = 0
@@ -173,8 +195,8 @@ def remove_outlier_mean_last9(rr_intervals, custom_rule=0.2):
         if i < 9:
             nn_intervals.append(rr_interval)
             continue
-        mean_last_9_elt = np.nanmean(nn_intervals[-9:])
-        if abs(mean_last_9_elt - rr_interval) < custom_rule * mean_last_9_elt:
+        acar_rule_elt = np.nanmean(nn_intervals[-9:])
+        if abs(acar_rule_elt - rr_interval) < custom_rule * acar_rule_elt:
             nn_intervals.append(rr_interval)
         else:
             nn_intervals.append(np.nan)
@@ -216,7 +238,7 @@ def get_nn_intervals(rr_intervals, low_rri=300, high_rri=2000, interpolation_met
     interpolation_method : str
         Method used to interpolate Nan values of series.
     ectopic_beats_removal_method : str
-        method to use to clean outlier. Malik, Kamath, Karlsson, mean_last9 or Custom.
+        method to use to clean outlier. malik, kamath, karlsson, acar or custom.
     low_rri : int
         lowest RrInterval to be considered plausible.
     high_rri : int
@@ -238,7 +260,7 @@ def get_nn_intervals(rr_intervals, low_rri=300, high_rri=2000, interpolation_met
     return interpolated_nn_intervals
 
 
-def is_outlier(rr_interval, next_rr_interval, method="Malik", custom_rule=None):
+def is_outlier(rr_interval, next_rr_interval, method="malik", custom_rule=None):
     """
     Test if the rr_interval is an outlier
 
@@ -249,7 +271,7 @@ def is_outlier(rr_interval, next_rr_interval, method="Malik", custom_rule=None):
     next_rr_interval : int
         consecutive RrInterval
     method : str
-        method to use to clean outlier. Malik, Kamath, Karlsson, mean_last9 or Custom
+        method to use to clean outlier. malik, kamath, karlsson, acar or custom
     custom_rule : int
         percentage criteria of difference with previous Rr Interval at which we consider
         that it is abnormal
