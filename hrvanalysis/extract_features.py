@@ -10,6 +10,11 @@ from scipy import interpolate
 from scipy import signal
 from astropy.stats import LombScargle
 
+# limit functions that user might import using "from hrv-analysis import *"
+__all__ = ['get_time_domain_features', 'get_frequency_domain_features',
+           'get_geometrical_features', 'get_poincare_plot_features',
+           "get_csi_cvi_features", "get_sampen"]
+
 # Frequency Methods name
 WELCH_METHOD = "Welch"
 LOMB_METHOD = "Lomb"
@@ -43,28 +48,28 @@ def get_time_domain_features(nn_intervals):
     -----
     Here are some details about feature engineering...
 
-    - **mean_nni**: The mean of RR intervals.
+    - **mean_nni**: The mean of RR-intervals.
 
     - **sdnn** : The standard deviation of the time interval between successive normal heart beats \
-    (i.e. the RR intervals).
+    (i.e. the RR-intervals).
 
-    - **sdsd**: The standard deviation of differences between adjacent RR intervals
+    - **sdsd**: The standard deviation of differences between adjacent RR-intervals
 
     - **rmssd**: The square root of the mean of the sum of the squares of differences between \
-    adjacent NN intervals. Reflects high frequency (fast or parasympathetic) influences on hrV \
+    adjacent NN-intervals. Reflects high frequency (fast or parasympathetic) influences on hrV \
     (*i.e.*, those influencing larger changes from one beat to the next).
 
-    - **median_nni**: Median Absolute values of the successive differences between the RR intervals.
+    - **median_nni**: Median Absolute values of the successive differences between the RR-intervals.
 
-    - **nni_50**: Number of interval differences of successive RR intervals greater than 50 ms.
+    - **nni_50**: Number of interval differences of successive RR-intervals greater than 50 ms.
 
     - **pnni_50**: The proportion derived by dividing nni_50 (The number of interval differences \
-    of successive RR intervals greater than 50 ms) by the total number of RR intervals.
+    of successive RR-intervals greater than 50 ms) by the total number of RR-intervals.
 
-    - **nni_20**: Number of interval differences of successive RR intervals greater than 20 ms.
+    - **nni_20**: Number of interval differences of successive RR-intervals greater than 20 ms.
 
     - **pnni_20**: The proportion derived by dividing nni_20 (The number of interval differences \
-    of successive RR intervals greater than 20 ms) by the total number of RR intervals.
+    of successive RR-intervals greater than 20 ms) by the total number of RR-intervals.
 
     - **cvsd**: The coefficient of variation of successive differences (van Dellen et al., 1985), \
     the rmssd divided by mean_nni.
@@ -166,11 +171,11 @@ def get_geometrical_features(nn_intervals):
     Details about feature engineering...
 
     - **triangular_index**: The HRV triangular index measurement is the integral of the density \
-    distribution (= the number of all NN intervals) divided by the maximum of the density \
+    distribution (= the number of all NN-intervals) divided by the maximum of the density \
     distribution.
 
-    - **tinn**: The triangular interpolation of NN interval histogram (TINN) is the baseline width \
-     of the distribution measured as a base of a triangle, approximating the NN interval \
+    - **tinn**: The triangular interpolation of NN-interval histogram (TINN) is the baseline width \
+     of the distribution measured as a base of a triangle, approximating the NN-interval \
      distribution
 
     References
@@ -350,7 +355,7 @@ def create_time_info(nn_intervals):
     Returns
     ---------
     nni_tmstp : list
-        list of time intervals between first NN Interval and final NN Interval.
+        list of time intervals between first NN-interval and final NN-interval.
     """
     # Convert in seconds
     nni_tmstp = np.cumsum(nn_intervals) / 1000
@@ -444,7 +449,7 @@ def get_features_from_psd(freq, psd, vlf_band=VlfBand(0, 0.04), lf_band=LfBand(0
 def get_csi_cvi_features(nn_intervals):
     """
     Returns a dictionary containing 3 features from non linear domain for hrV analyses.
-    Must use this function on short term recordings, for 30 , 50, 100 Rr Intervals (or
+    Must use this function on short term recordings, for 30 , 50, 100 RR-intervals (or
     seconds) window.
 
     Parameters

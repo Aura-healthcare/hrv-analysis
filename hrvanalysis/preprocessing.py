@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""This script provides several methods to clean abnormal and ectopic Rr Intervals."""
+"""This script provides several methods to clean abnormal and ectopic RR-intervals."""
 
 import pandas as pd
 import numpy as np
@@ -18,7 +18,7 @@ CUSTOM_RULE = "custom"
 
 def remove_outlier(rr_intervals, verbose=True, low_rri=300, high_rri=2000):
     """
-    Function that replace RR Interval outlier by nan
+    Function that replace RR-interval outlier by nan
 
     Parameters
     ---------
@@ -34,7 +34,7 @@ def remove_outlier(rr_intervals, verbose=True, low_rri=300, high_rri=2000):
     Returns
     ---------
     rr_intervals_cleaned : list
-        list of RR Intervals without outliers
+        list of RR-intervals without outliers
 
     References
     ----------
@@ -70,22 +70,24 @@ def remove_outlier(rr_intervals, verbose=True, low_rri=300, high_rri=2000):
 
 def remove_ectopic_beats(rr_intervals, method="malik", custom_rule=None):
     """
-    RR intervals differing by more than the removing_rule from the one proceeding it are removed.
+    RR-intervals differing by more than the removing_rule from the one proceeding it are removed.
 
     Parameters
     ---------
     rr_intervals : list
-        list of Rr Intervals
+        list of RR-intervals
     method : str
         method to use to clean outlier. malik, kamath, karlsson, acar or custom.
     custom_rule : int
-        percentage criteria of difference with previous Rr Interval at which we consider
+        percentage criteria of difference with previous RR-interval at which we consider
         that it is abnormal.
 
     Returns
     ---------
     nn_intervals : list
         list of NN Interval
+    outlier_count : int
+        Count of outlier detected in RR-interval list
 
     References
     ----------
@@ -127,15 +129,46 @@ def remove_ectopic_beats(rr_intervals, method="malik", custom_rule=None):
     return nn_intervals
 
 
+def is_outlier(rr_interval, next_rr_interval, method="malik", custom_rule=None):
+    """
+    Test if the rr_interval is an outlier
+
+    Parameters
+    ----------
+    rr_interval : int
+        RrInterval
+    next_rr_interval : int
+        consecutive RrInterval
+    method : str
+        method to use to clean outlier. malik, kamath, karlsson, acar or custom
+    custom_rule : int
+        percentage criteria of difference with previous RR-interval at which we consider
+        that it is abnormal
+
+    Returns
+    ----------
+    outlier : bool
+        True if RrInterval is valid, False if not
+    """
+    if method == MALIK_RULE:
+        outlier = abs(rr_interval - next_rr_interval) <= 0.2 * rr_interval
+    elif method == KAMATH_RULE:
+        outlier = 0 <= (next_rr_interval - rr_interval) <= 0.325 * rr_interval or 0 <= \
+                  (rr_interval - next_rr_interval) <= 0.245 * rr_interval
+    else:
+        outlier = abs(rr_interval - next_rr_interval) <= custom_rule * rr_interval
+    return outlier
+
+
 def remove_outlier_karlsson(rr_intervals):
     """
-    RR intervals differing by more than the 20 % of the mean of previous and next Rr Interval
+    RR-intervals differing by more than the 20 % of the mean of previous and next RR-interval
     are removed.
 
     Parameters
     ---------
     rr_intervals : list
-        list of Rr Intervals
+        list of RR-intervals
 
     Returns
     ---------
@@ -144,7 +177,7 @@ def remove_outlier_karlsson(rr_intervals):
 
     References
     ----------
-    .. [7]  Automatic filtering of outliers in RR intervals before analysis of heart rate \
+    .. [7]  Automatic filtering of outliers in RR-intervals before analysis of heart rate \
     variability in Holter recordings: a comparison with carefully edited data - Marcus Karlsson, \
     Rolf Hörnsten, Annika Rydberg and Urban Wiklund
     """
@@ -168,16 +201,16 @@ def remove_outlier_karlsson(rr_intervals):
 
 def remove_outlier_acar(rr_intervals, custom_rule=0.2):
     """
-    RR intervals differing by more than the 20 % of the mean of last 9 RrIntervals
+    RR-intervals differing by more than the 20 % of the mean of last 9 RrIntervals
     are removed.
 
     Parameters
     ---------
     rr_intervals : list
-        list of Rr Intervals
+        list of RR-intervals
     custom_rule : int
-        percentage criteria of difference with mean of  9 previous Rr Intervals at
-        which we consider that Rr interval is abnormal. By default, set to 20 %
+        percentage criteria of difference with mean of  9 previous RR-intervals at
+        which we consider that RR-interval is abnormal. By default, set to 20 %
 
     Returns
     ---------
@@ -229,7 +262,7 @@ def interpolate_nan_values(rr_intervals, interpolation_method="linear"):
 def get_nn_intervals(rr_intervals, low_rri=300, high_rri=2000, interpolation_method="linear",
                      ectopic_beats_removal_method=KAMATH_RULE, verbose=True):
     """
-    Function that computes NN Intervals from RR Intervals.
+    Function that computes NN Intervals from RR-intervals.
 
     Parameters
     ---------
@@ -258,37 +291,6 @@ def get_nn_intervals(rr_intervals, low_rri=300, high_rri=2000, interpolation_met
                                         method=ectopic_beats_removal_method)
     interpolated_nn_intervals = interpolate_nan_values(nn_intervals, interpolation_method)
     return interpolated_nn_intervals
-
-
-def is_outlier(rr_interval, next_rr_interval, method="malik", custom_rule=None):
-    """
-    Test if the rr_interval is an outlier
-
-    Parameters
-    ----------
-    rr_interval : int
-        RrInterval
-    next_rr_interval : int
-        consecutive RrInterval
-    method : str
-        method to use to clean outlier. malik, kamath, karlsson, acar or custom
-    custom_rule : int
-        percentage criteria of difference with previous Rr Interval at which we consider
-        that it is abnormal
-
-    Returns
-    ----------
-    outlier : bool
-        True if RrInterval is valid, False if not
-    """
-    if method == MALIK_RULE:
-        outlier = abs(rr_interval - next_rr_interval) <= 0.2 * rr_interval
-    elif method == KAMATH_RULE:
-        outlier = 0 <= (next_rr_interval - rr_interval) <= 0.325 * rr_interval or 0 <= \
-                  (rr_interval - next_rr_interval) <= 0.245 * rr_interval
-    else:
-        outlier = abs(rr_interval - next_rr_interval) <= custom_rule * rr_interval
-    return outlier
 
 
 def is_valid_sample(nn_intervals, outlier_count, removing_rule=0.04):

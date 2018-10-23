@@ -23,22 +23,22 @@ class CleanOutliersTestCase(unittest.TestCase):
 
     def test_1_successive_outlier_malik(self):
         rri_list = [100, 110, 100, 130, 100, 100, 70, 100, 120, 100]
-        self.assertEqual(remove_ectopic_beats(rr_intervals=rri_list, method="Malik"),
+        self.assertEqual(remove_ectopic_beats(rr_intervals=rri_list, method="malik"),
                          [100, 110, 100, np.nan, 100, 100, np.nan, 100, 120, 100])
 
     def test_1_successive_outlier_kamath(self):
         rri_list = [101, 110, 100, 140, 100, 100, 70, 100, 130, 115, 100, 78]
-        self.assertEqual(remove_ectopic_beats(rr_intervals=rri_list, method="Kamath"),
+        self.assertEqual(remove_ectopic_beats(rr_intervals=rri_list, method="kamath"),
                          [101, 110, 100, np.nan, 100, 100, np.nan, 100, 130, 115, 100, 78])
 
     def test_1_successive_outlier_karlsson(self):
         rri_list = [110, 100, 125, 100, 100, 70, 100, 130, 105, 100, 78, 100]
-        self.assertEqual(remove_ectopic_beats(rr_intervals=rri_list, method="Karlsson"),
+        self.assertEqual(remove_ectopic_beats(rr_intervals=rri_list, method="karlsson"),
                          [110, 100, np.nan, 100, 100, np.nan, 100, np.nan, 105, 100, np.nan, 100])
 
     def test_1_successive_outlier_Acer(self):
         rri_list = [100, 100, 100, 100, 100, 100, 100, 100, 110, 930, 110, 100, 10]
-        self.assertEqual((remove_ectopic_beats(rr_intervals=rri_list, method="Acer")),
+        self.assertEqual((remove_ectopic_beats(rr_intervals=rri_list, method="acar")),
                          [100, 100, 100, 100, 100, 100, 100, 100, 110, np.nan, 110, 100, np.nan])
 
     # def test_2_succesive_outliers_malik(self):
