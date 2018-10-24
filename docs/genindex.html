@@ -84,9 +84,11 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="readme.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hrvanalysis.html">hrv-analysis documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hrvanalysis.html">API documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial - Python examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribute.html">Contribute</a></li>
 </ul>
 
             
@@ -153,44 +155,25 @@
 <h1 id="index">Index</h1>
 
 <div class="genindex-jumpbox">
- <a href="#C"><strong>C</strong></a>
- | <a href="#G"><strong>G</strong></a>
+ <a href="#G"><strong>G</strong></a>
  | <a href="#H"><strong>H</strong></a>
  | <a href="#I"><strong>I</strong></a>
- | <a href="#L"><strong>L</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
- | <a href="#V"><strong>V</strong></a>
  
 </div>
-<h2 id="C">C</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="hrvanalysis.html#hrvanalysis.extract_features.create_interpolation_time">create_interpolation_time() (in module hrvanalysis.extract_features)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="hrvanalysis.html#hrvanalysis.extract_features.create_time_info">create_time_info() (in module hrvanalysis.extract_features)</a>
-</li>
-  </ul></td>
-</tr></table>
-
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="hrvanalysis.html#hrvanalysis.extract_features.get_csi_cvi_features">get_csi_cvi_features() (in module hrvanalysis.extract_features)</a>
 </li>
-      <li><a href="hrvanalysis.html#hrvanalysis.extract_features.get_features_from_psd">get_features_from_psd() (in module hrvanalysis.extract_features)</a>
-</li>
-      <li><a href="hrvanalysis.html#hrvanalysis.extract_features.get_freq_psd_from_nn_intervals">get_freq_psd_from_nn_intervals() (in module hrvanalysis.extract_features)</a>
-</li>
       <li><a href="hrvanalysis.html#hrvanalysis.extract_features.get_frequency_domain_features">get_frequency_domain_features() (in module hrvanalysis.extract_features)</a>
+</li>
+      <li><a href="hrvanalysis.html#hrvanalysis.extract_features.get_geometrical_features">get_geometrical_features() (in module hrvanalysis.extract_features)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="hrvanalysis.html#hrvanalysis.extract_features.get_geometrical_features">get_geometrical_features() (in module hrvanalysis.extract_features)</a>
-</li>
-      <li><a href="hrvanalysis.html#hrvanalysis.clean_outliers.get_nn_intervals">get_nn_intervals() (in module hrvanalysis.clean_outliers)</a>
+      <li><a href="hrvanalysis.html#hrvanalysis.preprocessing.get_nn_intervals">get_nn_intervals() (in module hrvanalysis.preprocessing)</a>
 </li>
       <li><a href="hrvanalysis.html#hrvanalysis.extract_features.get_poincare_plot_features">get_poincare_plot_features() (in module hrvanalysis.extract_features)</a>
 </li>
@@ -204,17 +187,15 @@
 <h2 id="H">H</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="hrvanalysis.html#hrvanalysis.extract_features.HfBand">HfBand (in module hrvanalysis.extract_features)</a>
-</li>
       <li><a href="hrvanalysis.html#module-hrvanalysis">hrvanalysis (module)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="hrvanalysis.html#module-hrvanalysis.clean_outliers">hrvanalysis.clean_outliers (module)</a>
 </li>
       <li><a href="hrvanalysis.html#module-hrvanalysis.extract_features">hrvanalysis.extract_features (module)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="hrvanalysis.html#module-hrvanalysis.plot">hrvanalysis.plot (module)</a>
+</li>
+      <li><a href="hrvanalysis.html#module-hrvanalysis.preprocessing">hrvanalysis.preprocessing (module)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -222,21 +203,13 @@
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="hrvanalysis.html#hrvanalysis.clean_outliers.interpolate_nan_values">interpolate_nan_values() (in module hrvanalysis.clean_outliers)</a>
+      <li><a href="hrvanalysis.html#hrvanalysis.preprocessing.interpolate_nan_values">interpolate_nan_values() (in module hrvanalysis.preprocessing)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="hrvanalysis.html#hrvanalysis.clean_outliers.is_outlier">is_outlier() (in module hrvanalysis.clean_outliers)</a>
+      <li><a href="hrvanalysis.html#hrvanalysis.preprocessing.is_outlier">is_outlier() (in module hrvanalysis.preprocessing)</a>
 </li>
-      <li><a href="hrvanalysis.html#hrvanalysis.clean_outliers.is_valid_sample">is_valid_sample() (in module hrvanalysis.clean_outliers)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="L">L</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="hrvanalysis.html#hrvanalysis.extract_features.LfBand">LfBand (in module hrvanalysis.extract_features)</a>
+      <li><a href="hrvanalysis.html#hrvanalysis.preprocessing.is_valid_sample">is_valid_sample() (in module hrvanalysis.preprocessing)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -260,23 +233,15 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="hrvanalysis.html#hrvanalysis.clean_outliers.remove_ectopic_beats">remove_ectopic_beats() (in module hrvanalysis.clean_outliers)</a>
+      <li><a href="hrvanalysis.html#hrvanalysis.preprocessing.remove_ectopic_beats">remove_ectopic_beats() (in module hrvanalysis.preprocessing)</a>
 </li>
-      <li><a href="hrvanalysis.html#hrvanalysis.clean_outliers.remove_outlier">remove_outlier() (in module hrvanalysis.clean_outliers)</a>
+      <li><a href="hrvanalysis.html#hrvanalysis.preprocessing.remove_outlier">remove_outlier() (in module hrvanalysis.preprocessing)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="hrvanalysis.html#hrvanalysis.clean_outliers.remove_outlier_karlsson">remove_outlier_karlsson() (in module hrvanalysis.clean_outliers)</a>
+      <li><a href="hrvanalysis.html#hrvanalysis.preprocessing.remove_outlier_acar">remove_outlier_acar() (in module hrvanalysis.preprocessing)</a>
 </li>
-      <li><a href="hrvanalysis.html#hrvanalysis.clean_outliers.remove_outlier_mean_last9">remove_outlier_mean_last9() (in module hrvanalysis.clean_outliers)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="V">V</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="hrvanalysis.html#hrvanalysis.extract_features.VlfBand">VlfBand (in module hrvanalysis.extract_features)</a>
+      <li><a href="hrvanalysis.html#hrvanalysis.preprocessing.remove_outlier_karlsson">remove_outlier_karlsson() (in module hrvanalysis.preprocessing)</a>
 </li>
   </ul></td>
 </tr></table>

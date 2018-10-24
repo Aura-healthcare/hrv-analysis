@@ -1,16 +1,16 @@
-hrv-analysis documentation
+API documentation
 ==========================
 
 
-clean\_outliers methods
+Preprocessing methods
 -----------------------
 
-.. automodule:: hrvanalysis.clean_outliers
+.. automodule:: hrvanalysis.preprocessing
     :members:
     :undoc-members:
     :show-inheritance:
 
-extract\_features methods
+Features extraction methods
 -------------------------
 
 .. automodule:: hrvanalysis.extract_features
@@ -18,7 +18,7 @@ extract\_features methods
     :undoc-members:
     :show-inheritance:
 
-plot methods
+Plot methods
 ------------
 
 .. automodule:: hrvanalysis.plot

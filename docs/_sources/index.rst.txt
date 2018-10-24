@@ -20,8 +20,10 @@ The package was built on top of SciPy, AstroPy, Nolds and NumPy and distributed 
 
     readme
     hrvanalysis
-    references
+    tutorial
     license
+    references
+    contribute
 
 Indices and tables
 ==================

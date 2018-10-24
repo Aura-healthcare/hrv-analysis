@@ -28,7 +28,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="hrv-analysis documentation" href="hrvanalysis.html" />
+    <link rel="next" title="API documentation" href="hrvanalysis.html" />
     <link rel="prev" title="Welcome to hrv-analysis documentation!" href="index.html" /> 
 
   
@@ -91,19 +91,19 @@
 <li class="toctree-l3"><a class="reference internal" href="#user-installation">User installation</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#quick-examples">Quick examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#outliers-and-ectopic-beats-filtering-methods">Outliers and ectopic beats filtering methods</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#features-calculation">Features calculation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#outliers-and-ectopic-beats-cleaning-methods">Outliers and ectopic beats cleaning methods</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#plot-functions">Plot functions</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#authors">Authors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#acknowledgments">Acknowledgments</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="hrvanalysis.html">hrv-analysis documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hrvanalysis.html">API documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial - Python examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribute.html">Contribute</a></li>
 </ul>
 
             
@@ -174,9 +174,10 @@
 <span id="hrv-analysis"></span><h2>hrv-analysis<a class="headerlink" href="#hrv-analysis" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://badge.fury.io/py/hrv-analysis"><img alt="PyPI version" src="https://badge.fury.io/py/hrv-analysis.svg" /></a>
 <a class="reference external" href="https://travis-ci.com/robinchampseix/hrvanalysis"><img alt="Build Status" src="https://travis-ci.com/robinchampseix/hrvanalysis.svg?branch=master" /></a>
-<a class="reference external" href="https://codecov.io/gh/robinchampseix/hrvanalysis"><img alt="codecov" src="https://codecov.io/gh/robinchampseix/hrvanalysis/branch/master/graphs/badge.svg" /></a></p>
+<a class="reference external" href="https://codecov.io/gh/robinchampseix/hrvanalysis"><img alt="codecov" src="https://codecov.io/gh/robinchampseix/hrvanalysis/branch/master/graphs/badge.svg" /></a>
+<a class="reference external" href="https://www.gnu.org/licenses/gpl-3.0"><img alt="License: GPL v3" src="https://img.shields.io/badge/License-GPL%20v3-blue.svg" /></a></p>
 <p><strong>hrvanalysis</strong> is a Python module for Heart Rate Variability analysis of RR-intervals built on top of SciPy, AstroPy, Nolds and NumPy and distributed under the GPLv3 license.</p>
-<p>The development of this library started in July 2018 as part of Aura Healthcare project and is maintained by Robin Champseix.</p>
+<p>The development of this library started in July 2018 as part of Aura Healthcare project and is currently maintained by Robin Champseix.</p>
 </div>
 <div class="section" id="installation-prerequisites">
 <span id="installation-prerequisites"></span><h2>Installation / Prerequisites<a class="headerlink" href="#installation-prerequisites" title="Permalink to this headline">¶</a></h2>
@@ -205,8 +206,26 @@ $ python setup.py install
 </div>
 </div>
 </div>
-<div class="section" id="examples">
-<span id="examples"></span><h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="quick-examples">
+<span id="quick-examples"></span><h2>Quick examples<a class="headerlink" href="#quick-examples" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="outliers-and-ectopic-beats-filtering-methods">
+<span id="outliers-and-ectopic-beats-filtering-methods"></span><h3>Outliers and ectopic beats filtering methods<a class="headerlink" href="#outliers-and-ectopic-beats-filtering-methods" title="Permalink to this headline">¶</a></h3>
+<p>These package provides methods to remove outliers and ectopic beats from signal for further analysis. Those methods are useful to get Normal to Normal Interval (NN interval) from Rr Interval.
+Please use this methods carefully as they might have a huge impact on features calculation.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hrvanalysis.clean_outliers</span> <span class="kn">import</span> <span class="n">clean_outlier</span><span class="p">,</span> <span class="n">clean_ectopic_beats</span>
+
+<span class="c1"># rr_intervals is a list containing integers value of Rr Intervals</span>
+<span class="n">cleaned_rr_intervals</span> <span class="o">=</span> <span class="n">clean_outlier</span><span class="p">(</span><span class="n">rr_intervals</span><span class="o">=</span><span class="n">rr_intervals</span><span class="p">,</span>  <span class="n">low_rri</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">high_rri</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span> <span class="c1"># This remove outliers from signal</span>
+
+<span class="n">nn_interval</span> <span class="o">=</span> <span class="n">clean_ectopic_beats</span><span class="p">(</span><span class="n">rr_intervals</span><span class="o">=</span><span class="n">cleaned_rr_intervals</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;Malik&quot;</span><span class="p">)</span> <span class="c1"># This remove ectopic beats from signal</span>
+</pre></div>
+</div>
+<p>You can find how to use methods, references and details in the documentation of each function:</p>
+<ul class="simple">
+<li>clean_outlier</li>
+<li>clean_ectopic_beats</li>
+</ul>
+</div>
 <div class="section" id="features-calculation">
 <span id="features-calculation"></span><h3>Features calculation<a class="headerlink" href="#features-calculation" title="Permalink to this headline">¶</a></h3>
 <p>There are 4 types of features you can get from NN Intervals:</p>
@@ -253,24 +272,6 @@ $ python setup.py install
 <li>get_sampen</li>
 </ul>
 </div>
-<div class="section" id="outliers-and-ectopic-beats-cleaning-methods">
-<span id="outliers-and-ectopic-beats-cleaning-methods"></span><h3>Outliers and ectopic beats cleaning methods<a class="headerlink" href="#outliers-and-ectopic-beats-cleaning-methods" title="Permalink to this headline">¶</a></h3>
-<p>These package provides methods to remove outliers and ectopic beats from signal for further analysis. Those methods are useful to get Normal to Normal Interval (NN interval) from Rr Interval.
-Please use this methods carefully as they might have a huge impact on features calculation.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hrvanalysis.clean_outliers</span> <span class="kn">import</span> <span class="n">clean_outlier</span><span class="p">,</span> <span class="n">clean_ectopic_beats</span>
-
-<span class="c1"># rr_intervals is a list containing integers value of Rr Intervals</span>
-<span class="n">cleaned_rr_intervals</span> <span class="o">=</span> <span class="n">clean_outlier</span><span class="p">(</span><span class="n">rr_intervals</span><span class="o">=</span><span class="n">rr_intervals</span><span class="p">,</span>  <span class="n">low_rri</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">high_rri</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span> <span class="c1"># This remove outliers from signal</span>
-
-<span class="n">nn_interval</span> <span class="o">=</span> <span class="n">clean_ectopic_beats</span><span class="p">(</span><span class="n">rr_intervals</span><span class="o">=</span><span class="n">cleaned_rr_intervals</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;Malik&quot;</span><span class="p">)</span> <span class="c1"># This remove ectopic beats from signal</span>
-</pre></div>
-</div>
-<p>You can find how to use methods, references and details in the documentation of each function:</p>
-<ul class="simple">
-<li>clean_outlier</li>
-<li>clean_ectopic_beats</li>
-</ul>
-</div>
 <div class="section" id="plot-functions">
 <span id="plot-functions"></span><h3>Plot functions<a class="headerlink" href="#plot-functions" title="Permalink to this headline">¶</a></h3>
 <p>There are several plot functions that allow you to see, for example, the Power spectral density for frequency domain features :</p>
@@ -291,15 +292,6 @@ Please use this methods carefully as they might have a huge impact on features c
 </ul>
 </div>
 </div>
-<div class="section" id="authors">
-<span id="authors"></span><h2>Authors<a class="headerlink" href="#authors" title="Permalink to this headline">¶</a></h2>
-<p><strong>Robin Champseix</strong> - <em>Initial work</em> - (https://github.com/robinchampseix)</p>
-</div>
-<div class="section" id="acknowledgments">
-<span id="acknowledgments"></span><h2>Acknowledgments<a class="headerlink" href="#acknowledgments" title="Permalink to this headline">¶</a></h2>
-<p>I hereby thank Laurent Ribière and Clément Le Couedic, my coworkers who gave me time to Open Source this library.
-I also thank Fabien Arcellier for his advices on to how build a library in PyPi.</p>
-</div>
 </div>
 
 
@@ -310,7 +302,7 @@ I also thank Fabien Arcellier for his advices on to how build a library in PyPi.
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="hrvanalysis.html" class="btn btn-neutral float-right" title="hrv-analysis documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="hrvanalysis.html" class="btn btn-neutral float-right" title="API documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="index.html" class="btn btn-neutral" title="Welcome to hrv-analysis documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

@@ -14,4 +14,4 @@ Here are the references used to compute the set of features and for signal proce
 
 Here are the references used to compute the pre processing and filtering methos:
 
-> TODO
+[Coming soon]

@@ -3,7 +3,7 @@
 [![PyPI version](https://badge.fury.io/py/hrv-analysis.svg)](https://badge.fury.io/py/hrv-analysis)
 [![Build Status](https://travis-ci.com/robinchampseix/hrvanalysis.svg?branch=master)](https://travis-ci.com/robinchampseix/hrvanalysis)
 [![codecov](https://codecov.io/gh/robinchampseix/hrvanalysis/branch/master/graphs/badge.svg)](https://codecov.io/gh/robinchampseix/hrvanalysis)
-
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 **hrvanalysis** is a Python module for Heart Rate Variability analysis of RR-intervals built on top of SciPy, AstroPy, Nolds and NumPy and distributed under the GPLv3 license.
 

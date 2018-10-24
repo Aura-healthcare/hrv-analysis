@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>hrv-analysis documentation &mdash; hrvanalysis 1.0.0 documentation</title>
+  <title>API documentation &mdash; hrvanalysis 1.0.0 documentation</title>
   
 
   
@@ -28,7 +28,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="References" href="references.html" />
+    <link rel="next" title="Tutorial - Python examples" href="tutorial.html" />
     <link rel="prev" title="Getting started" href="readme.html" /> 
 
   
@@ -85,14 +85,16 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="readme.html">Getting started</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">hrv-analysis documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-hrvanalysis.clean_outliers">clean_outliers methods</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-hrvanalysis.extract_features">extract_features methods</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-hrvanalysis.plot">plot methods</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-hrvanalysis.preprocessing">Preprocessing methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#features-extraction-methods">Features extraction methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-hrvanalysis.plot">Plot methods</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial - Python examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribute.html">Contribute</a></li>
 </ul>
 
             
@@ -138,7 +140,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>hrv-analysis documentation</li>
+      <li>API documentation</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -157,15 +159,15 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="hrv-analysis-documentation">
-<h1>hrv-analysis documentation<a class="headerlink" href="#hrv-analysis-documentation" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-hrvanalysis.clean_outliers">
-<span id="clean-outliers-methods"></span><h2>clean_outliers methods<a class="headerlink" href="#module-hrvanalysis.clean_outliers" title="Permalink to this headline">¶</a></h2>
-<p>This script provides several methods to clean abnormal and ectopic Rr Intervals.</p>
+  <div class="section" id="api-documentation">
+<h1>API documentation<a class="headerlink" href="#api-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-hrvanalysis.preprocessing">
+<span id="preprocessing-methods"></span><h2>Preprocessing methods<a class="headerlink" href="#module-hrvanalysis.preprocessing" title="Permalink to this headline">¶</a></h2>
+<p>This script provides several methods to clean abnormal and ectopic RR-intervals.</p>
 <dl class="function">
-<dt id="hrvanalysis.clean_outliers.get_nn_intervals">
-<code class="descclassname">hrvanalysis.clean_outliers.</code><code class="descname">get_nn_intervals</code><span class="sig-paren">(</span><em>rr_intervals</em>, <em>low_rri=300</em>, <em>high_rri=2000</em>, <em>interpolation_method='linear'</em>, <em>ectopic_beats_removal_method='Kamath'</em>, <em>verbose=True</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.clean_outliers.get_nn_intervals" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function that computes NN Intervals from RR Intervals.</p>
+<dt id="hrvanalysis.preprocessing.get_nn_intervals">
+<code class="descclassname">hrvanalysis.preprocessing.</code><code class="descname">get_nn_intervals</code><span class="sig-paren">(</span><em>rr_intervals</em>, <em>low_rri=300</em>, <em>high_rri=2000</em>, <em>interpolation_method='linear'</em>, <em>ectopic_beats_removal_method='kamath'</em>, <em>verbose=True</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.preprocessing.get_nn_intervals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that computes NN Intervals from RR-intervals.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -173,7 +175,7 @@
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>rr_intervals</strong> (<em>list</em>) – RrIntervals list.</li>
 <li><strong>interpolation_method</strong> (<em>str</em>) – Method used to interpolate Nan values of series.</li>
-<li><strong>ectopic_beats_removal_method</strong> (<em>str</em>) – method to use to clean outlier. Malik, Kamath, Karlsson, mean_last9 or Custom.</li>
+<li><strong>ectopic_beats_removal_method</strong> (<em>str</em>) – method to use to clean outlier. malik, kamath, karlsson, acar or custom.</li>
 <li><strong>low_rri</strong> (<em>int</em>) – lowest RrInterval to be considered plausible.</li>
 <li><strong>high_rri</strong> (<em>int</em>) – highest RrInterval to be considered plausible.</li>
 <li><strong>verbose</strong> (<em>bool</em>) – Print information about deleted outliers.</li>
@@ -191,8 +193,8 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="hrvanalysis.clean_outliers.interpolate_nan_values">
-<code class="descclassname">hrvanalysis.clean_outliers.</code><code class="descname">interpolate_nan_values</code><span class="sig-paren">(</span><em>rr_intervals</em>, <em>interpolation_method='linear'</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.clean_outliers.interpolate_nan_values" title="Permalink to this definition">¶</a></dt>
+<dt id="hrvanalysis.preprocessing.interpolate_nan_values">
+<code class="descclassname">hrvanalysis.preprocessing.</code><code class="descname">interpolate_nan_values</code><span class="sig-paren">(</span><em>rr_intervals</em>, <em>interpolation_method='linear'</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.preprocessing.interpolate_nan_values" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function that interpolate Nan values with linear interpolation</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -215,8 +217,8 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="hrvanalysis.clean_outliers.is_outlier">
-<code class="descclassname">hrvanalysis.clean_outliers.</code><code class="descname">is_outlier</code><span class="sig-paren">(</span><em>rr_interval</em>, <em>next_rr_interval</em>, <em>method='Malik'</em>, <em>custom_rule=None</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.clean_outliers.is_outlier" title="Permalink to this definition">¶</a></dt>
+<dt id="hrvanalysis.preprocessing.is_outlier">
+<code class="descclassname">hrvanalysis.preprocessing.</code><code class="descname">is_outlier</code><span class="sig-paren">(</span><em>rr_interval</em>, <em>next_rr_interval</em>, <em>method='malik'</em>, <em>custom_rule=None</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.preprocessing.is_outlier" title="Permalink to this definition">¶</a></dt>
 <dd><p>Test if the rr_interval is an outlier</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -225,8 +227,8 @@
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>rr_interval</strong> (<em>int</em>) – RrInterval</li>
 <li><strong>next_rr_interval</strong> (<em>int</em>) – consecutive RrInterval</li>
-<li><strong>method</strong> (<em>str</em>) – method to use to clean outlier. Malik, Kamath, Karlsson, mean_last9 or Custom</li>
-<li><strong>custom_rule</strong> (<em>int</em>) – percentage criteria of difference with previous Rr Interval at which we consider
+<li><strong>method</strong> (<em>str</em>) – method to use to clean outlier. malik, kamath, karlsson, acar or custom</li>
+<li><strong>custom_rule</strong> (<em>int</em>) – percentage criteria of difference with previous RR-interval at which we consider
 that it is abnormal</li>
 </ul>
 </td>
@@ -242,8 +244,8 @@ that it is abnormal</li>
 </dd></dl>
 
 <dl class="function">
-<dt id="hrvanalysis.clean_outliers.is_valid_sample">
-<code class="descclassname">hrvanalysis.clean_outliers.</code><code class="descname">is_valid_sample</code><span class="sig-paren">(</span><em>nn_intervals</em>, <em>outlier_count</em>, <em>removing_rule=0.04</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.clean_outliers.is_valid_sample" title="Permalink to this definition">¶</a></dt>
+<dt id="hrvanalysis.preprocessing.is_valid_sample">
+<code class="descclassname">hrvanalysis.preprocessing.</code><code class="descname">is_valid_sample</code><span class="sig-paren">(</span><em>nn_intervals</em>, <em>outlier_count</em>, <em>removing_rule=0.04</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.preprocessing.is_valid_sample" title="Permalink to this definition">¶</a></dt>
 <dd><p>Test if the sample meet the condition to be used for analysis</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -267,35 +269,49 @@ that it is abnormal</li>
 </dd></dl>
 
 <dl class="function">
-<dt id="hrvanalysis.clean_outliers.remove_ectopic_beats">
-<code class="descclassname">hrvanalysis.clean_outliers.</code><code class="descname">remove_ectopic_beats</code><span class="sig-paren">(</span><em>rr_intervals</em>, <em>method='Malik'</em>, <em>custom_rule=None</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.clean_outliers.remove_ectopic_beats" title="Permalink to this definition">¶</a></dt>
-<dd><p>RR intervals differing by more than the removing_rule from the one proceeding it are removed.</p>
+<dt id="hrvanalysis.preprocessing.remove_ectopic_beats">
+<code class="descclassname">hrvanalysis.preprocessing.</code><code class="descname">remove_ectopic_beats</code><span class="sig-paren">(</span><em>rr_intervals</em>, <em>method='malik'</em>, <em>custom_rule=None</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.preprocessing.remove_ectopic_beats" title="Permalink to this definition">¶</a></dt>
+<dd><p>RR-intervals differing by more than the removing_rule from the one proceeding it are removed.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>rr_intervals</strong> (<em>list</em>) – list of Rr Intervals</li>
-<li><strong>method</strong> (<em>str</em>) – method to use to clean outlier. Malik, Kamath, Karlsson, mean_last9 or Custom.</li>
-<li><strong>custom_rule</strong> (<em>int</em>) – percentage criteria of difference with previous Rr Interval at which we consider
+<li><strong>rr_intervals</strong> (<em>list</em>) – list of RR-intervals</li>
+<li><strong>method</strong> (<em>str</em>) – method to use to clean outlier. malik, kamath, karlsson, acar or custom.</li>
+<li><strong>custom_rule</strong> (<em>int</em>) – percentage criteria of difference with previous RR-interval at which we consider
 that it is abnormal.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>nn_intervals</strong> – list of NN Interval</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><strong>nn_intervals</strong> (<em>list</em>) – list of NN Interval</li>
+<li><strong>outlier_count</strong> (<em>int</em>) – Count of outlier detected in RR-interval list</li>
+</ul>
+</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list</p>
-</td>
-</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<table class="docutils footnote" frame="void" id="id1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[5]</td><td>Kamath M.V., Fallen E.L.: Correction of the Heart Rate Variability Signal for Ectopics     and Miss- ing Beats, In: Malik M., Camm A.J.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[6]</td><td>Geometric Methods for Heart Rate Variability Assessment - Malik M et al</td></tr>
 </tbody>
 </table>
 </dd></dl>
 
 <dl class="function">
-<dt id="hrvanalysis.clean_outliers.remove_outlier">
-<code class="descclassname">hrvanalysis.clean_outliers.</code><code class="descname">remove_outlier</code><span class="sig-paren">(</span><em>rr_intervals</em>, <em>verbose=True</em>, <em>low_rri=300</em>, <em>high_rri=2000</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.clean_outliers.remove_outlier" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function that replace RR Interval outlier by nan</p>
+<dt id="hrvanalysis.preprocessing.remove_outlier">
+<code class="descclassname">hrvanalysis.preprocessing.</code><code class="descname">remove_outlier</code><span class="sig-paren">(</span><em>rr_intervals</em>, <em>verbose=True</em>, <em>low_rri=300</em>, <em>high_rri=2000</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.preprocessing.remove_outlier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that replace RR-interval outlier by nan</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -308,7 +324,7 @@ that it is abnormal.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>rr_intervals_cleaned</strong> – list of RR Intervals without outliers</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>rr_intervals_cleaned</strong> – list of RR-intervals without outliers</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list</p>
@@ -316,42 +332,58 @@ that it is abnormal.</li>
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="function">
-<dt id="hrvanalysis.clean_outliers.remove_outlier_karlsson">
-<code class="descclassname">hrvanalysis.clean_outliers.</code><code class="descname">remove_outlier_karlsson</code><span class="sig-paren">(</span><em>rr_intervals</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.clean_outliers.remove_outlier_karlsson" title="Permalink to this definition">¶</a></dt>
-<dd><p>RR intervals differing by more than the 20 % of the mean of previous and next Rr Interval
-are removed.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
+<p class="rubric">References</p>
+<table class="docutils footnote" frame="void" id="id3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rr_intervals</strong> (<em>list</em>) – list of Rr Intervals</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>nn_intervals</strong> – list of NN Interval</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list</td>
-</tr>
+<tr><td class="label">[1]</td><td>[16] O. Inbar, A. Oten, M. Scheinowitz, A. Rotstein, R. Dlin, R.Casaburi. Normal     cardiopulmonary responses during incremental exercise in 20-70-yr-old men.</td></tr>
 </tbody>
 </table>
-<p class="rubric">References</p>
-<p>TODO</p>
+<table class="docutils footnote" frame="void" id="id4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[2]</td><td><ol class="first last upperalpha simple" start="23">
+<li><ol class="first upperalpha" start="3">
+<li>Miller, J. P. Wallace, K. E. Eggert. Predicting max HR and the HR-VO2 relationship     for exercise prescription in obesity.</li>
+</ol>
+</li>
+</ol>
+</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id5" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[3]</td><td><ol class="first last upperalpha simple" start="8">
+<li>Tanaka, K. D. Monahan, D. R. Seals. Age-predictedmaximal heart rate revisited.</li>
+</ol>
+</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id6" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[4]</td><td><ol class="first last upperalpha simple" start="13">
+<li>Gulati, L. J. Shaw, R. A. Thisted, H. R. Black, C. N. B.Merz, M. F. Arnsdorf. Heart     rate response to exercise stress testing in asymptomatic women.</li>
+</ol>
+</td></tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
-<dt id="hrvanalysis.clean_outliers.remove_outlier_mean_last9">
-<code class="descclassname">hrvanalysis.clean_outliers.</code><code class="descname">remove_outlier_mean_last9</code><span class="sig-paren">(</span><em>rr_intervals</em>, <em>custom_rule=0.2</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.clean_outliers.remove_outlier_mean_last9" title="Permalink to this definition">¶</a></dt>
-<dd><p>RR intervals differing by more than the 20 % of the mean of last 9 RrIntervals
+<dt id="hrvanalysis.preprocessing.remove_outlier_acar">
+<code class="descclassname">hrvanalysis.preprocessing.</code><code class="descname">remove_outlier_acar</code><span class="sig-paren">(</span><em>rr_intervals</em>, <em>custom_rule=0.2</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.preprocessing.remove_outlier_acar" title="Permalink to this definition">¶</a></dt>
+<dd><p>RR-intervals differing by more than the 20 % of the mean of last 9 RrIntervals
 are removed.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>rr_intervals</strong> (<em>list</em>) – list of Rr Intervals</li>
-<li><strong>custom_rule</strong> (<em>int</em>) – percentage criteria of difference with mean of  9 previous Rr Intervals at
-which we consider that Rr interval is abnormal. By default, set to 20 %</li>
+<li><strong>rr_intervals</strong> (<em>list</em>) – list of RR-intervals</li>
+<li><strong>custom_rule</strong> (<em>int</em>) – percentage criteria of difference with mean of  9 previous RR-intervals at
+which we consider that RR-interval is abnormal. By default, set to 20 %</li>
 </ul>
 </td>
 </tr>
@@ -364,163 +396,96 @@ which we consider that Rr interval is abnormal. By default, set to 20 %</li>
 </tbody>
 </table>
 <p class="rubric">References</p>
-<p>TODO</p>
-</dd></dl>
-
-</div>
-<div class="section" id="module-hrvanalysis.extract_features">
-<span id="extract-features-methods"></span><h2>extract_features methods<a class="headerlink" href="#module-hrvanalysis.extract_features" title="Permalink to this headline">¶</a></h2>
-<p>This script provides methods to extract features from Normal to Normal Intervals
-for heart rate variability analysis.</p>
-<dl class="attribute">
-<dt id="hrvanalysis.extract_features.HfBand">
-<code class="descclassname">hrvanalysis.extract_features.</code><code class="descname">HfBand</code><a class="headerlink" href="#hrvanalysis.extract_features.HfBand" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">hrvanalysis.extract_features.Hf_band</span></code></p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="hrvanalysis.extract_features.LfBand">
-<code class="descclassname">hrvanalysis.extract_features.</code><code class="descname">LfBand</code><a class="headerlink" href="#hrvanalysis.extract_features.LfBand" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">hrvanalysis.extract_features.Lf_band</span></code></p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="hrvanalysis.extract_features.VlfBand">
-<code class="descclassname">hrvanalysis.extract_features.</code><code class="descname">VlfBand</code><a class="headerlink" href="#hrvanalysis.extract_features.VlfBand" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">hrvanalysis.extract_features.Vlf_band</span></code></p>
-</dd></dl>
-
-<dl class="function">
-<dt id="hrvanalysis.extract_features.create_interpolation_time">
-<code class="descclassname">hrvanalysis.extract_features.</code><code class="descname">create_interpolation_time</code><span class="sig-paren">(</span><em>nn_intervals</em>, <em>sampling_frequency=7</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.extract_features.create_interpolation_time" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates the interpolation time used for Fourier transform’s method</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
+<table class="docutils footnote" frame="void" id="id7" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>nn_intervals</strong> (<em>list</em>) – List of Normal to Normal Interval.</li>
-<li><strong>sampling_frequency</strong> (<em>int</em>) – Frequency at which the signal is sampled.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>nni_interpolation_tmstp</strong> – Timestamp for interpolation.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list</p>
-</td>
-</tr>
+<tr><td class="label">[8]</td><td>Automatic ectopic beat elimination in short-term heart rate variability measurements     Acar B., Irina S., Hemingway H., Malik M.:</td></tr>
 </tbody>
 </table>
 </dd></dl>
 
 <dl class="function">
-<dt id="hrvanalysis.extract_features.create_time_info">
-<code class="descclassname">hrvanalysis.extract_features.</code><code class="descname">create_time_info</code><span class="sig-paren">(</span><em>nn_intervals</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.extract_features.create_time_info" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates corresponding time interval for all nn_intervals</p>
+<dt id="hrvanalysis.preprocessing.remove_outlier_karlsson">
+<code class="descclassname">hrvanalysis.preprocessing.</code><code class="descname">remove_outlier_karlsson</code><span class="sig-paren">(</span><em>rr_intervals</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.preprocessing.remove_outlier_karlsson" title="Permalink to this definition">¶</a></dt>
+<dd><p>RR-intervals differing by more than the 20 % of the mean of previous and next RR-interval
+are removed.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>nn_intervals</strong> (<em>list</em>) – List of Normal to Normal Interval.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rr_intervals</strong> (<em>list</em>) – list of RR-intervals</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>nni_tmstp</strong> – list of time intervals between first NN Interval and final NN Interval.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>nn_intervals</strong> – list of NN Interval</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list</td>
 </tr>
 </tbody>
 </table>
+<p class="rubric">References</p>
+<table class="docutils footnote" frame="void" id="id8" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[7]</td><td>Automatic filtering of outliers in RR-intervals before analysis of heart rate     variability in Holter recordings: a comparison with carefully edited data - Marcus Karlsson,     Rolf Hörnsten, Annika Rydberg and Urban Wiklund</td></tr>
+</tbody>
+</table>
 </dd></dl>
 
+</div>
+<div class="section" id="features-extraction-methods">
+<h2>Features extraction methods<a class="headerlink" href="#features-extraction-methods" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-hrvanalysis.extract_features"></span><p>This script provides methods to extract features from Normal to Normal Intervals
+for heart rate variability analysis.</p>
 <dl class="function">
-<dt id="hrvanalysis.extract_features.get_csi_cvi_features">
-<code class="descclassname">hrvanalysis.extract_features.</code><code class="descname">get_csi_cvi_features</code><span class="sig-paren">(</span><em>nn_intervals</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.extract_features.get_csi_cvi_features" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a dictionary containing 3 features from non linear domain for hrV analyses.
-Must use this function on short term recordings, for 30 , 50, 100 Rr Intervals (or
-seconds) window.</p>
+<dt id="hrvanalysis.extract_features.get_time_domain_features">
+<code class="descclassname">hrvanalysis.extract_features.</code><code class="descname">get_time_domain_features</code><span class="sig-paren">(</span><em>nn_intervals</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.extract_features.get_time_domain_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a dictionary containing time domain features for HRV analysis.
+Mostly used on long term recordings (24h) but some studies use some of those features on
+short term recordings, from 2 to 5 minutes window.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>nn_intervals</strong> (<em>list</em>) – Normal to Normal Intervals.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>nn_intervals</strong> (<em>list</em>) – list of Normal to Normal Interval</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>csi_cvi_features</strong> – Dictionary containing non linear domain features for hrV analyses. There are  details about
-each features are given below.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>time_domain_features</strong> – dictionary containing time domain features for HRV analyses. There are details
+about each features below.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">dict</td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
+<p>Here are some details about feature engineering…</p>
 <ul class="simple">
-<li><strong>csi</strong> : Cardiac Sympathetic Index.</li>
-<li><strong>cvi</strong> : Cadiac Vagal Index.</li>
-<li><strong>Modified_csi</strong> : Modified CSI (L^2/T) is an alternative measure in search of seizure detection.</li>
+<li><strong>mean_nni</strong>: The mean of RR-intervals.</li>
+<li><strong>sdnn</strong> : The standard deviation of the time interval between successive normal heart beats     (i.e. the RR-intervals).</li>
+<li><strong>sdsd</strong>: The standard deviation of differences between adjacent RR-intervals</li>
+<li><strong>rmssd</strong>: The square root of the mean of the sum of the squares of differences between     adjacent NN-intervals. Reflects high frequency (fast or parasympathetic) influences on hrV     (<em>i.e.</em>, those influencing larger changes from one beat to the next).</li>
+<li><strong>median_nni</strong>: Median Absolute values of the successive differences between the RR-intervals.</li>
+<li><strong>nni_50</strong>: Number of interval differences of successive RR-intervals greater than 50 ms.</li>
+<li><strong>pnni_50</strong>: The proportion derived by dividing nni_50 (The number of interval differences     of successive RR-intervals greater than 50 ms) by the total number of RR-intervals.</li>
+<li><strong>nni_20</strong>: Number of interval differences of successive RR-intervals greater than 20 ms.</li>
+<li><strong>pnni_20</strong>: The proportion derived by dividing nni_20 (The number of interval differences     of successive RR-intervals greater than 20 ms) by the total number of RR-intervals.</li>
+<li><strong>cvsd</strong>: The coefficient of variation of successive differences (van Dellen et al., 1985),     the rmssd divided by mean_nni.</li>
+<li><strong>range_nni</strong>: difference between the maximum and minimum nn_interval.</li>
+<li><strong>cvsd</strong>: Coefficient of variation of successive differences equal to the rmssd divided by     mean_nni.</li>
+<li><strong>cvnni</strong>: Coefficient of variation equal to the ratio of sdnn divided by mean_nni.</li>
+<li><strong>mean_hr</strong>: The mean Heart Rate.</li>
+<li><strong>max_hr</strong>: Max heart rate.</li>
+<li><strong>min_hr</strong>: Min heart rate.</li>
+<li><strong>std_hr</strong>: Standard deviation of heart rate.</li>
 </ul>
 <p class="rubric">References</p>
-<table class="docutils footnote" frame="void" id="id1" rules="none">
+<table class="docutils footnote" frame="void" id="id9" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[3]</td><td>Using Lorenz plot and Cardiac Sympathetic Index of heart rate variability for detecting     seizures for patients with epilepsy, Jesper Jeppesen et al, 2014</td></tr>
+<tr><td class="label">[1]</td><td>Heart rate variability - Standards of measurement, physiological interpretation, and     clinical use, Task Force of The European Society of Cardiology and The North American Society     of Pacing and Electrophysiology, 1996</td></tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="function">
-<dt id="hrvanalysis.extract_features.get_features_from_psd">
-<code class="descclassname">hrvanalysis.extract_features.</code><code class="descname">get_features_from_psd</code><span class="sig-paren">(</span><em>freq</em>, <em>psd</em>, <em>vlf_band=Vlf_band(low=0</em>, <em>high=0.04)</em>, <em>lf_band=Lf_band(low=0.04</em>, <em>high=0.15)</em>, <em>hf_band=Hf_band(low=0.15</em>, <em>high=0.4)</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.extract_features.get_features_from_psd" title="Permalink to this definition">¶</a></dt>
-<dd><p>Computes frequency domain features from the power spectral decomposition.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
+<table class="docutils footnote" frame="void" id="id10" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>freq</strong> (<em>array</em>) – Array of sample frequencies.</li>
-<li><strong>psd</strong> (<em>list</em>) – Power spectral density or power spectrum.</li>
-<li><strong>vlf_band</strong> (<em>tuple</em>) – Very low frequency bands for features extraction from power spectral density.</li>
-<li><strong>lf_band</strong> (<em>tuple</em>) – Low frequency bands for features extraction from power spectral density.</li>
-<li><strong>hf_band</strong> (<em>tuple</em>) – High frequency bands for features extraction from power spectral density.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>freqency_domain_features</strong> – Dictionary containing frequency domain features for HRV analyses. There are details
-about each features given below.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">dict</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="hrvanalysis.extract_features.get_freq_psd_from_nn_intervals">
-<code class="descclassname">hrvanalysis.extract_features.</code><code class="descname">get_freq_psd_from_nn_intervals</code><span class="sig-paren">(</span><em>nn_intervals</em>, <em>method='Welch'</em>, <em>sampling_frequency=7</em>, <em>interpolation_method='linear'</em>, <em>vlf_band=Vlf_band(low=0.0033</em>, <em>high=0.04)</em>, <em>hf_band=Hf_band(low=0.15</em>, <em>high=0.4)</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.extract_features.get_freq_psd_from_nn_intervals" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the frequency and power of the signal.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>nn_intervals</strong> (<em>list</em>) – list of Normal to Normal Interval</li>
-<li><strong>method</strong> (<em>str</em>) – Method used to calculate the psd. Choice are Welch’s FFT or Lomb method.</li>
-<li><strong>sampling_frequency</strong> (<em>int</em>) – Frequency at which the signal is sampled. Common value range from 1 Hz to 10 Hz,
-by default set to 7 Hz. No need to specify if Lomb method is used.</li>
-<li><strong>interpolation_method</strong> (<em>str</em>) – Kind of interpolation as a string, by default “linear”. No need to specify if Lomb
-method is used.</li>
-<li><strong>vlf_band</strong> (<em>tuple</em>) – Very low frequency bands for features extraction from power spectral density.</li>
-<li><strong>hf_band</strong> (<em>tuple</em>) – High frequency bands for features extraction from power spectral density.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
-<li><strong>freq</strong> (<em>list</em>) – Frequency of the corresponding psd points.</li>
-<li><strong>psd</strong> (<em>list</em>) – Power Spectral Density of the signal.</li>
-</ul>
-</p>
-</td>
-</tr>
+<tr><td class="label">[2]</td><td>Signal Processing Methods for Heart Rate Variability - Gari D. Clifford, 2002</td></tr>
 </tbody>
 </table>
 </dd></dl>
@@ -568,13 +533,13 @@ about each features below.</p>
 <li><strong>hfnu</strong> : normalized hf power</li>
 </ul>
 <p class="rubric">References</p>
-<table class="docutils footnote" frame="void" id="id2" rules="none">
+<table class="docutils footnote" frame="void" id="id11" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[1]</td><td>Heart rate variability - Standards of measurement, physiological interpretation, and     clinical use, Task Force of The European Society of Cardiology and The North American Society     of Pacing and Electrophysiology, 1996</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id3" rules="none">
+<table class="docutils footnote" frame="void" id="id12" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[2]</td><td>Signal Processing Methods for Heart Rate Variability - Gari D. Clifford, 2002</td></tr>
@@ -603,11 +568,11 @@ There are details about each features below.</td>
 <p class="rubric">Notes</p>
 <p>Details about feature engineering…</p>
 <ul class="simple">
-<li><strong>triangular_index</strong>: The HRV triangular index measurement is the integral of the density     distribution (= the number of all NN intervals) divided by the maximum of the density     distribution.</li>
-<li><strong>tinn</strong>: The triangular interpolation of NN interval histogram (TINN) is the baseline width      of the distribution measured as a base of a triangle, approximating the NN interval      distribution</li>
+<li><strong>triangular_index</strong>: The HRV triangular index measurement is the integral of the density     distribution (= the number of all NN-intervals) divided by the maximum of the density     distribution.</li>
+<li><strong>tinn</strong>: The triangular interpolation of NN-interval histogram (TINN) is the baseline width      of the distribution measured as a base of a triangle, approximating the NN-interval      distribution</li>
 </ul>
 <p class="rubric">References</p>
-<table class="docutils footnote" frame="void" id="id4" rules="none">
+<table class="docutils footnote" frame="void" id="id13" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[1]</td><td>Heart rate variability - Standards of measurement, physiological interpretation, and clinical     use, Task Force of The European Society of Cardiology and The North American Society of Pacing     and Electrophysiology, 1996</td></tr>
@@ -641,10 +606,44 @@ are details about each features are given below.</td>
 <li><strong>ratio_sd2_sd1</strong> : Ratio between SD2 and SD1.</li>
 </ul>
 <p class="rubric">References</p>
-<table class="docutils footnote" frame="void" id="id5" rules="none">
+<table class="docutils footnote" frame="void" id="id14" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[4]</td><td>Pre-ictal heart rate variability assessment of epileptic seizures by means of linear     and non- linear analyses, Soroor Behbahani, Nader Jafarnia Dabanloo et al - 2013</td></tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="hrvanalysis.extract_features.get_csi_cvi_features">
+<code class="descclassname">hrvanalysis.extract_features.</code><code class="descname">get_csi_cvi_features</code><span class="sig-paren">(</span><em>nn_intervals</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.extract_features.get_csi_cvi_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a dictionary containing 3 features from non linear domain for hrV analyses.
+Must use this function on short term recordings, for 30 , 50, 100 RR-intervals (or
+seconds) window.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>nn_intervals</strong> (<em>list</em>) – Normal to Normal Intervals.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>csi_cvi_features</strong> – Dictionary containing non linear domain features for hrV analyses. There are  details about
+each features are given below.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">dict</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><strong>csi</strong> : Cardiac Sympathetic Index.</li>
+<li><strong>cvi</strong> : Cadiac Vagal Index.</li>
+<li><strong>Modified_csi</strong> : Modified CSI (L^2/T) is an alternative measure in search of seizure detection.</li>
+</ul>
+<p class="rubric">References</p>
+<table class="docutils footnote" frame="void" id="id15" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[3]</td><td>Using Lorenz plot and Cardiac Sympathetic Index of heart rate variability for detecting     seizures for patients with epilepsy, Jesper Jeppesen et al, 2014</td></tr>
 </tbody>
 </table>
 </dd></dl>
@@ -667,7 +666,7 @@ Must use this function on short term recordings, from 1 minute window.</p>
 </tbody>
 </table>
 <p class="rubric">References</p>
-<table class="docutils footnote" frame="void" id="id6" rules="none">
+<table class="docutils footnote" frame="void" id="id16" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[5]</td><td>Physiological time-series analysis using approximate entropy and sample entropy,     JOSHUA S. RICHMAN1, J. RANDALL MOORMAN - 2000</td></tr>
@@ -675,64 +674,9 @@ Must use this function on short term recordings, from 1 minute window.</p>
 </table>
 </dd></dl>
 
-<dl class="function">
-<dt id="hrvanalysis.extract_features.get_time_domain_features">
-<code class="descclassname">hrvanalysis.extract_features.</code><code class="descname">get_time_domain_features</code><span class="sig-paren">(</span><em>nn_intervals</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.extract_features.get_time_domain_features" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a dictionary containing time domain features for HRV analysis.
-Mostly used on long term recordings (24h) but some studies use some of those features on
-short term recordings, from 2 to 5 minutes window.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>nn_intervals</strong> (<em>list</em>) – list of Normal to Normal Interval</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>time_domain_features</strong> – dictionary containing time domain features for HRV analyses. There are details
-about each features below.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">dict</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Notes</p>
-<p>Here are some details about feature engineering…</p>
-<ul class="simple">
-<li><strong>mean_nni</strong>: The mean of RR intervals.</li>
-<li><strong>sdnn</strong> : The standard deviation of the time interval between successive normal heart beats     (i.e. the RR intervals).</li>
-<li><strong>sdsd</strong>: The standard deviation of differences between adjacent RR intervals</li>
-<li><strong>rmssd</strong>: The square root of the mean of the sum of the squares of differences between     adjacent NN intervals. Reflects high frequency (fast or parasympathetic) influences on hrV     (<em>i.e.</em>, those influencing larger changes from one beat to the next).</li>
-<li><strong>median_nni</strong>: Median Absolute values of the successive differences between the RR intervals.</li>
-<li><strong>nni_50</strong>: Number of interval differences of successive RR intervals greater than 50 ms.</li>
-<li><strong>pnni_50</strong>: The proportion derived by dividing nni_50 (The number of interval differences     of successive RR intervals greater than 50 ms) by the total number of RR intervals.</li>
-<li><strong>nni_20</strong>: Number of interval differences of successive RR intervals greater than 20 ms.</li>
-<li><strong>pnni_20</strong>: The proportion derived by dividing nni_20 (The number of interval differences     of successive RR intervals greater than 20 ms) by the total number of RR intervals.</li>
-<li><strong>cvsd</strong>: The coefficient of variation of successive differences (van Dellen et al., 1985),     the rmssd divided by mean_nni.</li>
-<li><strong>range_nni</strong>: difference between the maximum and minimum nn_interval.</li>
-<li><strong>cvsd</strong>: Coefficient of variation of successive differences equal to the rmssd divided by     mean_nni.</li>
-<li><strong>cvnni</strong>: Coefficient of variation equal to the ratio of sdnn divided by mean_nni.</li>
-<li><strong>mean_hr</strong>: The mean Heart Rate.</li>
-<li><strong>max_hr</strong>: Max heart rate.</li>
-<li><strong>min_hr</strong>: Min heart rate.</li>
-<li><strong>std_hr</strong>: Standard deviation of heart rate.</li>
-</ul>
-<p class="rubric">References</p>
-<table class="docutils footnote" frame="void" id="id7" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label">[1]</td><td>Heart rate variability - Standards of measurement, physiological interpretation, and     clinical use, Task Force of The European Society of Cardiology and The North American Society     of Pacing and Electrophysiology, 1996</td></tr>
-</tbody>
-</table>
-<table class="docutils footnote" frame="void" id="id8" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label">[2]</td><td>Signal Processing Methods for Heart Rate Variability - Gari D. Clifford, 2002</td></tr>
-</tbody>
-</table>
-</dd></dl>
-
 </div>
 <div class="section" id="module-hrvanalysis.plot">
-<span id="plot-methods"></span><h2>plot methods<a class="headerlink" href="#module-hrvanalysis.plot" title="Permalink to this headline">¶</a></h2>
+<span id="plot-methods"></span><h2>Plot methods<a class="headerlink" href="#module-hrvanalysis.plot" title="Permalink to this headline">¶</a></h2>
 <p>This script provides methods to plot RR / NN Intervals list.</p>
 <dl class="function">
 <dt id="hrvanalysis.plot.plot_distrib">
@@ -817,7 +761,7 @@ used.</li>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="references.html" class="btn btn-neutral float-right" title="References" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="tutorial.html" class="btn btn-neutral float-right" title="Tutorial - Python examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="readme.html" class="btn btn-neutral" title="Getting started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
