@@ -7,9 +7,9 @@ install:
     - pip install -r requirements.txt
 script:
   - export PYTHONPATH=$PYTHONPATH:$(pwd)
-  - python tests/tests_clean_outliers_methods.py
-  - python tests/tests_extract_features.py
-  - coverage run tests/tests_clean_outliers_methods.py
-  - coverage run tests/tests_extract_features.py
+  - python tests/tests_preprocessing_methods.py
+  - python tests/tests_extract_features_methods.py
+  - coverage run tests/tests_preprocessing_methods.py
+  - coverage run tests/tests_extract_features_methods.py
 after_success:
-  - codecov -f hrvanalysis/extract_features.py hrvanalysis/clean_outliers.py
+  - codecov -f hrvanalysis/extract_features.py hrvanalysis/preprocessing.py
