@@ -117,7 +117,7 @@ plot_psd(nn_intervals, method="Welch")
 plot_distrib(nn_intervals)
 ```
 
-![alt text](https://github.com/robinchampseix/hrvanalysis/blob/master/figures/lomb_density_plot.png)
+![Plot distrib image](lomb_density_plot.png)
 
 You can find how to use the following methods, references and more details in the Tutorial part (*https://robinchampseix.github.io/hrvanalysis/tutorial.html*):
 - plot_distrib
