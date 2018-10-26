@@ -101,6 +101,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="hrvanalysis.html">API documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial - Python examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="unittests.html">Hrv-analysis Unittests¶</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contribute.html">Contribute</a></li>
@@ -178,6 +179,7 @@
 <a class="reference external" href="https://www.gnu.org/licenses/gpl-3.0"><img alt="License: GPL v3" src="https://img.shields.io/badge/License-GPL%20v3-blue.svg" /></a></p>
 <p><strong>hrvanalysis</strong> is a Python module for Heart Rate Variability analysis of RR-intervals built on top of SciPy, AstroPy, Nolds and NumPy and distributed under the GPLv3 license.</p>
 <p>The development of this library started in July 2018 as part of Aura Healthcare project and is currently maintained by Robin Champseix.</p>
+<p><img alt="Plot image" src="_images/timeserie_distrib_plot.png" /></p>
 </div>
 <div class="section" id="installation-prerequisites">
 <span id="installation-prerequisites"></span><h2>Installation / Prerequisites<a class="headerlink" href="#installation-prerequisites" title="Permalink to this headline">¶</a></h2>
@@ -210,7 +212,7 @@ $ python setup.py install
 <span id="quick-examples"></span><h2>Quick examples<a class="headerlink" href="#quick-examples" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="outliers-and-ectopic-beats-filtering-methods">
 <span id="outliers-and-ectopic-beats-filtering-methods"></span><h3>Outliers and ectopic beats filtering methods<a class="headerlink" href="#outliers-and-ectopic-beats-filtering-methods" title="Permalink to this headline">¶</a></h3>
-<p>These package provides methods to remove outliers and ectopic beats from signal for further analysis. Those methods are useful to get Normal to Normal Interval (NN interval) from Rr Interval.
+<p>This package provides methods to remove outliers and ectopic beats from signal for further analysis. Those methods are useful to get Normal to Normal Interval (NN interval) from Rr Interval.
 Please use this methods carefully as they might have a huge impact on features calculation.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hrvanalysis.clean_outliers</span> <span class="kn">import</span> <span class="n">clean_outlier</span><span class="p">,</span> <span class="n">clean_ectopic_beats</span>
 
@@ -220,7 +222,7 @@ Please use this methods carefully as they might have a huge impact on features c
 <span class="n">nn_interval</span> <span class="o">=</span> <span class="n">clean_ectopic_beats</span><span class="p">(</span><span class="n">rr_intervals</span><span class="o">=</span><span class="n">cleaned_rr_intervals</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;Malik&quot;</span><span class="p">)</span> <span class="c1"># This remove ectopic beats from signal</span>
 </pre></div>
 </div>
-<p>You can find how to use methods, references and details in the documentation of each function:</p>
+<p>You can find how to use the following methods, references and more details in the Tutorial part (<em>https://robinchampseix.github.io/hrvanalysis/tutorial.html</em>):</p>
 <ul class="simple">
 <li>clean_outlier</li>
 <li>clean_ectopic_beats</li>
@@ -262,7 +264,7 @@ Please use this methods carefully as they might have a huge impact on features c
  <span class="s1">&#39;std_hr&#39;</span><span class="p">:</span> <span class="mf">5.196</span><span class="p">}</span>
 </pre></div>
 </div>
-<p>You can find how to use methods, references and details about each feature in the documentation of each function:</p>
+<p>You can find how to use the following methods, references and more details in the Tutorial part (<em>https://robinchampseix.github.io/hrvanalysis/tutorial.html</em>):</p>
 <ul class="simple">
 <li>get_time_domain_features</li>
 <li>get_geometrical_features</li>
@@ -283,7 +285,7 @@ Please use this methods carefully as they might have a huge impact on features c
 </pre></div>
 </div>
 <p><img alt="alt text" src="https://github.com/robinchampseix/hrvanalysis/blob/master/figures/lomb_density_plot.png" /></p>
-<p>You can find how to use methods and details in the documentation of each function:</p>
+<p>You can find how to use the following methods, references and more details in the Tutorial part (<em>https://robinchampseix.github.io/hrvanalysis/tutorial.html</em>):</p>
 <ul class="simple">
 <li>plot_distrib</li>
 <li>plot_timeseries</li>

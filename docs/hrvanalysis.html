@@ -87,11 +87,12 @@
 <li class="toctree-l1"><a class="reference internal" href="readme.html">Getting started</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-hrvanalysis.preprocessing">Preprocessing methods</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#features-extraction-methods">Features extraction methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-hrvanalysis.extract_features">Features extraction methods</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-hrvanalysis.plot">Plot methods</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial - Python examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="unittests.html">Hrv-analysis Unittests¶</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contribute.html">Contribute</a></li>
@@ -161,28 +162,32 @@
             
   <div class="section" id="api-documentation">
 <h1>API documentation<a class="headerlink" href="#api-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Hrv-analysis consists of a single module which contains all relevant functions and algorithms.</p>
+<p>Internally these functions are subdivided into 3 different modules :
+- preprocessing
+- extract_features
+- plot</p>
+<p>You should not need to import these modules directly unless you want access to some internal helper functions.</p>
 <div class="section" id="module-hrvanalysis.preprocessing">
 <span id="preprocessing-methods"></span><h2>Preprocessing methods<a class="headerlink" href="#module-hrvanalysis.preprocessing" title="Permalink to this headline">¶</a></h2>
 <p>This script provides several methods to clean abnormal and ectopic RR-intervals.</p>
 <dl class="function">
-<dt id="hrvanalysis.preprocessing.get_nn_intervals">
-<code class="descclassname">hrvanalysis.preprocessing.</code><code class="descname">get_nn_intervals</code><span class="sig-paren">(</span><em>rr_intervals</em>, <em>low_rri=300</em>, <em>high_rri=2000</em>, <em>interpolation_method='linear'</em>, <em>ectopic_beats_removal_method='kamath'</em>, <em>verbose=True</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.preprocessing.get_nn_intervals" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function that computes NN Intervals from RR-intervals.</p>
+<dt id="hrvanalysis.preprocessing.remove_outlier">
+<code class="descclassname">hrvanalysis.preprocessing.</code><code class="descname">remove_outlier</code><span class="sig-paren">(</span><em>rr_intervals</em>, <em>verbose=True</em>, <em>low_rri=300</em>, <em>high_rri=2000</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.preprocessing.remove_outlier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that replace RR-interval outlier by nan</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>rr_intervals</strong> (<em>list</em>) – RrIntervals list.</li>
-<li><strong>interpolation_method</strong> (<em>str</em>) – Method used to interpolate Nan values of series.</li>
-<li><strong>ectopic_beats_removal_method</strong> (<em>str</em>) – method to use to clean outlier. malik, kamath, karlsson, acar or custom.</li>
+<li><strong>rr_intervals</strong> (<em>list</em>) – raw signal extracted.</li>
 <li><strong>low_rri</strong> (<em>int</em>) – lowest RrInterval to be considered plausible.</li>
 <li><strong>high_rri</strong> (<em>int</em>) – highest RrInterval to be considered plausible.</li>
 <li><strong>verbose</strong> (<em>bool</em>) – Print information about deleted outliers.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>interpolated_nn_intervals</strong> – list of NN Interval interpolated</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>rr_intervals_cleaned</strong> – list of RR-intervals without outliers</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list</p>
@@ -190,80 +195,41 @@
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="function">
-<dt id="hrvanalysis.preprocessing.interpolate_nan_values">
-<code class="descclassname">hrvanalysis.preprocessing.</code><code class="descname">interpolate_nan_values</code><span class="sig-paren">(</span><em>rr_intervals</em>, <em>interpolation_method='linear'</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.preprocessing.interpolate_nan_values" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function that interpolate Nan values with linear interpolation</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
+<p class="rubric">References</p>
+<table class="docutils footnote" frame="void" id="id1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>rr_intervals</strong> (<em>list</em>) – RrIntervals list.</li>
-<li><strong>interpolation_method</strong> (<em>str</em>) – Method used to interpolate Nan values of series.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>interpolated_rr_intervals</strong> – new list with outliers replaced by interpolated values.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list</p>
-</td>
-</tr>
+<tr><td class="label">[1]</td><td>[16] O. Inbar, A. Oten, M. Scheinowitz, A. Rotstein, R. Dlin, R.Casaburi. Normal     cardiopulmonary responses during incremental exercise in 20-70-yr-old men.</td></tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="function">
-<dt id="hrvanalysis.preprocessing.is_outlier">
-<code class="descclassname">hrvanalysis.preprocessing.</code><code class="descname">is_outlier</code><span class="sig-paren">(</span><em>rr_interval</em>, <em>next_rr_interval</em>, <em>method='malik'</em>, <em>custom_rule=None</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.preprocessing.is_outlier" title="Permalink to this definition">¶</a></dt>
-<dd><p>Test if the rr_interval is an outlier</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>rr_interval</strong> (<em>int</em>) – RrInterval</li>
-<li><strong>next_rr_interval</strong> (<em>int</em>) – consecutive RrInterval</li>
-<li><strong>method</strong> (<em>str</em>) – method to use to clean outlier. malik, kamath, karlsson, acar or custom</li>
-<li><strong>custom_rule</strong> (<em>int</em>) – percentage criteria of difference with previous RR-interval at which we consider
-that it is abnormal</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>outlier</strong> – True if RrInterval is valid, False if not</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bool</p>
-</td>
-</tr>
+<tr><td class="label">[2]</td><td><ol class="first last upperalpha simple" start="23">
+<li><ol class="first upperalpha" start="3">
+<li>Miller, J. P. Wallace, K. E. Eggert. Predicting max HR and the HR-VO2 relationship     for exercise prescription in obesity.</li>
+</ol>
+</li>
+</ol>
+</td></tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="function">
-<dt id="hrvanalysis.preprocessing.is_valid_sample">
-<code class="descclassname">hrvanalysis.preprocessing.</code><code class="descname">is_valid_sample</code><span class="sig-paren">(</span><em>nn_intervals</em>, <em>outlier_count</em>, <em>removing_rule=0.04</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.preprocessing.is_valid_sample" title="Permalink to this definition">¶</a></dt>
-<dd><p>Test if the sample meet the condition to be used for analysis</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
+<table class="docutils footnote" frame="void" id="id3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>nn_intervals</strong> (<em>list</em>) – list of Normal to Normal Interval</li>
-<li><strong>outlier_count</strong> (<em>int</em>) – count of outliers or ectopic beats removed from the interval</li>
-<li><strong>removing_rule</strong> (<em>str</em>) – rule to follow to determine whether the sample is valid or not</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">True if sample is valid, False if not</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bool</p>
-</td>
-</tr>
+<tr><td class="label">[3]</td><td><ol class="first last upperalpha simple" start="8">
+<li>Tanaka, K. D. Monahan, D. R. Seals. Age-predictedmaximal heart rate revisited.</li>
+</ol>
+</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[4]</td><td><ol class="first last upperalpha simple" start="13">
+<li>Gulati, L. J. Shaw, R. A. Thisted, H. R. Black, C. N. B.Merz, M. F. Arnsdorf. Heart     rate response to exercise stress testing in asymptomatic women.</li>
+</ol>
+</td></tr>
 </tbody>
 </table>
 </dd></dl>
@@ -294,13 +260,13 @@ that it is abnormal.</li>
 </tbody>
 </table>
 <p class="rubric">References</p>
-<table class="docutils footnote" frame="void" id="id1" rules="none">
+<table class="docutils footnote" frame="void" id="id5" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[5]</td><td>Kamath M.V., Fallen E.L.: Correction of the Heart Rate Variability Signal for Ectopics     and Miss- ing Beats, In: Malik M., Camm A.J.</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id2" rules="none">
+<table class="docutils footnote" frame="void" id="id6" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[6]</td><td>Geometric Methods for Heart Rate Variability Assessment - Malik M et al</td></tr>
@@ -309,131 +275,61 @@ that it is abnormal.</li>
 </dd></dl>
 
 <dl class="function">
-<dt id="hrvanalysis.preprocessing.remove_outlier">
-<code class="descclassname">hrvanalysis.preprocessing.</code><code class="descname">remove_outlier</code><span class="sig-paren">(</span><em>rr_intervals</em>, <em>verbose=True</em>, <em>low_rri=300</em>, <em>high_rri=2000</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.preprocessing.remove_outlier" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function that replace RR-interval outlier by nan</p>
+<dt id="hrvanalysis.preprocessing.interpolate_nan_values">
+<code class="descclassname">hrvanalysis.preprocessing.</code><code class="descname">interpolate_nan_values</code><span class="sig-paren">(</span><em>rr_intervals</em>, <em>interpolation_method='linear'</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.preprocessing.interpolate_nan_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that interpolate Nan values with linear interpolation</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>rr_intervals</strong> (<em>list</em>) – raw signal extracted.</li>
+<li><strong>rr_intervals</strong> (<em>list</em>) – RrIntervals list.</li>
+<li><strong>interpolation_method</strong> (<em>str</em>) – Method used to interpolate Nan values of series.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>interpolated_rr_intervals</strong> – new list with outliers replaced by interpolated values.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="hrvanalysis.preprocessing.get_nn_intervals">
+<code class="descclassname">hrvanalysis.preprocessing.</code><code class="descname">get_nn_intervals</code><span class="sig-paren">(</span><em>rr_intervals</em>, <em>low_rri=300</em>, <em>high_rri=2000</em>, <em>interpolation_method='linear'</em>, <em>ectopic_beats_removal_method='kamath'</em>, <em>verbose=True</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.preprocessing.get_nn_intervals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that computes NN Intervals from RR-intervals.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>rr_intervals</strong> (<em>list</em>) – RrIntervals list.</li>
+<li><strong>interpolation_method</strong> (<em>str</em>) – Method used to interpolate Nan values of series.</li>
+<li><strong>ectopic_beats_removal_method</strong> (<em>str</em>) – method to use to clean outlier. malik, kamath, karlsson, acar or custom.</li>
 <li><strong>low_rri</strong> (<em>int</em>) – lowest RrInterval to be considered plausible.</li>
 <li><strong>high_rri</strong> (<em>int</em>) – highest RrInterval to be considered plausible.</li>
 <li><strong>verbose</strong> (<em>bool</em>) – Print information about deleted outliers.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>rr_intervals_cleaned</strong> – list of RR-intervals without outliers</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>interpolated_nn_intervals</strong> – list of NN Interval interpolated</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list</p>
 </td>
 </tr>
-</tbody>
-</table>
-<p class="rubric">References</p>
-<table class="docutils footnote" frame="void" id="id3" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label">[1]</td><td>[16] O. Inbar, A. Oten, M. Scheinowitz, A. Rotstein, R. Dlin, R.Casaburi. Normal     cardiopulmonary responses during incremental exercise in 20-70-yr-old men.</td></tr>
-</tbody>
-</table>
-<table class="docutils footnote" frame="void" id="id4" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label">[2]</td><td><ol class="first last upperalpha simple" start="23">
-<li><ol class="first upperalpha" start="3">
-<li>Miller, J. P. Wallace, K. E. Eggert. Predicting max HR and the HR-VO2 relationship     for exercise prescription in obesity.</li>
-</ol>
-</li>
-</ol>
-</td></tr>
-</tbody>
-</table>
-<table class="docutils footnote" frame="void" id="id5" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label">[3]</td><td><ol class="first last upperalpha simple" start="8">
-<li>Tanaka, K. D. Monahan, D. R. Seals. Age-predictedmaximal heart rate revisited.</li>
-</ol>
-</td></tr>
-</tbody>
-</table>
-<table class="docutils footnote" frame="void" id="id6" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label">[4]</td><td><ol class="first last upperalpha simple" start="13">
-<li>Gulati, L. J. Shaw, R. A. Thisted, H. R. Black, C. N. B.Merz, M. F. Arnsdorf. Heart     rate response to exercise stress testing in asymptomatic women.</li>
-</ol>
-</td></tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="hrvanalysis.preprocessing.remove_outlier_acar">
-<code class="descclassname">hrvanalysis.preprocessing.</code><code class="descname">remove_outlier_acar</code><span class="sig-paren">(</span><em>rr_intervals</em>, <em>custom_rule=0.2</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.preprocessing.remove_outlier_acar" title="Permalink to this definition">¶</a></dt>
-<dd><p>RR-intervals differing by more than the 20 % of the mean of last 9 RrIntervals
-are removed.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>rr_intervals</strong> (<em>list</em>) – list of RR-intervals</li>
-<li><strong>custom_rule</strong> (<em>int</em>) – percentage criteria of difference with mean of  9 previous RR-intervals at
-which we consider that RR-interval is abnormal. By default, set to 20 %</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>nn_intervals</strong> – list of NN Interval</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list</p>
-</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">References</p>
-<table class="docutils footnote" frame="void" id="id7" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label">[8]</td><td>Automatic ectopic beat elimination in short-term heart rate variability measurements     Acar B., Irina S., Hemingway H., Malik M.:</td></tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="hrvanalysis.preprocessing.remove_outlier_karlsson">
-<code class="descclassname">hrvanalysis.preprocessing.</code><code class="descname">remove_outlier_karlsson</code><span class="sig-paren">(</span><em>rr_intervals</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.preprocessing.remove_outlier_karlsson" title="Permalink to this definition">¶</a></dt>
-<dd><p>RR-intervals differing by more than the 20 % of the mean of previous and next RR-interval
-are removed.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rr_intervals</strong> (<em>list</em>) – list of RR-intervals</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>nn_intervals</strong> – list of NN Interval</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">References</p>
-<table class="docutils footnote" frame="void" id="id8" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label">[7]</td><td>Automatic filtering of outliers in RR-intervals before analysis of heart rate     variability in Holter recordings: a comparison with carefully edited data - Marcus Karlsson,     Rolf Hörnsten, Annika Rydberg and Urban Wiklund</td></tr>
 </tbody>
 </table>
 </dd></dl>
 
 </div>
-<div class="section" id="features-extraction-methods">
-<h2>Features extraction methods<a class="headerlink" href="#features-extraction-methods" title="Permalink to this headline">¶</a></h2>
-<span class="target" id="module-hrvanalysis.extract_features"></span><p>This script provides methods to extract features from Normal to Normal Intervals
+<div class="section" id="module-hrvanalysis.extract_features">
+<span id="features-extraction-methods"></span><h2>Features extraction methods<a class="headerlink" href="#module-hrvanalysis.extract_features" title="Permalink to this headline">¶</a></h2>
+<p>This script provides several methods to extract features from Normal to Normal Intervals
 for heart rate variability analysis.</p>
 <dl class="function">
 <dt id="hrvanalysis.extract_features.get_time_domain_features">
@@ -476,13 +372,13 @@ about each features below.</td>
 <li><strong>std_hr</strong>: Standard deviation of heart rate.</li>
 </ul>
 <p class="rubric">References</p>
-<table class="docutils footnote" frame="void" id="id9" rules="none">
+<table class="docutils footnote" frame="void" id="id7" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[1]</td><td>Heart rate variability - Standards of measurement, physiological interpretation, and     clinical use, Task Force of The European Society of Cardiology and The North American Society     of Pacing and Electrophysiology, 1996</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id10" rules="none">
+<table class="docutils footnote" frame="void" id="id8" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[2]</td><td>Signal Processing Methods for Heart Rate Variability - Gari D. Clifford, 2002</td></tr>
@@ -533,13 +429,13 @@ about each features below.</p>
 <li><strong>hfnu</strong> : normalized hf power</li>
 </ul>
 <p class="rubric">References</p>
-<table class="docutils footnote" frame="void" id="id11" rules="none">
+<table class="docutils footnote" frame="void" id="id9" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[1]</td><td>Heart rate variability - Standards of measurement, physiological interpretation, and     clinical use, Task Force of The European Society of Cardiology and The North American Society     of Pacing and Electrophysiology, 1996</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id12" rules="none">
+<table class="docutils footnote" frame="void" id="id10" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[2]</td><td>Signal Processing Methods for Heart Rate Variability - Gari D. Clifford, 2002</td></tr>
@@ -572,7 +468,7 @@ There are details about each features below.</td>
 <li><strong>tinn</strong>: The triangular interpolation of NN-interval histogram (TINN) is the baseline width      of the distribution measured as a base of a triangle, approximating the NN-interval      distribution</li>
 </ul>
 <p class="rubric">References</p>
-<table class="docutils footnote" frame="void" id="id13" rules="none">
+<table class="docutils footnote" frame="void" id="id11" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[1]</td><td>Heart rate variability - Standards of measurement, physiological interpretation, and clinical     use, Task Force of The European Society of Cardiology and The North American Society of Pacing     and Electrophysiology, 1996</td></tr>
@@ -606,7 +502,7 @@ are details about each features are given below.</td>
 <li><strong>ratio_sd2_sd1</strong> : Ratio between SD2 and SD1.</li>
 </ul>
 <p class="rubric">References</p>
-<table class="docutils footnote" frame="void" id="id14" rules="none">
+<table class="docutils footnote" frame="void" id="id12" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[4]</td><td>Pre-ictal heart rate variability assessment of epileptic seizures by means of linear     and non- linear analyses, Soroor Behbahani, Nader Jafarnia Dabanloo et al - 2013</td></tr>
@@ -640,7 +536,7 @@ each features are given below.</td>
 <li><strong>Modified_csi</strong> : Modified CSI (L^2/T) is an alternative measure in search of seizure detection.</li>
 </ul>
 <p class="rubric">References</p>
-<table class="docutils footnote" frame="void" id="id15" rules="none">
+<table class="docutils footnote" frame="void" id="id13" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[3]</td><td>Using Lorenz plot and Cardiac Sympathetic Index of heart rate variability for detecting     seizures for patients with epilepsy, Jesper Jeppesen et al, 2014</td></tr>
@@ -666,7 +562,7 @@ Must use this function on short term recordings, from 1 minute window.</p>
 </tbody>
 </table>
 <p class="rubric">References</p>
-<table class="docutils footnote" frame="void" id="id16" rules="none">
+<table class="docutils footnote" frame="void" id="id14" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[5]</td><td>Physiological time-series analysis using approximate entropy and sample entropy,     JOSHUA S. RICHMAN1, J. RANDALL MOORMAN - 2000</td></tr>
@@ -677,7 +573,7 @@ Must use this function on short term recordings, from 1 minute window.</p>
 </div>
 <div class="section" id="module-hrvanalysis.plot">
 <span id="plot-methods"></span><h2>Plot methods<a class="headerlink" href="#module-hrvanalysis.plot" title="Permalink to this headline">¶</a></h2>
-<p>This script provides methods to plot RR / NN Intervals list.</p>
+<p>This script provides several methods to plot RR / NN Intervals.</p>
 <dl class="function">
 <dt id="hrvanalysis.plot.plot_distrib">
 <code class="descclassname">hrvanalysis.plot.</code><code class="descname">plot_distrib</code><span class="sig-paren">(</span><em>nn_intervals</em>, <em>bin_length=8</em><span class="sig-paren">)</span><a class="headerlink" href="#hrvanalysis.plot.plot_distrib" title="Permalink to this definition">¶</a></dt>

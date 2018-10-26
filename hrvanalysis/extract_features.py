@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""This script provides methods to extract features from Normal to Normal Intervals
+"""This script provides several methods to extract features from Normal to Normal Intervals
  for heart rate variability analysis."""
 
 from collections import namedtuple

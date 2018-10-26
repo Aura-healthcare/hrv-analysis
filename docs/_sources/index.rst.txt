@@ -21,6 +21,7 @@ The package was built on top of SciPy, AstroPy, Nolds and NumPy and distributed 
     readme
     hrvanalysis
     tutorial
+    unittests
     license
     references
     contribute

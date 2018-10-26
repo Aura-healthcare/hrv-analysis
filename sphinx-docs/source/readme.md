@@ -11,6 +11,7 @@
 
 The development of this library started in July 2018 as part of Aura Healthcare project and is currently maintained by Robin Champseix.
 
+![Plot image](timeserie_distrib_plot.png)
 
 ## Installation / Prerequisites
 
@@ -41,7 +42,7 @@ you can also clone the repository:
 
 ### Outliers and ectopic beats filtering methods
 
-These package provides methods to remove outliers and ectopic beats from signal for further analysis. Those methods are useful to get Normal to Normal Interval (NN interval) from Rr Interval.
+This package provides methods to remove outliers and ectopic beats from signal for further analysis. Those methods are useful to get Normal to Normal Interval (NN interval) from Rr Interval.
 Please use this methods carefully as they might have a huge impact on features calculation.
 
 ```python
@@ -53,7 +54,7 @@ cleaned_rr_intervals = clean_outlier(rr_intervals=rr_intervals,  low_rri=300, hi
 nn_interval = clean_ectopic_beats(rr_intervals=cleaned_rr_intervals, method="Malik") # This remove ectopic beats from signal
 ```
 
-You can find how to use methods, references and details in the documentation of each function:
+You can find how to use the following methods, references and more details in the Tutorial part (*https://robinchampseix.github.io/hrvanalysis/tutorial.html*):
 - clean_outlier
 - clean_ectopic_beats
 
@@ -96,7 +97,7 @@ time_domain_features = get_time_domain_features(nn_intervals)
  'std_hr': 5.196}
 ```
 
-You can find how to use methods, references and details about each feature in the documentation of each function:
+You can find how to use the following methods, references and more details in the Tutorial part (*https://robinchampseix.github.io/hrvanalysis/tutorial.html*):
 - get_time_domain_features
 - get_geometrical_features
 - get_frequency_domain_features
@@ -118,7 +119,7 @@ plot_distrib(nn_intervals)
 
 ![alt text](https://github.com/robinchampseix/hrvanalysis/blob/master/figures/lomb_density_plot.png)
 
-You can find how to use methods and details in the documentation of each function:
+You can find how to use the following methods, references and more details in the Tutorial part (*https://robinchampseix.github.io/hrvanalysis/tutorial.html*):
 - plot_distrib
 - plot_timeseries
 - plot_psd

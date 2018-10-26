@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""This script provides methods to plot RR / NN Intervals list."""
+"""This script provides several methods to plot RR / NN Intervals."""
 
 import matplotlib.pyplot as plt
 from matplotlib import style

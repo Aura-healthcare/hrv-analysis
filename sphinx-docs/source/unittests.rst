@@ -1,7 +1,7 @@
-hrv-analysis Unittests¶
+Hrv-analysis Unittests¶
 =======================
 
-hrv-analysis includes a set of unittests that can be run for each module of the package as follow:
+Hrv-analysis includes a set of unittests that can be run for each module of the package as follow:
 
     $ python -m unittest tests/tests_extract_features_methods.py
 
