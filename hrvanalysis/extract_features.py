@@ -27,7 +27,7 @@ HfBand = namedtuple("Hf_band", ["low", "high"])
 # ----------------- TIME DOMAIN FEATURES ----------------- #
 
 
-def get_time_domain_features(nn_intervals):
+def get_time_domain_features(nn_intervals: list) -> dict:
     """
     Returns a dictionary containing time domain features for HRV analysis.
     Mostly used on long term recordings (24h) but some studies use some of those features on
@@ -71,9 +71,6 @@ def get_time_domain_features(nn_intervals):
     - **pnni_20**: The proportion derived by dividing nni_20 (The number of interval differences \
     of successive RR-intervals greater than 20 ms) by the total number of RR-intervals.
 
-    - **cvsd**: The coefficient of variation of successive differences (van Dellen et al., 1985), \
-    the rmssd divided by mean_nni.
-
     - **range_nni**: difference between the maximum and minimum nn_interval.
 
     - **cvsd**: Coefficient of variation of successive differences equal to the rmssd divided by \
@@ -94,27 +91,25 @@ def get_time_domain_features(nn_intervals):
     .. [1] Heart rate variability - Standards of measurement, physiological interpretation, and \
     clinical use, Task Force of The European Society of Cardiology and The North American Society \
     of Pacing and Electrophysiology, 1996
-
-    .. [2] Signal Processing Methods for Heart Rate Variability - Gari D. Clifford, 2002
-
     """
 
     diff_nni = np.diff(nn_intervals)
     length_int = len(nn_intervals)
 
+    # Basic statistics
     mean_nni = np.mean(nn_intervals)
+    median_nni = np.median(nn_intervals)
+    range_nni = max(nn_intervals) - min(nn_intervals)
+
     sdsd = np.std(diff_nni)
     rmssd = np.sqrt(np.mean(diff_nni ** 2))
-    median_nni = np.median(nn_intervals)
 
     nni_50 = sum(np.abs(diff_nni) > 50)
     pnni_50 = 100 * nni_50 / length_int
     nni_20 = sum(np.abs(diff_nni) > 20)
     pnni_20 = 100 * nni_20 / length_int
 
-    range_nni = max(nn_intervals) - min(nn_intervals)
-
-    # Feature found on github et non in documentation
+    # Feature found on github and not in documentation
     cvsd = rmssd / mean_nni
 
     # Features only for long term recordings
@@ -150,7 +145,7 @@ def get_time_domain_features(nn_intervals):
     return time_domain_features
 
 
-def get_geometrical_features(nn_intervals):
+def get_geometrical_features(nn_intervals: list) -> dict:
     """
     Returns a dictionary containing geometrical time domain features for HRV analyses.
     Must use this function on recordings from 20 minutes to 24 Hours window.
@@ -180,9 +175,9 @@ def get_geometrical_features(nn_intervals):
 
     References
     ----------
-    .. [1] Heart rate variability - Standards of measurement, physiological interpretation, and clinical \
-    use, Task Force of The European Society of Cardiology and The North American Society of Pacing \
-    and Electrophysiology, 1996
+    .. [1] Heart rate variability - Standards of measurement, physiological interpretation, and \
+    clinical use, Task Force of The European Society of Cardiology and The North American Society \
+    of Pacing and Electrophysiology, 1996
 
     """
 
@@ -201,9 +196,11 @@ def get_geometrical_features(nn_intervals):
 # ----------------- FREQUENCY DOMAIN FEATURES ----------------- #
 
 
-def get_frequency_domain_features(nn_intervals, method=WELCH_METHOD, sampling_frequency=7,
-                                  interpolation_method="linear", vlf_band=VlfBand(0.0033, 0.04),
-                                  lf_band=LfBand(0.04, 0.15), hf_band=HfBand(0.15, 0.40)):
+def get_frequency_domain_features(nn_intervals: list, method: str = WELCH_METHOD,
+                                  sampling_frequency: int = 7, interpolation_method: str = "linear",
+                                  vlf_band: namedtuple = VlfBand(0.0033, 0.04),
+                                  lf_band: namedtuple = LfBand(0.04, 0.15),
+                                  hf_band: namedtuple = HfBand(0.15, 0.40)) -> dict:
     """
     Returns a dictionary containing frequency domain features for HRV analyses.
     Must use this function on short term recordings, from 2 to 5 minutes window.
@@ -285,9 +282,11 @@ def get_frequency_domain_features(nn_intervals, method=WELCH_METHOD, sampling_fr
     return freqency_domain_features
 
 
-def get_freq_psd_from_nn_intervals(nn_intervals, method=WELCH_METHOD, sampling_frequency=7,
-                                   interpolation_method="linear", vlf_band=VlfBand(0.0033, 0.04),
-                                   hf_band=HfBand(0.15, 0.40)):
+def get_freq_psd_from_nn_intervals(nn_intervals: list, method: str = WELCH_METHOD,
+                                   sampling_frequency: int = 7,
+                                   interpolation_method: str = "linear",
+                                   vlf_band: namedtuple = VlfBand(0.0033, 0.04),
+                                   hf_band: namedtuple = HfBand(0.15, 0.40)) -> list:
     """
     Returns the frequency and power of the signal.
 
@@ -343,7 +342,7 @@ def get_freq_psd_from_nn_intervals(nn_intervals, method=WELCH_METHOD, sampling_f
     return freq, psd
 
 
-def create_time_info(nn_intervals):
+def create_time_info(nn_intervals: list) -> list:
     """
     Creates corresponding time interval for all nn_intervals
 
@@ -364,7 +363,7 @@ def create_time_info(nn_intervals):
     return nni_tmstp - nni_tmstp[0]
 
 
-def create_interpolation_time(nn_intervals, sampling_frequency=7):
+def create_interpolation_time(nn_intervals: list, sampling_frequency: int = 7) -> list:
     """
     Creates the interpolation time used for Fourier transform's method
 
@@ -386,8 +385,9 @@ def create_interpolation_time(nn_intervals, sampling_frequency=7):
     return nni_interpolation_tmstp
 
 
-def get_features_from_psd(freq, psd, vlf_band=VlfBand(0, 0.04), lf_band=LfBand(0.04, 0.15),
-                          hf_band=HfBand(0.15, 0.40)):
+def get_features_from_psd(freq: list, psd: list, vlf_band: namedtuple = VlfBand(0.0033, 0.04),
+                          lf_band: namedtuple = LfBand(0.04, 0.15),
+                          hf_band: namedtuple = HfBand(0.15, 0.40)) -> dict:
     """
     Computes frequency domain features from the power spectral decomposition.
 
@@ -446,7 +446,7 @@ def get_features_from_psd(freq, psd, vlf_band=VlfBand(0, 0.04), lf_band=LfBand(0
 # ----------------- NON lINEAR DOMAIN FEATURES ----------------- #
 
 
-def get_csi_cvi_features(nn_intervals):
+def get_csi_cvi_features(nn_intervals: list) -> dict:
     """
     Returns a dictionary containing 3 features from non linear domain for hrV analyses.
     Must use this function on short term recordings, for 30 , 50, 100 RR-intervals (or
@@ -469,7 +469,7 @@ def get_csi_cvi_features(nn_intervals):
 
     - **cvi** : Cadiac Vagal Index.
 
-    - **Modified_csi** : Modified CSI (L^2/T) is an alternative measure in search of seizure detection.
+    - **Modified_csi** : Modified CSI is an alternative measure in research of seizure detection.
 
     References
     ----------
@@ -496,7 +496,7 @@ def get_csi_cvi_features(nn_intervals):
     return csi_cvi_features
 
 
-def get_poincare_plot_features(nn_intervals):
+def get_poincare_plot_features(nn_intervals: list) -> dict:
     """
     Function returning a dictionary containing 3 features from non linear domain
     for hrV analyses.
@@ -545,7 +545,7 @@ def get_poincare_plot_features(nn_intervals):
     return poincare_plot_features
 
 
-def get_sampen(nn_intervals):
+def get_sampen(nn_intervals: list) -> dict:
     """
     Function computing the sample entropy of the given data.
     Must use this function on short term recordings, from 1 minute window.

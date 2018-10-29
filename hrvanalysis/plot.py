@@ -20,7 +20,7 @@ def plot_timeseries(nn_intervals):
 
     style.use('ggplot')
     plt.figure(figsize=(12, 8))
-    plt.title("Rr Interval through time")
+    plt.title("Rr Interval time series")
     plt.xlabel("Time (s)", fontsize=15)
     plt.ylabel("Rr Interval", fontsize=15)
     plt.plot(nn_intervals)

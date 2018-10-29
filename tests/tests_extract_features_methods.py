@@ -66,7 +66,7 @@ class ExtractFeaturesTestCase(unittest.TestCase):
     def test_if_interpolated_time_created_is_correct(self):
         nn_intervals = [1000, 900, 1100, 1000, 950, 850]
         nni_interpolation_tmstp = create_interpolation_time(nn_intervals, sampling_frequency=2)
-        real_interpolation_tmstp = np.array([0. , 0.5, 1., 1.5, 2., 2.5, 3., 3.5, 4., 4.5])
+        real_interpolation_tmstp = np.array([0., 0.5, 1., 1.5, 2., 2.5, 3., 3.5, 4., 4.5])
         all_is_equal = all(nni_interpolation_tmstp == real_interpolation_tmstp)
         self.assertTrue(all_is_equal)
 

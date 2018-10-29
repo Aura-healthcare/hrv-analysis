@@ -27,7 +27,7 @@ version : 1.0.0
 #### Dependencies
 
 hrvanalysis requires the following:
-- Python (>= 3.6)
+- Python (>= 3.5)
 - astropy >= 3.0.4
 - future >= 0.16.0
 - nolds >= 0.4.1
