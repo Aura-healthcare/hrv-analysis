@@ -3,7 +3,7 @@
 
 import unittest
 import numpy as np
-from hrvanalysis.preprocessing import (remove_outlier, interpolate_nan_values,
+from hrvanalysis.preprocessing import (remove_outliers, interpolate_nan_values,
                                        remove_ectopic_beats, get_nn_intervals)
 
 
@@ -12,7 +12,7 @@ class CleanOutliersTestCase(unittest.TestCase):
 
     def test_high_low_outlier(self):
         rri_list = [700, 600, 2300, 200, 1000, 230, 1200]
-        self.assertAlmostEqual(remove_outlier(rr_intervals=rri_list),
+        self.assertAlmostEqual(remove_outliers(rr_intervals=rri_list),
                                [700, 600, np.nan, np.nan, 1000, np.nan, 1200])
 
     def test_interpolate_cleaned_outlier(self):

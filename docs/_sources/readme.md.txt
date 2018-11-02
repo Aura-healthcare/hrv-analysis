@@ -6,6 +6,7 @@
 [![Build Status](https://travis-ci.com/robinchampseix/hrvanalysis.svg?branch=master)](https://travis-ci.com/robinchampseix/hrvanalysis)
 [![codecov](https://codecov.io/gh/robinchampseix/hrvanalysis/branch/master/graphs/badge.svg)](https://codecov.io/gh/robinchampseix/hrvanalysis)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Downloads](https://pepy.tech/badge/hrv-analysis)](https://pepy.tech/project/hrv-analysis)
 
 **hrvanalysis** is a Python module for Heart Rate Variability analysis of RR-intervals built on top of SciPy, AstroPy, Nolds and NumPy and distributed under the GPLv3 license.
 
@@ -18,7 +19,7 @@ The development of this library started in July 2018 as part of Aura Healthcare 
 #### Dependencies
 
 hrvanalysis requires the following:
-- Python (>= 3.6)
+- Python (>= 3.5)
 - astropy >= 3.0.4
 - future >= 0.16.0
 - nolds >= 0.4.1
@@ -46,17 +47,25 @@ This package provides methods to remove outliers and ectopic beats from signal f
 Please use this methods carefully as they might have a huge impact on features calculation.
 
 ```python
-from hrvanalysis.clean_outliers import clean_outlier, clean_ectopic_beats
+from hrvanalysis.preprocessing import remove_outliers, remove_ectopic_beats, interpolate_nan_values
 
-# rr_intervals is a list containing integers value of Rr Intervals
-cleaned_rr_intervals = clean_outlier(rr_intervals=rr_intervals,  low_rri=300, high_rri=2000) # This remove outliers from signal
+ # nn_intervals_list contains integer values of RR Interval
+nn_intervals_list = [1000, 1050, 1020, 1080, ..., 1100, 1110, 1060]
 
-nn_interval = clean_ectopic_beats(rr_intervals=cleaned_rr_intervals, method="Malik") # This remove ectopic beats from signal
+# This remove outliers from signal
+rr_intervals_without_outliers = remove_outliers(rr_intervals=rr_intervals_list,  low_rri=300, high_rri=2000)
+# This replace outliers nan values with linear interpolation
+interpolated_rr_intervals = interpolate_nan_values(rr_intervals=rr_intervals_without_outliers, interpolation_method="linear")
+
+# This remove ectopic beats from signal
+nn_intervals_list = remove_ectopic_beats(rr_intervals=interpolated_rr_intervals, method="malik")
+# This replace ectopic beats nan values with linear interpolation
+interpolated_nn_intervals = interpolate_nan_values(rr_intervals=nn_intervals_list)
 ```
 
-You can find how to use the following methods, references and more details in the Tutorial part (*https://robinchampseix.github.io/hrvanalysis/tutorial.html*):
-- clean_outlier
-- clean_ectopic_beats
+You can find how to use the following methods, references and more details in the [Tutorial part](<https://robinchampseix.github.io/hrvanalysis/tutorial.html>):
+- remove_outliers
+- remove_ectopic_beats
 
 ### Features calculation 
 
@@ -75,8 +84,10 @@ As an exemple, what you can compute to get Time domain analysis is :
 ```python
 from hrvanalysis.extract_features import get_time_domain_features
  
-# nn_intervals is a list containing integers value of NN Intervals
-time_domain_features = get_time_domain_features(nn_intervals)
+ # nn_intervals_list contains integer values of NN Interval
+nn_intervals_list = [1000, 1050, 1020, 1080, ..., 1100, 1110, 1060]
+
+time_domain_features = get_time_domain_features(nn_intervals_list)
 
 >>> time_domain_features
 {'mean_nni': 718.248,
@@ -97,7 +108,7 @@ time_domain_features = get_time_domain_features(nn_intervals)
  'std_hr': 5.196}
 ```
 
-You can find how to use the following methods, references and more details in the Tutorial part (*https://robinchampseix.github.io/hrvanalysis/tutorial.html*):
+You can find how to use the following methods, references and more details in the [Tutorial part](<https://robinchampseix.github.io/hrvanalysis/tutorial.html>):
 - get_time_domain_features
 - get_geometrical_features
 - get_frequency_domain_features
@@ -119,7 +130,7 @@ plot_distrib(nn_intervals)
 
 ![Plot distrib image](lomb_density_plot.png)
 
-You can find how to use the following methods, references and more details in the Tutorial part (*https://robinchampseix.github.io/hrvanalysis/tutorial.html*):
+You can find how to use the following methods, references and more details in the [Tutorial part](<https://robinchampseix.github.io/hrvanalysis/tutorial.html>):
 - plot_distrib
 - plot_timeseries
 - plot_psd

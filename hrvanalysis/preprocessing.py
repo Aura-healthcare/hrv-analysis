@@ -13,12 +13,12 @@ KAMATH_RULE = "kamath"
 ACAR_RULE = "acar"
 CUSTOM_RULE = "custom"
 
-__all__ = ["remove_outlier", "remove_ectopic_beats", "interpolate_nan_values", "get_nn_intervals"]
+__all__ = ["remove_outliers", "remove_ectopic_beats", "interpolate_nan_values", "get_nn_intervals"]
 
 # ----------------- ClEAN OUTlIER / ECTOPIC BEATS ----------------- #
 
 
-def remove_outlier(rr_intervals, verbose=True, low_rri=300, high_rri=2000):
+def remove_outliers(rr_intervals, verbose=True, low_rri=300, high_rri=2000):
     """
     Function that replace RR-interval outlier by nan
 
