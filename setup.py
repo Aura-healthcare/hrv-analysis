@@ -10,7 +10,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="hrv-analysis",
-    version="1.0.0",
+    version="1.0.1",
     author="Robin Champseix",
     license="GPLv3",
     author_email="robin.champseix@gmail.com",

@@ -4,11 +4,14 @@ API documentation
 Hrv-analysis consists of a single module which contains all relevant functions and algorithms.
 
 Internally these functions are subdivided into 3 different modules :
+
 - preprocessing
+
 - extract_features
+
 - plot
 
-You should not need to import these modules directly unless you want access to some internal helper functions.
+You should not need to import those modules directly unless you want access to some internal helper functions.
 
 Preprocessing methods
 ---------------------

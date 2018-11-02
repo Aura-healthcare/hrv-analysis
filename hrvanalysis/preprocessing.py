@@ -287,7 +287,7 @@ def get_nn_intervals(rr_intervals, low_rri=300, high_rri=2000, interpolation_met
         list of NN Interval interpolated
     """
     rr_intervals_cleaned = remove_outliers(rr_intervals, low_rri=low_rri, high_rri=high_rri,
-                                          verbose=verbose)
+                                           verbose=verbose)
     interpolated_rr_intervals = interpolate_nan_values(rr_intervals_cleaned, interpolation_method)
     nn_intervals = remove_ectopic_beats(interpolated_rr_intervals,
                                         method=ectopic_beats_removal_method)
