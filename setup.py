@@ -20,7 +20,7 @@ setuptools.setup(
     include_package_data=True,
     url="https://github.com/robinchampseix/hrvanalysis",
     packages=setuptools.find_packages(),
-    python_requires='>=3.6',
+    python_requires='>=3.5',
     install_requires=[
         "numpy>=1.15.1",
         "astropy>=3.0.4",
