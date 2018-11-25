@@ -269,25 +269,25 @@ def get_frequency_domain_features(nn_intervals: List[int], method: str = WELCH_M
     """
 
     # ----------  Compute frequency & Power of signal  ---------- #
-    freq, psd = get_freq_psd_from_nn_intervals(nn_intervals=nn_intervals, method=method,
-                                               sampling_frequency=sampling_frequency,
-                                               interpolation_method=interpolation_method,
-                                               vlf_band=vlf_band, hf_band=hf_band)
+    freq, psd = _get_freq_psd_from_nn_intervals(nn_intervals=nn_intervals, method=method,
+                                                sampling_frequency=sampling_frequency,
+                                                interpolation_method=interpolation_method,
+                                                vlf_band=vlf_band, hf_band=hf_band)
 
     # ---------- Features calculation ---------- #
-    freqency_domain_features = get_features_from_psd(freq=freq, psd=psd,
-                                                     vlf_band=vlf_band,
-                                                     lf_band=lf_band,
-                                                     hf_band=hf_band)
+    freqency_domain_features = _get_features_from_psd(freq=freq, psd=psd,
+                                                      vlf_band=vlf_band,
+                                                      lf_band=lf_band,
+                                                      hf_band=hf_band)
 
     return freqency_domain_features
 
 
-def get_freq_psd_from_nn_intervals(nn_intervals: List[int], method: str = WELCH_METHOD,
-                                   sampling_frequency: int = 7,
-                                   interpolation_method: str = "linear",
-                                   vlf_band: namedtuple = VlfBand(0.0033, 0.04),
-                                   hf_band: namedtuple = HfBand(0.15, 0.40)) -> Tuple:
+def _get_freq_psd_from_nn_intervals(nn_intervals: List[int], method: str = WELCH_METHOD,
+                                    sampling_frequency: int = 7,
+                                    interpolation_method: str = "linear",
+                                    vlf_band: namedtuple = VlfBand(0.0033, 0.04),
+                                    hf_band: namedtuple = HfBand(0.15, 0.40)) -> Tuple:
     """
     Returns the frequency and power of the signal.
 
@@ -317,13 +317,13 @@ def get_freq_psd_from_nn_intervals(nn_intervals: List[int], method: str = WELCH_
 
     """
 
-    timestamps = create_time_info(nn_intervals)
+    timestamps = _create_time_info(nn_intervals)
 
     if method == WELCH_METHOD:
         # ---------- Interpolation of signal ---------- #
         funct = interpolate.interp1d(x=timestamps, y=nn_intervals, kind=interpolation_method)
 
-        timestamps_interpolation = create_interpolation_time(nn_intervals, sampling_frequency)
+        timestamps_interpolation = _create_interpolation_time(nn_intervals, sampling_frequency)
         nni_interpolation = funct(timestamps_interpolation)
 
         # ---------- Remove DC Component ---------- #
@@ -343,7 +343,7 @@ def get_freq_psd_from_nn_intervals(nn_intervals: List[int], method: str = WELCH_
     return freq, psd
 
 
-def create_time_info(nn_intervals: List[int]) -> List[float]:
+def _create_time_info(nn_intervals: List[int]) -> List[float]:
     """
     Creates corresponding time interval for all nn_intervals
 
@@ -364,7 +364,7 @@ def create_time_info(nn_intervals: List[int]) -> List[float]:
     return nni_tmstp - nni_tmstp[0]
 
 
-def create_interpolation_time(nn_intervals: List[int], sampling_frequency: int = 7) -> List[float]:
+def _create_interpolation_time(nn_intervals: List[int], sampling_frequency: int = 7) -> List[float]:
     """
     Creates the interpolation time used for Fourier transform's method
 
@@ -380,15 +380,15 @@ def create_interpolation_time(nn_intervals: List[int], sampling_frequency: int =
     nni_interpolation_tmstp : list
         Timestamp for interpolation.
     """
-    time_nni = create_time_info(nn_intervals)
+    time_nni = _create_time_info(nn_intervals)
     # Create timestamp for interpolation
     nni_interpolation_tmstp = np.arange(0, time_nni[-1], 1 / float(sampling_frequency))
     return nni_interpolation_tmstp
 
 
-def get_features_from_psd(freq: List[float], psd: List[float], vlf_band: namedtuple = VlfBand(0.0033, 0.04),
-                          lf_band: namedtuple = LfBand(0.04, 0.15),
-                          hf_band: namedtuple = HfBand(0.15, 0.40)) -> dict:
+def _get_features_from_psd(freq: List[float], psd: List[float], vlf_band: namedtuple = VlfBand(0.0033, 0.04),
+                           lf_band: namedtuple = LfBand(0.04, 0.15),
+                           hf_band: namedtuple = HfBand(0.15, 0.40)) -> dict:
     """
     Computes frequency domain features from the power spectral decomposition.
 

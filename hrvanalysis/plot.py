@@ -6,7 +6,7 @@
 from typing import List
 import matplotlib.pyplot as plt
 from matplotlib import style
-from hrvanalysis.extract_features import get_freq_psd_from_nn_intervals
+from hrvanalysis.extract_features import _get_freq_psd_from_nn_intervals
 from collections import namedtuple
 import numpy as np
 
@@ -93,9 +93,9 @@ def plot_psd(nn_intervals: List[int], method: str = "welch", sampling_frequency:
         High frequency bands for features extraction from power spectral density.
     """
 
-    freq, psd = get_freq_psd_from_nn_intervals(nn_intervals=nn_intervals, method=method,
-                                               sampling_frequency=sampling_frequency,
-                                               interpolation_method=interpolation_method)
+    freq, psd = _get_freq_psd_from_nn_intervals(nn_intervals=nn_intervals, method=method,
+                                                sampling_frequency=sampling_frequency,
+                                                interpolation_method=interpolation_method)
 
     # Calcul of indices between desired frequency bands
     vlf_indexes = np.logical_and(freq >= vlf_band[0], freq < vlf_band[1])
