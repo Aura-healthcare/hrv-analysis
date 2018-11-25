@@ -114,3 +114,6 @@ Makefile
 
 # codecoverage
 htmlcov/
+
+# notebooks
+notebooks/

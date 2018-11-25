@@ -3,6 +3,8 @@
 
 """This script provides several methods to clean abnormal and ectopic RR-intervals."""
 
+from typing import Tuple
+from typing import List
 import pandas as pd
 import numpy as np
 
@@ -18,9 +20,10 @@ __all__ = ["remove_outliers", "remove_ectopic_beats", "interpolate_nan_values", 
 # ----------------- ClEAN OUTlIER / ECTOPIC BEATS ----------------- #
 
 
-def remove_outliers(rr_intervals, verbose=True, low_rri=300, high_rri=2000):
+def remove_outliers(rr_intervals: List[int], verbose: bool = True, low_rri: int = 300,
+                    high_rri: int = 2000) -> List[int]:
     """
-    Function that replace RR-interval outlier by nan
+    Function that replace RR-interval outlier by nan.
 
     Parameters
     ---------
@@ -40,10 +43,10 @@ def remove_outliers(rr_intervals, verbose=True, low_rri=300, high_rri=2000):
 
     References
     ----------
-    .. [1] [16] O. Inbar, A. Oten, M. Scheinowitz, A. Rotstein, R. Dlin, R.Casaburi. Normal \
+    .. [1] O. Inbar, A. Oten, M. Scheinowitz, A. Rotstein, R. Dlin, R.Casaburi. Normal \
     cardiopulmonary responses during incremental exercise in 20-70-yr-old men.
 
-    .. [2] W. C. Miller, J. P. Wallace, K. E. Eggert. Predicting max HR and the HR-VO2 relationship \
+    .. [2] W. C. Miller, J. P. Wallace, K. E. Eggert. Predicting max HR and the HR-VO2 relationship\
     for exercise prescription in obesity.
 
     .. [3] H. Tanaka, K. D. Monahan, D. R. Seals. Age-predictedmaximal heart rate revisited.
@@ -70,7 +73,8 @@ def remove_outliers(rr_intervals, verbose=True, low_rri=300, high_rri=2000):
     return rr_intervals_cleaned
 
 
-def remove_ectopic_beats(rr_intervals, method="malik", custom_rule=None):
+def remove_ectopic_beats(rr_intervals: List[int], method: str = "malik",
+                         custom_rule: float = 0.2) -> List[int]:
     """
     RR-intervals differing by more than the removing_rule from the one proceeding it are removed.
 
@@ -99,13 +103,14 @@ def remove_ectopic_beats(rr_intervals, method="malik", custom_rule=None):
     .. [6] Geometric Methods for Heart Rate Variability Assessment - Malik M et al
     """
     if method not in [MALIK_RULE, KAMATH_RULE, KARLSSON_RULE, ACAR_RULE, CUSTOM_RULE]:
-        raise ValueError("Not a valid method. Please choose malik, kamath, karlsson, acar or custom.")
+        raise ValueError("Not a valid method. Please choose between malik, kamath, karlsson, acar.\
+         You can also choose your own removing critera with custom_rule parameter.")
 
     if method == KARLSSON_RULE:
-        nn_intervals, outlier_count = remove_outlier_karlsson(rr_intervals=rr_intervals)
+        nn_intervals, outlier_count = _remove_outlier_karlsson(rr_intervals=rr_intervals)
 
     elif method == ACAR_RULE:
-        nn_intervals, outlier_count = remove_outlier_acar(rr_intervals=rr_intervals)
+        nn_intervals, outlier_count = _remove_outlier_acar(rr_intervals=rr_intervals)
 
     else:
         # set first element in list
@@ -131,7 +136,8 @@ def remove_ectopic_beats(rr_intervals, method="malik", custom_rule=None):
     return nn_intervals
 
 
-def is_outlier(rr_interval, next_rr_interval, method="malik", custom_rule=None):
+def is_outlier(rr_interval: int, next_rr_interval: float, method: str = "malik",
+               custom_rule: float = 0.2) -> bool:
     """
     Test if the rr_interval is an outlier
 
@@ -162,7 +168,7 @@ def is_outlier(rr_interval, next_rr_interval, method="malik", custom_rule=None):
     return outlier
 
 
-def remove_outlier_karlsson(rr_intervals):
+def _remove_outlier_karlsson(rr_intervals: List[int]) -> Tuple[List[int], int]:
     """
     RR-intervals differing by more than the 20 % of the mean of previous and next RR-interval
     are removed.
@@ -201,7 +207,7 @@ def remove_outlier_karlsson(rr_intervals):
     return nn_intervals, outlier_count
 
 
-def remove_outlier_acar(rr_intervals, custom_rule=0.2):
+def _remove_outlier_acar(rr_intervals: List[int], custom_rule=0.2) -> Tuple[List[int], int]:
     """
     RR-intervals differing by more than the 20 % of the mean of last 9 RrIntervals
     are removed.
@@ -239,7 +245,7 @@ def remove_outlier_acar(rr_intervals, custom_rule=0.2):
     return nn_intervals, outlier_count
 
 
-def interpolate_nan_values(rr_intervals, interpolation_method="linear"):
+def interpolate_nan_values(rr_intervals: List[int], interpolation_method: str = "linear"):
     """
     Function that interpolate Nan values with linear interpolation
 
@@ -261,8 +267,9 @@ def interpolate_nan_values(rr_intervals, interpolation_method="linear"):
     return interpolated_rr_intervals.values.tolist()
 
 
-def get_nn_intervals(rr_intervals, low_rri=300, high_rri=2000, interpolation_method="linear",
-                     ectopic_beats_removal_method=KAMATH_RULE, verbose=True):
+def get_nn_intervals(rr_intervals: List[int], low_rri: int = 300, high_rri: int = 2000,
+                     interpolation_method: str = "linear", ectopic_beats_removal_method: str = KAMATH_RULE,
+                     verbose: bool = True) -> List[int]:
     """
     Function that computes NN Intervals from RR-intervals.
 
@@ -295,7 +302,7 @@ def get_nn_intervals(rr_intervals, low_rri=300, high_rri=2000, interpolation_met
     return interpolated_nn_intervals
 
 
-def is_valid_sample(nn_intervals, outlier_count, removing_rule=0.04):
+def is_valid_sample(nn_intervals: List[int], outlier_count: int, removing_rule: float = 0.04) -> bool:
     """
     Test if the sample meet the condition to be used for analysis
 
@@ -315,7 +322,7 @@ def is_valid_sample(nn_intervals, outlier_count, removing_rule=0.04):
     """
     result = True
     if outlier_count / len(nn_intervals) > removing_rule:
-        print("Too much outlier for analyses ! You should descard the sample")
+        print("Too much outlier for analyses ! You should descard the sample.")
         result = False
     if len(nn_intervals) < 240:
         print("Not enough Heart beat for Nyquist criteria ! ")

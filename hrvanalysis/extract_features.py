@@ -3,6 +3,7 @@
 """This script provides several methods to extract features from Normal to Normal Intervals
  for heart rate variability analysis."""
 
+from typing import List, Tuple
 from collections import namedtuple
 import numpy as np
 import nolds
@@ -16,8 +17,8 @@ __all__ = ['get_time_domain_features', 'get_frequency_domain_features',
            "get_csi_cvi_features", "get_sampen"]
 
 # Frequency Methods name
-WELCH_METHOD = "Welch"
-LOMB_METHOD = "Lomb"
+WELCH_METHOD = "welch"
+LOMB_METHOD = "lomb"
 
 # Named Tuple for different frequency bands
 VlfBand = namedtuple("Vlf_band", ["low", "high"])
@@ -27,7 +28,7 @@ HfBand = namedtuple("Hf_band", ["low", "high"])
 # ----------------- TIME DOMAIN FEATURES ----------------- #
 
 
-def get_time_domain_features(nn_intervals: list) -> dict:
+def get_time_domain_features(nn_intervals: List[int]) -> dict:
     """
     Returns a dictionary containing time domain features for HRV analysis.
     Mostly used on long term recordings (24h) but some studies use some of those features on
@@ -145,7 +146,7 @@ def get_time_domain_features(nn_intervals: list) -> dict:
     return time_domain_features
 
 
-def get_geometrical_features(nn_intervals: list) -> dict:
+def get_geometrical_features(nn_intervals: List[int]) -> dict:
     """
     Returns a dictionary containing geometrical time domain features for HRV analyses.
     Must use this function on recordings from 20 minutes to 24 Hours window.
@@ -175,7 +176,7 @@ def get_geometrical_features(nn_intervals: list) -> dict:
 
     References
     ----------
-    .. [1] Heart rate variability - Standards of measurement, physiological interpretation, and \
+    .. [2] Heart rate variability - Standards of measurement, physiological interpretation, and \
     clinical use, Task Force of The European Society of Cardiology and The North American Society \
     of Pacing and Electrophysiology, 1996
 
@@ -196,7 +197,7 @@ def get_geometrical_features(nn_intervals: list) -> dict:
 # ----------------- FREQUENCY DOMAIN FEATURES ----------------- #
 
 
-def get_frequency_domain_features(nn_intervals: list, method: str = WELCH_METHOD,
+def get_frequency_domain_features(nn_intervals: List[int], method: str = WELCH_METHOD,
                                   sampling_frequency: int = 7, interpolation_method: str = "linear",
                                   vlf_band: namedtuple = VlfBand(0.0033, 0.04),
                                   lf_band: namedtuple = LfBand(0.04, 0.15),
@@ -241,8 +242,8 @@ def get_frequency_domain_features(nn_intervals: list, method: str = WELCH_METHOD
     activity.
 
     - **lf** : variance ( = power ) in HRV in the low Frequency (.04 to .15 Hz). Reflects a \
-    mixture of sympathetic and parasympathetic activity, but in long-term recordings like ours, \
-    it reflects sympathetic activity and can be reduced by the beta-adrenergic antagonist propanolol
+    mixture of sympathetic and parasympathetic activity, but in long-term recordings, it reflects \
+    sympathetic activity and can be reduced by the beta-adrenergic antagonist propanolol.
 
     - **hf**: variance ( = power ) in HRV in the High Frequency (.15 to .40 Hz by default). \
     Reflects fast changes in beat-to-beat variability due to parasympathetic (vagal) activity. \
@@ -259,11 +260,11 @@ def get_frequency_domain_features(nn_intervals: list, method: str = WELCH_METHOD
 
     References
     ----------
-    .. [1] Heart rate variability - Standards of measurement, physiological interpretation, and \
+    .. [3] Heart rate variability - Standards of measurement, physiological interpretation, and \
     clinical use, Task Force of The European Society of Cardiology and The North American Society \
     of Pacing and Electrophysiology, 1996
 
-    .. [2] Signal Processing Methods for Heart Rate Variability - Gari D. Clifford, 2002
+    .. [4] Signal Processing Methods for Heart Rate Variability - Gari D. Clifford, 2002
 
     """
 
@@ -273,7 +274,7 @@ def get_frequency_domain_features(nn_intervals: list, method: str = WELCH_METHOD
                                                interpolation_method=interpolation_method,
                                                vlf_band=vlf_band, hf_band=hf_band)
 
-    # ----------  Calcul features  ---------- #
+    # ---------- Features calculation ---------- #
     freqency_domain_features = get_features_from_psd(freq=freq, psd=psd,
                                                      vlf_band=vlf_band,
                                                      lf_band=lf_band,
@@ -282,11 +283,11 @@ def get_frequency_domain_features(nn_intervals: list, method: str = WELCH_METHOD
     return freqency_domain_features
 
 
-def get_freq_psd_from_nn_intervals(nn_intervals: list, method: str = WELCH_METHOD,
+def get_freq_psd_from_nn_intervals(nn_intervals: List[int], method: str = WELCH_METHOD,
                                    sampling_frequency: int = 7,
                                    interpolation_method: str = "linear",
                                    vlf_band: namedtuple = VlfBand(0.0033, 0.04),
-                                   hf_band: namedtuple = HfBand(0.15, 0.40)) -> list:
+                                   hf_band: namedtuple = HfBand(0.15, 0.40)) -> Tuple:
     """
     Returns the frequency and power of the signal.
 
@@ -318,8 +319,8 @@ def get_freq_psd_from_nn_intervals(nn_intervals: list, method: str = WELCH_METHO
 
     timestamps = create_time_info(nn_intervals)
 
-    # ---------- Interpolation of signal ---------- #
     if method == WELCH_METHOD:
+        # ---------- Interpolation of signal ---------- #
         funct = interpolate.interp1d(x=timestamps, y=nn_intervals, kind=interpolation_method)
 
         timestamps_interpolation = create_interpolation_time(nn_intervals, sampling_frequency)
@@ -328,21 +329,21 @@ def get_freq_psd_from_nn_intervals(nn_intervals: list, method: str = WELCH_METHO
         # ---------- Remove DC Component ---------- #
         nni_normalized = nni_interpolation - np.mean(nni_interpolation)
 
-        #  ----------  Calcul Power Spectral Density  ---------- #
-        # Describes the distribution of power into frequency components composing that signal.
-        freq, psd = signal.welch(x=nni_normalized, fs=sampling_frequency, window='hann')
+        #  ----------  Compute Power Spectral Density  ---------- #
+        freq, psd = signal.welch(x=nni_normalized, fs=sampling_frequency, window='hann',
+                                 nfft=4096)
 
     elif method == LOMB_METHOD:
         freq, psd = LombScargle(timestamps, nn_intervals,
                                 normalization='psd').autopower(minimum_frequency=vlf_band[0],
                                                                maximum_frequency=hf_band[1])
     else:
-        raise ValueError("Not a valid method. Choose between 'Lomb' and 'Welch'")
+        raise ValueError("Not a valid method. Choose between 'lomb' and 'welch'")
 
     return freq, psd
 
 
-def create_time_info(nn_intervals: list) -> list:
+def create_time_info(nn_intervals: List[int]) -> List[float]:
     """
     Creates corresponding time interval for all nn_intervals
 
@@ -363,7 +364,7 @@ def create_time_info(nn_intervals: list) -> list:
     return nni_tmstp - nni_tmstp[0]
 
 
-def create_interpolation_time(nn_intervals: list, sampling_frequency: int = 7) -> list:
+def create_interpolation_time(nn_intervals: List[int], sampling_frequency: int = 7) -> List[float]:
     """
     Creates the interpolation time used for Fourier transform's method
 
@@ -385,7 +386,7 @@ def create_interpolation_time(nn_intervals: list, sampling_frequency: int = 7) -
     return nni_interpolation_tmstp
 
 
-def get_features_from_psd(freq: list, psd: list, vlf_band: namedtuple = VlfBand(0.0033, 0.04),
+def get_features_from_psd(freq: List[float], psd: List[float], vlf_band: namedtuple = VlfBand(0.0033, 0.04),
                           lf_band: namedtuple = LfBand(0.04, 0.15),
                           hf_band: namedtuple = HfBand(0.15, 0.40)) -> dict:
     """
@@ -446,7 +447,7 @@ def get_features_from_psd(freq: list, psd: list, vlf_band: namedtuple = VlfBand(
 # ----------------- NON lINEAR DOMAIN FEATURES ----------------- #
 
 
-def get_csi_cvi_features(nn_intervals: list) -> dict:
+def get_csi_cvi_features(nn_intervals: List[int]) -> dict:
     """
     Returns a dictionary containing 3 features from non linear domain for hrV analyses.
     Must use this function on short term recordings, for 30 , 50, 100 RR-intervals (or
@@ -473,7 +474,7 @@ def get_csi_cvi_features(nn_intervals: list) -> dict:
 
     References
     ----------
-    .. [3] Using Lorenz plot and Cardiac Sympathetic Index of heart rate variability for detecting \
+    .. [5] Using Lorenz plot and Cardiac Sympathetic Index of heart rate variability for detecting \
     seizures for patients with epilepsy, Jesper Jeppesen et al, 2014
 
     """
@@ -496,7 +497,7 @@ def get_csi_cvi_features(nn_intervals: list) -> dict:
     return csi_cvi_features
 
 
-def get_poincare_plot_features(nn_intervals: list) -> dict:
+def get_poincare_plot_features(nn_intervals: List[int]) -> dict:
     """
     Function returning a dictionary containing 3 features from non linear domain
     for hrV analyses.
@@ -525,7 +526,7 @@ def get_poincare_plot_features(nn_intervals: list) -> dict:
 
     References
     ----------
-    .. [4] Pre-ictal heart rate variability assessment of epileptic seizures by means of linear \
+    .. [6] Pre-ictal heart rate variability assessment of epileptic seizures by means of linear \
     and non- linear analyses, Soroor Behbahani, Nader Jafarnia Dabanloo et al - 2013
 
     """
@@ -545,7 +546,7 @@ def get_poincare_plot_features(nn_intervals: list) -> dict:
     return poincare_plot_features
 
 
-def get_sampen(nn_intervals: list) -> dict:
+def get_sampen(nn_intervals: List[int]) -> dict:
     """
     Function computing the sample entropy of the given data.
     Must use this function on short term recordings, from 1 minute window.
@@ -562,7 +563,7 @@ def get_sampen(nn_intervals: list) -> dict:
 
     References
     ----------
-    .. [5] Physiological time-series analysis using approximate entropy and sample entropy, \
+    .. [7] Physiological time-series analysis using approximate entropy and sample entropy, \
     JOSHUA S. RICHMAN1, J. RANDALL MOORMAN - 2000
 
     """
