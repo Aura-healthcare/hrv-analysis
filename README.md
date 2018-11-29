@@ -19,7 +19,7 @@ The development of this library started in July 2018 as part of Aura Healthcare 
 
 **Github** : https://github.com/Aura-healthcare
 
-**Version** : 1.0.1
+**Version** : 1.0.2
 
 
 ## Installation / Prerequisites

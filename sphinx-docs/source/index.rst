@@ -14,7 +14,7 @@ The package was built on top of SciPy, AstroPy, Nolds and NumPy and distributed 
 
 **Project's Website** : https://www.aura.healthcare
 
-**Version:** 1.0.1
+**Version:** 1.0.2
 
 .. toctree::    
     :maxdepth: 2
