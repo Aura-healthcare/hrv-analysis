@@ -74,7 +74,7 @@ def remove_outliers(rr_intervals: List[int], verbose: bool = True, low_rri: int 
 
 
 def remove_ectopic_beats(rr_intervals: List[int], method: str = "malik",
-                         custom_rule: float = 0.2) -> List[int]:
+                         custom_removing_rule: float = 0.2) -> List[int]:
     """
     RR-intervals differing by more than the removing_rule from the one proceeding it are removed.
 
@@ -84,9 +84,11 @@ def remove_ectopic_beats(rr_intervals: List[int], method: str = "malik",
         list of RR-intervals
     method : str
         method to use to clean outlier. malik, kamath, karlsson, acar or custom.
-    custom_rule : int
-        percentage criteria of difference with previous RR-interval at which we consider
-        that it is abnormal.
+    custom_removing_rule : int
+        Percentage criteria of difference with previous RR-interval at which we consider
+        that it is abnormal. If method is set to Karlsson, it is the percentage of difference
+        between the absolute mean of previous and next RR-interval at which  to consider the beat
+        as abnormal.
 
     Returns
     ---------
@@ -107,7 +109,8 @@ def remove_ectopic_beats(rr_intervals: List[int], method: str = "malik",
          You can also choose your own removing critera with custom_rule parameter.")
 
     if method == KARLSSON_RULE:
-        nn_intervals, outlier_count = _remove_outlier_karlsson(rr_intervals=rr_intervals)
+        nn_intervals, outlier_count = _remove_outlier_karlsson(rr_intervals=rr_intervals,
+                                                               removing_rule=custom_removing_rule)
 
     elif method == ACAR_RULE:
         nn_intervals, outlier_count = _remove_outlier_acar(rr_intervals=rr_intervals)
@@ -124,7 +127,8 @@ def remove_ectopic_beats(rr_intervals: List[int], method: str = "malik",
                 previous_outlier = False
                 continue
 
-            if is_outlier(rr_interval, rr_intervals[i + 1], method=method, custom_rule=custom_rule):
+            if is_outlier(rr_interval, rr_intervals[i + 1], method=method,
+                          custom_rule=custom_removing_rule):
                 nn_intervals.append(rr_intervals[i + 1])
             else:
                 nn_intervals.append(np.nan)
@@ -168,7 +172,7 @@ def is_outlier(rr_interval: int, next_rr_interval: float, method: str = "malik",
     return outlier
 
 
-def _remove_outlier_karlsson(rr_intervals: List[int]) -> Tuple[List[int], int]:
+def _remove_outlier_karlsson(rr_intervals: List[int], removing_rule: float = 0.2) -> Tuple[List[int], int]:
     """
     RR-intervals differing by more than the 20 % of the mean of previous and next RR-interval
     are removed.
@@ -177,6 +181,9 @@ def _remove_outlier_karlsson(rr_intervals: List[int]) -> Tuple[List[int], int]:
     ---------
     rr_intervals : list
         list of RR-intervals
+    removing_rule : float
+        Percentage of difference between the absolute mean of previous and next RR-interval at which \
+    to consider the beat as abnormal.
 
     Returns
     ---------
@@ -199,7 +206,7 @@ def _remove_outlier_karlsson(rr_intervals: List[int]) -> Tuple[List[int], int]:
             nn_intervals.append(rr_intervals[i + 1])
             break
         mean_prev_next_rri = (rr_intervals[i] + rr_intervals[i+2]) / 2
-        if abs(mean_prev_next_rri - rr_intervals[i+1]) < 0.2 * mean_prev_next_rri:
+        if abs(mean_prev_next_rri - rr_intervals[i+1]) < removing_rule * mean_prev_next_rri:
             nn_intervals.append(rr_intervals[i+1])
         else:
             nn_intervals.append(np.nan)
