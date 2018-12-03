@@ -6,7 +6,9 @@
 from typing import List
 import matplotlib.pyplot as plt
 from matplotlib import style
+from matplotlib.patches import Ellipse
 from hrvanalysis.extract_features import _get_freq_psd_from_nn_intervals
+from hrvanalysis.extract_features import get_poincare_plot_features
 from collections import namedtuple
 import numpy as np
 
@@ -129,28 +131,62 @@ def plot_psd(nn_intervals: List[int], method: str = "welch", sampling_frequency:
     plt.show()
 
 
-def plot_poincare(nn_intervals: List[int]):
+def plot_poincare(nn_intervals: List[int], plot_sd_features=True):
     """
-    Poincaré / Lorentz Plot of the NN Intervals.
+    Pointcare / Lorentz Plot of the NN Intervals
 
     Arguments
     ---------
     nn_intervals : list
-        list of NN intervals.
+        list of NN intervals
+    plot_sd_features : bool
 
     Notes
     ---------
-    The transverse axis (T) reflects beat-to-beat variation.
-    the longitudinal axis (L) reflects the overall fluctuation.
+    The transverse axis (T) reflects beat-to-beat variation
+    the longitudinal axis (L) reflects the overall fluctuation
     """
-
+    # For Lorentz / poincaré Plot
     ax1 = nn_intervals[:-1]
     ax2 = nn_intervals[1:]
 
+    # compute features for ellipse's height, width and center
+    dict_sd1_sd2 = get_poincare_plot_features(nn_intervals)
+    sd1 = dict_sd1_sd2["sd1"]
+    sd2 = dict_sd1_sd2["sd2"]
+    mean_nni = np.mean(nn_intervals)
+
+    # Plot options and settings
     style.use("seaborn-darkgrid")
-    plt.figure(figsize=(12, 8))
+    fig = plt.figure(figsize=(12, 12))
+    ax = fig.add_subplot(111)
     plt.title("Poincaré / Lorentz Plot", fontsize=20)
     plt.xlabel('NN_n (s)', fontsize=15)
     plt.ylabel('NN_n+1 (s)', fontsize=15)
-    plt.scatter(ax1, ax2, c='r', s=12)
+    plt.xlim(min(nn_intervals) - 10, max(nn_intervals) + 10)
+    plt.ylim(min(nn_intervals) - 10, max(nn_intervals) + 10)
+
+    # Poincaré Plot
+    ax.scatter(ax1, ax2, c='b', s=2)
+
+    if plot_sd_features:
+        # Ellipse plot settings
+        ells = Ellipse(xy=(mean_nni, mean_nni), width=2 * sd2 + 1,
+                       height=2 * sd1 + 1, angle=45, linewidth=2,
+                       fill=False)
+        ax.add_patch(ells)
+
+        ells = Ellipse(xy=(mean_nni, mean_nni), width=2 * sd2,
+                       height=2 * sd1, angle=45)
+        ells.set_alpha(0.05)
+        ells.set_facecolor("blue")
+        ax.add_patch(ells)
+
+        # Arrow plot settings
+        sd1_arrow = ax.arrow(mean_nni, mean_nni, -sd1 * np.sqrt(2) / 2, sd1 * np.sqrt(2) / 2,
+                             linewidth=3, ec='r', fc="r", label="SD1")
+        sd2_arrow = ax.arrow(mean_nni, mean_nni, sd2 * np.sqrt(2) / 2, sd2 * np.sqrt(2) / 2,
+                             linewidth=3, ec='g', fc="g", label="SD2")
+
+        plt.legend(handles=[sd1_arrow, sd2_arrow], fontsize=12, loc="best")
     plt.show()
