@@ -275,7 +275,8 @@ def interpolate_nan_values(rr_intervals: List[float], interpolation_method: str 
     series_rr_intervals_cleaned = pd.Series(rr_intervals)
     # Interpolate nan values and convert pandas object to list of values
     interpolated_rr_intervals = series_rr_intervals_cleaned.interpolate(method=interpolation_method,
-                                                                        limit=1)
+                                                                        limit=limit,
+                                                                        limit_area="inside")
     return interpolated_rr_intervals.values.tolist()
 
 
