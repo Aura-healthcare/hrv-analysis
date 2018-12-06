@@ -28,7 +28,7 @@ HfBand = namedtuple("Hf_band", ["low", "high"])
 # ----------------- TIME DOMAIN FEATURES ----------------- #
 
 
-def get_time_domain_features(nn_intervals: List[int]) -> dict:
+def get_time_domain_features(nn_intervals: List[float]) -> dict:
     """
     Returns a dictionary containing time domain features for HRV analysis.
     Mostly used on long term recordings (24h) but some studies use some of those features on
@@ -146,7 +146,7 @@ def get_time_domain_features(nn_intervals: List[int]) -> dict:
     return time_domain_features
 
 
-def get_geometrical_features(nn_intervals: List[int]) -> dict:
+def get_geometrical_features(nn_intervals: List[float]) -> dict:
     """
     Returns a dictionary containing geometrical time domain features for HRV analyses.
     Must use this function on recordings from 20 minutes to 24 Hours window.
@@ -183,7 +183,7 @@ def get_geometrical_features(nn_intervals: List[int]) -> dict:
     """
 
     triang_idx = len(nn_intervals) / max(np.histogram(nn_intervals, bins=range(300, 2000, 8))[0])
-    # To do
+    # TODO
     tinn = None
 
     geometrical_features = {
@@ -197,7 +197,7 @@ def get_geometrical_features(nn_intervals: List[int]) -> dict:
 # ----------------- FREQUENCY DOMAIN FEATURES ----------------- #
 
 
-def get_frequency_domain_features(nn_intervals: List[int], method: str = WELCH_METHOD,
+def get_frequency_domain_features(nn_intervals: List[float], method: str = WELCH_METHOD,
                                   sampling_frequency: int = 7, interpolation_method: str = "linear",
                                   vlf_band: namedtuple = VlfBand(0.0033, 0.04),
                                   lf_band: namedtuple = LfBand(0.04, 0.15),
@@ -283,7 +283,7 @@ def get_frequency_domain_features(nn_intervals: List[int], method: str = WELCH_M
     return freqency_domain_features
 
 
-def _get_freq_psd_from_nn_intervals(nn_intervals: List[int], method: str = WELCH_METHOD,
+def _get_freq_psd_from_nn_intervals(nn_intervals: List[float], method: str = WELCH_METHOD,
                                     sampling_frequency: int = 7,
                                     interpolation_method: str = "linear",
                                     vlf_band: namedtuple = VlfBand(0.0033, 0.04),
@@ -343,7 +343,7 @@ def _get_freq_psd_from_nn_intervals(nn_intervals: List[int], method: str = WELCH
     return freq, psd
 
 
-def _create_time_info(nn_intervals: List[int]) -> List[float]:
+def _create_time_info(nn_intervals: List[float]) -> List[float]:
     """
     Creates corresponding time interval for all nn_intervals
 
@@ -364,7 +364,7 @@ def _create_time_info(nn_intervals: List[int]) -> List[float]:
     return nni_tmstp - nni_tmstp[0]
 
 
-def _create_interpolation_time(nn_intervals: List[int], sampling_frequency: int = 7) -> List[float]:
+def _create_interpolation_time(nn_intervals: List[float], sampling_frequency: int = 7) -> List[float]:
     """
     Creates the interpolation time used for Fourier transform's method
 
@@ -427,14 +427,14 @@ def _get_features_from_psd(freq: List[float], psd: List[float], vlf_band: namedt
     vlf = np.trapz(y=psd[vlf_indexes], x=freq[vlf_indexes])
     total_power = vlf + lf + hf
 
-    lf_hr_ratio = lf / hf
+    lf_hf_ratio = lf / hf
     lfnu = (lf / (lf + hf)) * 100
     hfnu = (hf / (lf + hf)) * 100
 
     freqency_domain_features = {
         'lf': lf,
         'hf': hf,
-        'lf_hr_ratio': lf_hr_ratio,
+        'lf_hf_ratio': lf_hf_ratio,
         'lfnu': lfnu,
         'hfnu': hfnu,
         'total_power': total_power,
@@ -447,7 +447,7 @@ def _get_features_from_psd(freq: List[float], psd: List[float], vlf_band: namedt
 # ----------------- NON lINEAR DOMAIN FEATURES ----------------- #
 
 
-def get_csi_cvi_features(nn_intervals: List[int]) -> dict:
+def get_csi_cvi_features(nn_intervals: List[float]) -> dict:
     """
     Returns a dictionary containing 3 features from non linear domain for hrV analyses.
     Must use this function on short term recordings, for 30 , 50, 100 RR-intervals (or
@@ -497,7 +497,7 @@ def get_csi_cvi_features(nn_intervals: List[int]) -> dict:
     return csi_cvi_features
 
 
-def get_poincare_plot_features(nn_intervals: List[int]) -> dict:
+def get_poincare_plot_features(nn_intervals: List[float]) -> dict:
     """
     Function returning a dictionary containing 3 features from non linear domain
     for hrV analyses.
@@ -546,7 +546,7 @@ def get_poincare_plot_features(nn_intervals: List[int]) -> dict:
     return poincare_plot_features
 
 
-def get_sampen(nn_intervals: List[int]) -> dict:
+def get_sampen(nn_intervals: List[float]) -> dict:
     """
     Function computing the sample entropy of the given data.
     Must use this function on short term recordings, from 1 minute window.

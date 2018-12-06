@@ -55,7 +55,7 @@ This package provides methods to remove outliers and ectopic beats from signal f
 Please use this methods carefully as they might have a huge impact on features calculation.
 
 ```python
-from hrvanalysis.preprocessing import remove_outliers, remove_ectopic_beats, interpolate_nan_values
+from hrvanalysis import remove_outliers, remove_ectopic_beats, interpolate_nan_values
 
 # rr_intervals_list contains integer values of RR-interval
 rr_intervals_list = [1000, 1050, 1020, 1080, ..., 1100, 1110, 1060]
@@ -91,7 +91,7 @@ There are 4 types of features you can get from NN Intervals:
 As an exemple, what you can compute to get Time domain analysis is :
 
 ```python
-from hrvanalysis.extract_features import get_time_domain_features
+from hrvanalysis import get_time_domain_features
  
  # nn_intervals_list contains integer values of NN Interval
 nn_intervals_list = [1000, 1050, 1020, 1080, ..., 1100, 1110, 1060]
@@ -131,16 +131,30 @@ You can find how to use methods, references and details about each feature in th
 There are several plot functions that allow you to see, for example, the Power spectral density for frequency domain features :
 
 ```python
-from hrvanalysis.plot import plot_psd, plot_distrib
+from hrvanalysis import plot_psd
 
 # nn_intervals_list contains integer values of NN Interval
 nn_intervals_list = [1000, 1050, 1020, 1080, ..., 1100, 1110, 1060]
 
-plot_psd(nn_intervals, method="Welch")
-plot_distrib(nn_intervals)
+plot_psd(nn_intervals_list, method="welch")
+plot_distrib(nn_intervals_list, method="lomb")
 ```
 
-![alt text](https://github.com/robinchampseix/hrvanalysis/blob/master/figures/lomb_density_plot.png)
+![alt text](https://github.com/robinchampseix/hrvanalysis/blob/master/figures/psd_periodogram_plot.png)
+
+
+```python
+from hrvanalysis import plot_poincare
+
+# nn_intervals_list contains integer values of NN Interval
+nn_intervals_list = [1000, 1050, 1020, 1080, ..., 1100, 1110, 1060]
+
+plot_poincare(nn_intervals_list)
+plot_poincare(nn_intervals_list, plot_sd_features=True)
+```
+
+![alt text](https://github.com/robinchampseix/hrvanalysis/blob/master/figures/poincare_plot.png)
+
 
 You can find how to use methods and details in the [documentation](https://robinchampseix.github.io/hrvanalysis/tutorial.html):
 - plot_distrib

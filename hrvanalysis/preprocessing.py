@@ -20,8 +20,8 @@ __all__ = ["remove_outliers", "remove_ectopic_beats", "interpolate_nan_values", 
 # ----------------- ClEAN OUTlIER / ECTOPIC BEATS ----------------- #
 
 
-def remove_outliers(rr_intervals: List[int], verbose: bool = True, low_rri: int = 300,
-                    high_rri: int = 2000) -> List[int]:
+def remove_outliers(rr_intervals: List[float], verbose: bool = True, low_rri: int = 300,
+                    high_rri: int = 2000) -> List[float]:
     """
     Function that replace RR-interval outlier by nan.
 
@@ -68,13 +68,16 @@ def remove_outliers(rr_intervals: List[int], verbose: bool = True, low_rri: int 
                 outliers_list.append(rri)
 
         nan_count = sum(np.isnan(rr_intervals_cleaned))
-        print("{} outlier(s) have been deleted. The outliers values are : {}".format(nan_count,
-                                                                                     outliers_list))
+        if nan_count == 0:
+            print("{} outlier(s) have been deleted.".format(nan_count))
+        else:
+            print("{} outlier(s) have been deleted.".format(nan_count))
+            print("The outlier(s) value(s) are : {}".format(outliers_list))
     return rr_intervals_cleaned
 
 
-def remove_ectopic_beats(rr_intervals: List[int], method: str = "malik",
-                         custom_removing_rule: float = 0.2) -> List[int]:
+def remove_ectopic_beats(rr_intervals: List[float], method: str = "malik",
+                         custom_removing_rule: float = 0.2) -> List[float]:
     """
     RR-intervals differing by more than the removing_rule from the one proceeding it are removed.
 
@@ -172,7 +175,7 @@ def is_outlier(rr_interval: int, next_rr_interval: float, method: str = "malik",
     return outlier
 
 
-def _remove_outlier_karlsson(rr_intervals: List[int], removing_rule: float = 0.2) -> Tuple[List[int], int]:
+def _remove_outlier_karlsson(rr_intervals: List[float], removing_rule: float = 0.2) -> Tuple[List[float], int]:
     """
     RR-intervals differing by more than the 20 % of the mean of previous and next RR-interval
     are removed.
@@ -214,7 +217,7 @@ def _remove_outlier_karlsson(rr_intervals: List[int], removing_rule: float = 0.2
     return nn_intervals, outlier_count
 
 
-def _remove_outlier_acar(rr_intervals: List[int], custom_rule=0.2) -> Tuple[List[int], int]:
+def _remove_outlier_acar(rr_intervals: List[float], custom_rule=0.2) -> Tuple[List[float], int]:
     """
     RR-intervals differing by more than the 20 % of the mean of last 9 RrIntervals
     are removed.
@@ -252,7 +255,7 @@ def _remove_outlier_acar(rr_intervals: List[int], custom_rule=0.2) -> Tuple[List
     return nn_intervals, outlier_count
 
 
-def interpolate_nan_values(rr_intervals: List[int], interpolation_method: str = "linear"):
+def interpolate_nan_values(rr_intervals: List[float], interpolation_method: str = "linear", limit=1):
     """
     Function that interpolate Nan values with linear interpolation
 
@@ -262,7 +265,8 @@ def interpolate_nan_values(rr_intervals: List[int], interpolation_method: str = 
         RrIntervals list.
     interpolation_method : str
         Method used to interpolate Nan values of series.
-
+    limit: int
+        TODO
     Returns
     ---------
     interpolated_rr_intervals : list
@@ -270,13 +274,14 @@ def interpolate_nan_values(rr_intervals: List[int], interpolation_method: str = 
     """
     series_rr_intervals_cleaned = pd.Series(rr_intervals)
     # Interpolate nan values and convert pandas object to list of values
-    interpolated_rr_intervals = series_rr_intervals_cleaned.interpolate(method=interpolation_method)
+    interpolated_rr_intervals = series_rr_intervals_cleaned.interpolate(method=interpolation_method,
+                                                                        limit=1)
     return interpolated_rr_intervals.values.tolist()
 
 
-def get_nn_intervals(rr_intervals: List[int], low_rri: int = 300, high_rri: int = 2000,
+def get_nn_intervals(rr_intervals: List[float], low_rri: int = 300, high_rri: int = 2000,
                      interpolation_method: str = "linear", ectopic_beats_removal_method: str = KAMATH_RULE,
-                     verbose: bool = True) -> List[int]:
+                     verbose: bool = True) -> List[float]:
     """
     Function that computes NN Intervals from RR-intervals.
 
@@ -309,7 +314,7 @@ def get_nn_intervals(rr_intervals: List[int], low_rri: int = 300, high_rri: int 
     return interpolated_nn_intervals
 
 
-def is_valid_sample(nn_intervals: List[int], outlier_count: int, removing_rule: float = 0.04) -> bool:
+def is_valid_sample(nn_intervals: List[float], outlier_count: int, removing_rule: float = 0.04) -> bool:
     """
     Test if the sample meet the condition to be used for analysis
 

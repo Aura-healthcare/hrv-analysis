@@ -17,10 +17,14 @@ VlfBand = namedtuple("Vlf_band", ["low", "high"])
 LfBand = namedtuple("Lf_band", ["low", "high"])
 HfBand = namedtuple("Hf_band", ["low", "high"])
 
+# TODO : ajouter argument pour passer paramètre xmin / max & ymin / ymax plot OU Auto scale
 
-def plot_timeseries(nn_intervals: List[int], normalize: bool = True):
+
+def plot_timeseries(nn_intervals: List[float], normalize: bool = True,
+                    autoscale: bool = True, y_min: float = None, y_max: float = None):
     """
     Function plotting the NN-intervals timeseries.
+    TODO
 
     Arguments
     ---------
@@ -29,6 +33,9 @@ def plot_timeseries(nn_intervals: List[int], normalize: bool = True):
     normalize : bool
         Set to True to plot X axis as a cumulative sum of Time.
         Set to False to plot X axis using x as index array 0, 1, ..., N-1.
+    autoscale : bool
+    y_min : float
+    y_max : float
     """
 
     style.use("seaborn-darkgrid")
@@ -42,10 +49,13 @@ def plot_timeseries(nn_intervals: List[int], normalize: bool = True):
     else:
         plt.xlabel("RR-interval index", fontsize=15)
         plt.plot(nn_intervals)
+
+    if not autoscale:
+        plt.ylim(y_min, y_max)
     plt.show()
 
 
-def plot_distrib(nn_intervals: List[int], bin_length: int = 8):
+def plot_distrib(nn_intervals: List[float], bin_length: int = 8):
     """
     Function plotting histogram distribution of the NN Intervals. Useful for geometrical features.
 
@@ -69,7 +79,7 @@ def plot_distrib(nn_intervals: List[int], bin_length: int = 8):
     plt.show()
 
 
-def plot_psd(nn_intervals: List[int], method: str = "welch", sampling_frequency: int = 7,
+def plot_psd(nn_intervals: List[float], method: str = "welch", sampling_frequency: int = 7,
              interpolation_method: str = "linear", vlf_band: namedtuple = VlfBand(0.0033, 0.04),
              lf_band: namedtuple = LfBand(0.04, 0.15), hf_band: namedtuple = HfBand(0.15, 0.40)):
     """
@@ -124,14 +134,14 @@ def plot_psd(nn_intervals: List[int], method: str = "welch", sampling_frequency:
         for band_index, label in zip(frequency_band_index, label_list):
             plt.fill_between(freq[band_index], 0, psd[band_index] / (1000 * len(psd[band_index])), label=label)
         plt.legend(prop={"size": 15}, loc="best")
-        plt.xlim(0, 0.5)
+        plt.xlim(0, hf_band[1])
     else:
         raise ValueError("Not a valid method. Choose between 'lomb' and 'welch'")
 
     plt.show()
 
 
-def plot_poincare(nn_intervals: List[int], plot_sd_features=True):
+def plot_poincare(nn_intervals: List[float], plot_sd_features=True):
     """
     Pointcare / Lorentz Plot of the NN Intervals
 
