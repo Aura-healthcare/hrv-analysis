@@ -10,21 +10,11 @@
 
 **hrvanalysis** is a Python module for Heart Rate Variability analysis of RR-intervals built on top of SciPy, AstroPy, Nolds and NumPy and distributed under the GPLv3 license.
 
-The development of this library started in July 2018 as part of Aura Healthcare project and is currently maintained by Robin Champseix.
+The development of this library started in July 2018 as part of [Aura Healthcare](https://www.aura.healthcare) project, in [OCTO Technology](https://www.octo.com/fr) R&D team and is maintained by Robin Champseix.
 
-![Plot image](timeserie_distrib_plot.png)
+![Plot image](images/timeserie_distrib_plot.png)
 
 ## Installation / Prerequisites
-
-#### Dependencies
-
-hrvanalysis requires the following:
-- Python (>= 3.5)
-- astropy >= 3.0.4
-- future >= 0.16.0
-- nolds >= 0.4.1
-- numpy >= 1.15.1
-- scipy >= 1.1.0
 
 
 #### User installation
@@ -38,24 +28,36 @@ you can also clone the repository:
     $ git clone https://github.com/robinchampseix/hrvanalysis.git
     $ python setup.py install
 
+#### Dependencies
+
+hrvanalysis requires the following:
+- Python (>= 3.5)
+- astropy >= 3.0.4
+- future >= 0.16.0
+- nolds >= 0.4.1
+- numpy >= 1.15.1
+- scipy >= 1.1.0
+
 
 ## Quick examples
 
 ### Outliers and ectopic beats filtering methods
 
-This package provides methods to remove outliers and ectopic beats from signal for further analysis. Those methods are useful to get Normal to Normal Interval (NN interval) from Rr Interval.
+This package provides methods to remove outliers and ectopic beats from signal for further analysis. Those methods are useful to get Normal to Normal Interval (NN-intervals) from RR-intervals.
 Please use this methods carefully as they might have a huge impact on features calculation.
 
 ```python
-from hrvanalysis.preprocessing import remove_outliers, remove_ectopic_beats, interpolate_nan_values
+from hrvanalysis import remove_outliers, remove_ectopic_beats, interpolate_nan_values
 
- # nn_intervals_list contains integer values of RR Interval
-nn_intervals_list = [1000, 1050, 1020, 1080, ..., 1100, 1110, 1060]
+# rr_intervals_list contains integer values of RR-interval
+rr_intervals_list = [1000, 1050, 1020, 1080, ..., 1100, 1110, 1060]
 
 # This remove outliers from signal
-rr_intervals_without_outliers = remove_outliers(rr_intervals=rr_intervals_list,  low_rri=300, high_rri=2000)
+rr_intervals_without_outliers = remove_outliers(rr_intervals=rr_intervals_list,  
+                                                low_rri=300, high_rri=2000)
 # This replace outliers nan values with linear interpolation
-interpolated_rr_intervals = interpolate_nan_values(rr_intervals=rr_intervals_without_outliers, interpolation_method="linear")
+interpolated_rr_intervals = interpolate_nan_values(rr_intervals=rr_intervals_without_outliers, 
+                                                   interpolation_method="linear")
 
 # This remove ectopic beats from signal
 nn_intervals_list = remove_ectopic_beats(rr_intervals=interpolated_rr_intervals, method="malik")
@@ -63,7 +65,7 @@ nn_intervals_list = remove_ectopic_beats(rr_intervals=interpolated_rr_intervals,
 interpolated_nn_intervals = interpolate_nan_values(rr_intervals=nn_intervals_list)
 ```
 
-You can find how to use the following methods, references and more details in the [Tutorial part](<https://robinchampseix.github.io/hrvanalysis/tutorial.html>):
+You can find how to use the following methods, references and more details in the [documentation](https://robinchampseix.github.io/hrvanalysis/tutorial.html):
 - remove_outliers
 - remove_ectopic_beats
 
@@ -82,9 +84,9 @@ There are 4 types of features you can get from NN Intervals:
 As an exemple, what you can compute to get Time domain analysis is :
 
 ```python
-from hrvanalysis.extract_features import get_time_domain_features
+from hrvanalysis import get_time_domain_features
  
- # nn_intervals_list contains integer values of NN Interval
+ # nn_intervals_list contains integer values of NN-interval
 nn_intervals_list = [1000, 1050, 1020, 1080, ..., 1100, 1110, 1060]
 
 time_domain_features = get_time_domain_features(nn_intervals_list)
@@ -108,7 +110,7 @@ time_domain_features = get_time_domain_features(nn_intervals_list)
  'std_hr': 5.196}
 ```
 
-You can find how to use the following methods, references and more details in the [Tutorial part](<https://robinchampseix.github.io/hrvanalysis/tutorial.html>):
+You can find how to use the following methods, references and details about each feature in the [documentation](https://robinchampseix.github.io/hrvanalysis/tutorial.html):
 - get_time_domain_features
 - get_geometrical_features
 - get_frequency_domain_features
@@ -118,19 +120,36 @@ You can find how to use the following methods, references and more details in th
 
 ### Plot functions
 
-There are several plot functions that allow you to see, for example, the Power spectral density for frequency domain features :
+
+There are several plot functions that allow you to see, for example, the Power Spectral Density (PSD) for frequency domain features or Poincaré Plot for non linear domain features:
 
 ```python
-from hrvanalysis.plot import plot_psd, plot_distrib
+from hrvanalysis import plot_psd
 
-# nn_intervals is a list containing integers value of NN Intervals
-plot_psd(nn_intervals, method="Welch")
-plot_distrib(nn_intervals)
+# nn_intervals_list contains integer values of NN-interval
+nn_intervals_list = [1000, 1050, 1020, 1080, ..., 1100, 1110, 1060]
+
+plot_psd(nn_intervals_list, method="welch")
+plot_distrib(nn_intervals_list, method="lomb")
 ```
 
-![Plot distrib image](lomb_density_plot.png)
+![Plot image](images/psd_periodogram_plot.png)
 
-You can find how to use the following methods, references and more details in the [Tutorial part](<https://robinchampseix.github.io/hrvanalysis/tutorial.html>):
+
+```python
+from hrvanalysis import plot_poincare
+
+# nn_intervals_list contains integer values of NN-interval
+nn_intervals_list = [1000, 1050, 1020, 1080, ..., 1100, 1110, 1060]
+
+plot_poincare(nn_intervals_list)
+plot_poincare(nn_intervals_list, plot_sd_features=True)
+```
+
+![Plot image](images/poincare_plot.png)
+
+
+You can find how to use methods and details in the [documentation](https://robinchampseix.github.io/hrvanalysis/tutorial.html):
 - plot_distrib
 - plot_timeseries
 - plot_psd

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""This script provides several methods to plot RR / NN Intervals."""
+"""This script provides several methods to plot RR / NN-intervals."""
 
 from typing import List
 import matplotlib.pyplot as plt
@@ -17,14 +17,11 @@ VlfBand = namedtuple("Vlf_band", ["low", "high"])
 LfBand = namedtuple("Lf_band", ["low", "high"])
 HfBand = namedtuple("Hf_band", ["low", "high"])
 
-# TODO : ajouter argument pour passer paramètre xmin / max & ymin / ymax plot OU Auto scale
-
 
 def plot_timeseries(nn_intervals: List[float], normalize: bool = True,
                     autoscale: bool = True, y_min: float = None, y_max: float = None):
     """
-    Function plotting the NN-intervals timeseries.
-    TODO
+    Function plotting the NN-intervals time series.
 
     Arguments
     ---------
@@ -34,8 +31,11 @@ def plot_timeseries(nn_intervals: List[float], normalize: bool = True,
         Set to True to plot X axis as a cumulative sum of Time.
         Set to False to plot X axis using x as index array 0, 1, ..., N-1.
     autoscale : bool
+        Option to normalize the x-axis as a time series for comparison. Set to True by default.
     y_min : float
+        Custom min value might be set for y axis.
     y_max : float
+        Custom max value might be set for y axis.
     """
 
     style.use("seaborn-darkgrid")
@@ -80,7 +80,7 @@ def plot_distrib(nn_intervals: List[float], bin_length: int = 8):
 
 
 def plot_psd(nn_intervals: List[float], method: str = "welch", sampling_frequency: int = 7,
-             interpolation_method: str = "linear", vlf_band: namedtuple = VlfBand(0.0033, 0.04),
+             interpolation_method: str = "linear", vlf_band: namedtuple = VlfBand(0.003, 0.04),
              lf_band: namedtuple = LfBand(0.04, 0.15), hf_band: namedtuple = HfBand(0.15, 0.40)):
     """
     Function plotting the power spectral density of the NN Intervals.
@@ -141,7 +141,7 @@ def plot_psd(nn_intervals: List[float], method: str = "welch", sampling_frequenc
     plt.show()
 
 
-def plot_poincare(nn_intervals: List[float], plot_sd_features=True):
+def plot_poincare(nn_intervals: List[float], plot_sd_features: bool = True):
     """
     Pointcare / Lorentz Plot of the NN Intervals
 
@@ -150,6 +150,7 @@ def plot_poincare(nn_intervals: List[float], plot_sd_features=True):
     nn_intervals : list
         list of NN intervals
     plot_sd_features : bool
+        Option to show or not SD1 and SD2 features on plot. By default, set to True.
 
     Notes
     ---------

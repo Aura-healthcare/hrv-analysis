@@ -87,8 +87,8 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Getting started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#hrv-analysis">hrv-analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installation-prerequisites">Installation / Prerequisites</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#dependencies">Dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#user-installation">User installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dependencies">Dependencies</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#quick-examples">Quick examples</a><ul>
@@ -179,23 +179,11 @@
 <a class="reference external" href="https://www.gnu.org/licenses/gpl-3.0"><img alt="License: GPL v3" src="https://img.shields.io/badge/License-GPL%20v3-blue.svg" /></a>
 <a class="reference external" href="https://pepy.tech/project/hrv-analysis"><img alt="Downloads" src="https://pepy.tech/badge/hrv-analysis" /></a></p>
 <p><strong>hrvanalysis</strong> is a Python module for Heart Rate Variability analysis of RR-intervals built on top of SciPy, AstroPy, Nolds and NumPy and distributed under the GPLv3 license.</p>
-<p>The development of this library started in July 2018 as part of Aura Healthcare project and is currently maintained by Robin Champseix.</p>
+<p>The development of this library started in July 2018 as part of <a class="reference external" href="https://www.aura.healthcare">Aura Healthcare</a> project, in <a class="reference external" href="https://www.octo.com/fr">OCTO Technology</a> R&amp;D team and is maintained by Robin Champseix.</p>
 <p><img alt="Plot image" src="_images/timeserie_distrib_plot.png" /></p>
 </div>
 <div class="section" id="installation-prerequisites">
 <span id="installation-prerequisites"></span><h2>Installation / Prerequisites<a class="headerlink" href="#installation-prerequisites" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="dependencies">
-<span id="dependencies"></span><h3>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h3>
-<p>hrvanalysis requires the following:</p>
-<ul class="simple">
-<li>Python (&gt;= 3.5)</li>
-<li>astropy &gt;= 3.0.4</li>
-<li>future &gt;= 0.16.0</li>
-<li>nolds &gt;= 0.4.1</li>
-<li>numpy &gt;= 1.15.1</li>
-<li>scipy &gt;= 1.1.0</li>
-</ul>
-</div>
 <div class="section" id="user-installation">
 <span id="user-installation"></span><h3>User installation<a class="headerlink" href="#user-installation" title="Permalink to this headline">¶</a></h3>
 <p>The easiest way to install hrv-analysis is using <code class="docutils literal notranslate"><span class="pre">pip</span></code> :</p>
@@ -208,22 +196,36 @@ $ python setup.py install
 </pre></div>
 </div>
 </div>
+<div class="section" id="dependencies">
+<span id="dependencies"></span><h3>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h3>
+<p>hrvanalysis requires the following:</p>
+<ul class="simple">
+<li>Python (&gt;= 3.5)</li>
+<li>astropy &gt;= 3.0.4</li>
+<li>future &gt;= 0.16.0</li>
+<li>nolds &gt;= 0.4.1</li>
+<li>numpy &gt;= 1.15.1</li>
+<li>scipy &gt;= 1.1.0</li>
+</ul>
+</div>
 </div>
 <div class="section" id="quick-examples">
 <span id="quick-examples"></span><h2>Quick examples<a class="headerlink" href="#quick-examples" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="outliers-and-ectopic-beats-filtering-methods">
 <span id="outliers-and-ectopic-beats-filtering-methods"></span><h3>Outliers and ectopic beats filtering methods<a class="headerlink" href="#outliers-and-ectopic-beats-filtering-methods" title="Permalink to this headline">¶</a></h3>
-<p>This package provides methods to remove outliers and ectopic beats from signal for further analysis. Those methods are useful to get Normal to Normal Interval (NN interval) from Rr Interval.
+<p>This package provides methods to remove outliers and ectopic beats from signal for further analysis. Those methods are useful to get Normal to Normal Interval (NN-intervals) from RR-intervals.
 Please use this methods carefully as they might have a huge impact on features calculation.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hrvanalysis.preprocessing</span> <span class="kn">import</span> <span class="n">remove_outliers</span><span class="p">,</span> <span class="n">remove_ectopic_beats</span><span class="p">,</span> <span class="n">interpolate_nan_values</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hrvanalysis</span> <span class="kn">import</span> <span class="n">remove_outliers</span><span class="p">,</span> <span class="n">remove_ectopic_beats</span><span class="p">,</span> <span class="n">interpolate_nan_values</span>
 
- <span class="c1"># nn_intervals_list contains integer values of RR Interval</span>
-<span class="n">nn_intervals_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1050</span><span class="p">,</span> <span class="mi">1020</span><span class="p">,</span> <span class="mi">1080</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">1100</span><span class="p">,</span> <span class="mi">1110</span><span class="p">,</span> <span class="mi">1060</span><span class="p">]</span>
+<span class="c1"># rr_intervals_list contains integer values of RR-interval</span>
+<span class="n">rr_intervals_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1050</span><span class="p">,</span> <span class="mi">1020</span><span class="p">,</span> <span class="mi">1080</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">1100</span><span class="p">,</span> <span class="mi">1110</span><span class="p">,</span> <span class="mi">1060</span><span class="p">]</span>
 
 <span class="c1"># This remove outliers from signal</span>
-<span class="n">rr_intervals_without_outliers</span> <span class="o">=</span> <span class="n">remove_outliers</span><span class="p">(</span><span class="n">rr_intervals</span><span class="o">=</span><span class="n">rr_intervals_list</span><span class="p">,</span>  <span class="n">low_rri</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">high_rri</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+<span class="n">rr_intervals_without_outliers</span> <span class="o">=</span> <span class="n">remove_outliers</span><span class="p">(</span><span class="n">rr_intervals</span><span class="o">=</span><span class="n">rr_intervals_list</span><span class="p">,</span>  
+                                                <span class="n">low_rri</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">high_rri</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
 <span class="c1"># This replace outliers nan values with linear interpolation</span>
-<span class="n">interpolated_rr_intervals</span> <span class="o">=</span> <span class="n">interpolate_nan_values</span><span class="p">(</span><span class="n">rr_intervals</span><span class="o">=</span><span class="n">rr_intervals_without_outliers</span><span class="p">,</span> <span class="n">interpolation_method</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">)</span>
+<span class="n">interpolated_rr_intervals</span> <span class="o">=</span> <span class="n">interpolate_nan_values</span><span class="p">(</span><span class="n">rr_intervals</span><span class="o">=</span><span class="n">rr_intervals_without_outliers</span><span class="p">,</span> 
+                                                   <span class="n">interpolation_method</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">)</span>
 
 <span class="c1"># This remove ectopic beats from signal</span>
 <span class="n">nn_intervals_list</span> <span class="o">=</span> <span class="n">remove_ectopic_beats</span><span class="p">(</span><span class="n">rr_intervals</span><span class="o">=</span><span class="n">interpolated_rr_intervals</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;malik&quot;</span><span class="p">)</span>
@@ -231,7 +233,7 @@ Please use this methods carefully as they might have a huge impact on features c
 <span class="n">interpolated_nn_intervals</span> <span class="o">=</span> <span class="n">interpolate_nan_values</span><span class="p">(</span><span class="n">rr_intervals</span><span class="o">=</span><span class="n">nn_intervals_list</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>You can find how to use the following methods, references and more details in the <a class="reference external" href="https://robinchampseix.github.io/hrvanalysis/tutorial.html">Tutorial part</a>:</p>
+<p>You can find how to use the following methods, references and more details in the <a class="reference external" href="https://robinchampseix.github.io/hrvanalysis/tutorial.html">documentation</a>:</p>
 <ul class="simple">
 <li>remove_outliers</li>
 <li>remove_ectopic_beats</li>
@@ -249,9 +251,9 @@ Please use this methods carefully as they might have a huge impact on features c
 <blockquote>
 <div>Non Linear domain features : <strong>CSI, CVI, Modified_CSI, SD1, SD2, SD1/SD2 ratio, SampEn</strong></div></blockquote>
 <p>As an exemple, what you can compute to get Time domain analysis is :</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hrvanalysis.extract_features</span> <span class="kn">import</span> <span class="n">get_time_domain_features</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hrvanalysis</span> <span class="kn">import</span> <span class="n">get_time_domain_features</span>
  
- <span class="c1"># nn_intervals_list contains integer values of NN Interval</span>
+ <span class="c1"># nn_intervals_list contains integer values of NN-interval</span>
 <span class="n">nn_intervals_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1050</span><span class="p">,</span> <span class="mi">1020</span><span class="p">,</span> <span class="mi">1080</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">1100</span><span class="p">,</span> <span class="mi">1110</span><span class="p">,</span> <span class="mi">1060</span><span class="p">]</span>
 
 <span class="n">time_domain_features</span> <span class="o">=</span> <span class="n">get_time_domain_features</span><span class="p">(</span><span class="n">nn_intervals_list</span><span class="p">)</span>
@@ -275,7 +277,7 @@ Please use this methods carefully as they might have a huge impact on features c
  <span class="s1">&#39;std_hr&#39;</span><span class="p">:</span> <span class="mf">5.196</span><span class="p">}</span>
 </pre></div>
 </div>
-<p>You can find how to use the following methods, references and more details in the <a class="reference external" href="https://robinchampseix.github.io/hrvanalysis/tutorial.html">Tutorial part</a>:</p>
+<p>You can find how to use the following methods, references and details about each feature in the <a class="reference external" href="https://robinchampseix.github.io/hrvanalysis/tutorial.html">documentation</a>:</p>
 <ul class="simple">
 <li>get_time_domain_features</li>
 <li>get_geometrical_features</li>
@@ -287,16 +289,28 @@ Please use this methods carefully as they might have a huge impact on features c
 </div>
 <div class="section" id="plot-functions">
 <span id="plot-functions"></span><h3>Plot functions<a class="headerlink" href="#plot-functions" title="Permalink to this headline">¶</a></h3>
-<p>There are several plot functions that allow you to see, for example, the Power spectral density for frequency domain features :</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hrvanalysis.plot</span> <span class="kn">import</span> <span class="n">plot_psd</span><span class="p">,</span> <span class="n">plot_distrib</span>
+<p>There are several plot functions that allow you to see, for example, the Power Spectral Density (PSD) for frequency domain features or Poincaré Plot for non linear domain features:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hrvanalysis</span> <span class="kn">import</span> <span class="n">plot_psd</span>
 
-<span class="c1"># nn_intervals is a list containing integers value of NN Intervals</span>
-<span class="n">plot_psd</span><span class="p">(</span><span class="n">nn_intervals</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;Welch&quot;</span><span class="p">)</span>
-<span class="n">plot_distrib</span><span class="p">(</span><span class="n">nn_intervals</span><span class="p">)</span>
+<span class="c1"># nn_intervals_list contains integer values of NN-interval</span>
+<span class="n">nn_intervals_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1050</span><span class="p">,</span> <span class="mi">1020</span><span class="p">,</span> <span class="mi">1080</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">1100</span><span class="p">,</span> <span class="mi">1110</span><span class="p">,</span> <span class="mi">1060</span><span class="p">]</span>
+
+<span class="n">plot_psd</span><span class="p">(</span><span class="n">nn_intervals_list</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;welch&quot;</span><span class="p">)</span>
+<span class="n">plot_distrib</span><span class="p">(</span><span class="n">nn_intervals_list</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;lomb&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><img alt="Plot distrib image" src="_images/lomb_density_plot.png" /></p>
-<p>You can find how to use the following methods, references and more details in the <a class="reference external" href="https://robinchampseix.github.io/hrvanalysis/tutorial.html">Tutorial part</a>:</p>
+<p><img alt="Plot image" src="_images/psd_periodogram_plot.png" /></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hrvanalysis</span> <span class="kn">import</span> <span class="n">plot_poincare</span>
+
+<span class="c1"># nn_intervals_list contains integer values of NN-interval</span>
+<span class="n">nn_intervals_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1050</span><span class="p">,</span> <span class="mi">1020</span><span class="p">,</span> <span class="mi">1080</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">1100</span><span class="p">,</span> <span class="mi">1110</span><span class="p">,</span> <span class="mi">1060</span><span class="p">]</span>
+
+<span class="n">plot_poincare</span><span class="p">(</span><span class="n">nn_intervals_list</span><span class="p">)</span>
+<span class="n">plot_poincare</span><span class="p">(</span><span class="n">nn_intervals_list</span><span class="p">,</span> <span class="n">plot_sd_features</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="Plot image" src="_images/poincare_plot.png" /></p>
+<p>You can find how to use methods and details in the <a class="reference external" href="https://robinchampseix.github.io/hrvanalysis/tutorial.html">documentation</a>:</p>
 <ul class="simple">
 <li>plot_distrib</li>
 <li>plot_timeseries</li>

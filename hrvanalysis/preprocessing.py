@@ -17,11 +17,11 @@ CUSTOM_RULE = "custom"
 
 __all__ = ["remove_outliers", "remove_ectopic_beats", "interpolate_nan_values", "get_nn_intervals"]
 
-# ----------------- ClEAN OUTlIER / ECTOPIC BEATS ----------------- #
+# ----------------- ClEAN OUTlIERS / ECTOPIC BEATS ----------------- #
 
 
 def remove_outliers(rr_intervals: List[float], verbose: bool = True, low_rri: int = 300,
-                    high_rri: int = 2000) -> List[float]:
+                    high_rri: int = 2000) -> list:
     """
     Function that replace RR-interval outlier by nan.
 
@@ -77,7 +77,7 @@ def remove_outliers(rr_intervals: List[float], verbose: bool = True, low_rri: in
 
 
 def remove_ectopic_beats(rr_intervals: List[float], method: str = "malik",
-                         custom_removing_rule: float = 0.2) -> List[float]:
+                         custom_removing_rule: float = 0.2) -> list:
     """
     RR-intervals differing by more than the removing_rule from the one proceeding it are removed.
 
@@ -175,7 +175,7 @@ def is_outlier(rr_interval: int, next_rr_interval: float, method: str = "malik",
     return outlier
 
 
-def _remove_outlier_karlsson(rr_intervals: List[float], removing_rule: float = 0.2) -> Tuple[List[float], int]:
+def _remove_outlier_karlsson(rr_intervals: List[float], removing_rule: float = 0.2) -> Tuple[list, int]:
     """
     RR-intervals differing by more than the 20 % of the mean of previous and next RR-interval
     are removed.
@@ -217,7 +217,7 @@ def _remove_outlier_karlsson(rr_intervals: List[float], removing_rule: float = 0
     return nn_intervals, outlier_count
 
 
-def _remove_outlier_acar(rr_intervals: List[float], custom_rule=0.2) -> Tuple[List[float], int]:
+def _remove_outlier_acar(rr_intervals: List[float], custom_rule=0.2) -> Tuple[list, int]:
     """
     RR-intervals differing by more than the 20 % of the mean of last 9 RrIntervals
     are removed.
@@ -238,7 +238,7 @@ def _remove_outlier_acar(rr_intervals: List[float], custom_rule=0.2) -> Tuple[Li
     References
     ----------
     .. [8] Automatic ectopic beat elimination in short-term heart rate variability measurements \
-    Acar B., Irina S., Hemingway H., Malik M.:
+    Acar B., Irina S., Hemingway H., Malik M.
     """
     nn_intervals = []
     outlier_count = 0
@@ -255,7 +255,7 @@ def _remove_outlier_acar(rr_intervals: List[float], custom_rule=0.2) -> Tuple[Li
     return nn_intervals, outlier_count
 
 
-def interpolate_nan_values(rr_intervals: List[float], interpolation_method: str = "linear", limit=1):
+def interpolate_nan_values(rr_intervals: list, interpolation_method: str = "linear", limit=1) -> list:
     """
     Function that interpolate Nan values with linear interpolation
 

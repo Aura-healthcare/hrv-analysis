@@ -5,7 +5,7 @@ import os
 import unittest
 import numpy as np
 from hrvanalysis.extract_features import (get_time_domain_features, get_geometrical_features,
-                                          _create_interpolation_time, get_sampen,
+                                          _create_interpolated_timestamp_list, get_sampen,
                                           get_csi_cvi_features, get_poincare_plot_features)
 
 
@@ -56,7 +56,7 @@ class ExtractFeaturesTestCase(unittest.TestCase):
     # TODO : check why there is not equality between arrays
     # def test_if_time_info_created_is_correct(self):
     #     nn_intervals = [900, 1000, 1100, 1000, 950, 850]
-    #     time_info_created = _create_time_info(nn_intervals)
+    #     time_info_created = _create_timestamp_list(nn_intervals)
     #     expected_time = np.array([0., 1., 2.1, 3.1, 4.05, 4.9])
     #     print(expected_time == time_info_created)
     #     print(expected_time)
@@ -65,7 +65,7 @@ class ExtractFeaturesTestCase(unittest.TestCase):
 
     def test_if_interpolated_time_created_is_correct(self):
         nn_intervals = [1000, 900, 1100, 1000, 950, 850]
-        nni_interpolation_tmstp = _create_interpolation_time(nn_intervals, sampling_frequency=2)
+        nni_interpolation_tmstp = _create_interpolated_timestamp_list(nn_intervals, sampling_frequency=2)
         real_interpolation_tmstp = np.array([0., 0.5, 1., 1.5, 2., 2.5, 3., 3.5, 4., 4.5])
         all_is_equal = all(nni_interpolation_tmstp == real_interpolation_tmstp)
         self.assertTrue(all_is_equal)
