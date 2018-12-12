@@ -75,7 +75,7 @@ def plot_distrib(nn_intervals: List[float], bin_length: int = 8):
     plt.title("Distribution of Rr Intervals", fontsize=20)
     plt.xlabel("Time (s)", fontsize=15)
     plt.ylabel("Number of Rr Interval per bin", fontsize=15)
-    plt.hist(nn_intervals, bins=range(min_nn_i - 10, max_nn_i + 10, bin_length))
+    plt.hist(nn_intervals, bins=range(min_nn_i - 10, max_nn_i + 10, bin_length), rwidth=0.8)
     plt.show()
 
 
