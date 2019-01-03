@@ -11,9 +11,9 @@
 The development of this library started in July 2018 as part of [Aura Healthcare](https://www.aura.healthcare) project, in [OCTO Technology](https://www.octo.com/fr) R&D team and is maintained by Robin Champseix.
 
 
-![alt text](https://github.com/robinchampseix/hrvanalysis/blob/master/figures/timeserie_distrib_plot.png)
+![alt text](https://github.com/aura-healthcare/hrvanalysis/blob/master/figures/timeserie_distrib_plot.png)
 
-**Full documentation** : https://robinchampseix.github.io/hrvanalysis/
+**Full documentation** : https://aura-healthcare.github.io/hrvanalysis/
 
 **Website** : https://www.aura.healthcare
 
@@ -32,7 +32,7 @@ The easiest way to install hrv-analysis is using ``pip`` :
 
 you can also clone the repository:
 
-    $ git clone https://github.com/robinchampseix/hrvanalysis.git
+    $ git clone https://github.com/aura-healthcare/hrvanalysis.git
     $ python setup.py install
 
 #### Dependencies
@@ -46,7 +46,7 @@ you can also clone the repository:
 - scipy >= 1.1.0
 
 
-## Getting started 
+## Getting started
 
 ### Outliers and ectopic beats filtering methods
 
@@ -63,7 +63,7 @@ rr_intervals_list = [1000, 1050, 1020, 1080, ..., 1100, 1110, 1060]
 rr_intervals_without_outliers = remove_outliers(rr_intervals=rr_intervals_list,  
                                                 low_rri=300, high_rri=2000)
 # This replace outliers nan values with linear interpolation
-interpolated_rr_intervals = interpolate_nan_values(rr_intervals=rr_intervals_without_outliers, 
+interpolated_rr_intervals = interpolate_nan_values(rr_intervals=rr_intervals_without_outliers,
                                                    interpolation_method="linear")
 
 # This remove ectopic beats from signal
@@ -72,14 +72,14 @@ nn_intervals_list = remove_ectopic_beats(rr_intervals=interpolated_rr_intervals,
 interpolated_nn_intervals = interpolate_nan_values(rr_intervals=nn_intervals_list)
 ```
 
-You can find how to use the following methods, references and more details in the [documentation](https://robinchampseix.github.io/hrvanalysis/tutorial.html):
+You can find how to use the following methods, references and more details in the [documentation](https://aura-healthcare.github.io/hrvanalysis/tutorial.html):
 - remove_outliers
 - remove_ectopic_beats
 
 
-### Features calculation 
+### Features calculation
 
-There are 4 types of features you can get from NN-intervals: 
+There are 4 types of features you can get from NN-intervals:
 
 > Time domain features : **Mean_NNI, SDNN, SDSD, NN50, pNN50, NN20, pNN20, RMSSD, Median_NN, Range_NN, CVSD, CV_NNI, Mean_HR, Max_HR, Min_HR, STD_HR**
 
@@ -93,7 +93,7 @@ As an exemple, what you can compute to get Time domain analysis is :
 
 ```python
 from hrvanalysis import get_time_domain_features
- 
+
  # nn_intervals_list contains integer values of NN-interval
 nn_intervals_list = [1000, 1050, 1020, 1080, ..., 1100, 1110, 1060]
 
@@ -118,7 +118,7 @@ time_domain_features = get_time_domain_features(nn_intervals_list)
  'std_hr': 5.196}
 ```
 
-You can find how to use the following methods, references and details about each feature in the [documentation](https://robinchampseix.github.io/hrvanalysis/tutorial.html):
+You can find how to use the following methods, references and details about each feature in the [documentation](https://aura-healthcare.github.io/hrvanalysis/tutorial.html):
 - get_time_domain_features
 - get_geometrical_features
 - get_frequency_domain_features
@@ -141,7 +141,7 @@ plot_psd(nn_intervals_list, method="welch")
 plot_distrib(nn_intervals_list, method="lomb")
 ```
 
-![alt text](https://github.com/robinchampseix/hrvanalysis/blob/master/figures/psd_periodogram_plot.png)
+![alt text](https://github.com/aura-healthcare/hrvanalysis/blob/master/figures/psd_periodogram_plot.png)
 
 
 ```python
@@ -154,10 +154,10 @@ plot_poincare(nn_intervals_list)
 plot_poincare(nn_intervals_list, plot_sd_features=True)
 ```
 
-![alt text](https://github.com/robinchampseix/hrvanalysis/blob/master/figures/poincare_plot.png)
+![alt text](https://github.com/aura-healthcare/hrvanalysis/blob/master/figures/poincare_plot.png)
 
 
-You can find how to use methods and details in the [documentation](https://robinchampseix.github.io/hrvanalysis/tutorial.html):
+You can find how to use methods and details in the [documentation](https://aura-healthcare.github.io/hrvanalysis/tutorial.html):
 - plot_distrib
 - plot_timeseries
 - plot_psd
@@ -169,11 +169,11 @@ You can find how to use methods and details in the [documentation](https://robin
 Here are the main references used to compute the set of features and for signal processing methods:
 
 > Heart rate variability - Standards of measurement, physiological interpretation, and clinical use, Task Force of The European Society of Cardiology and The North American Society of Pacing and Electrophysiology, 1996
-    
+
 > Signal Processing Methods for Heart Rate Variability - Gari D. Clifford, 2002
 
 > Physiological time-series analysis using approximate entropy and sample entropy, Joshua S. Richman, J. Randall Moorman - 2000
-    
+
 > Using Lorenz plot and Cardiac Sympathetic Index of heart rate variability for detecting seizures for patients with epilepsy, Jesper Jeppesen et al, 2014
 
 
@@ -184,8 +184,10 @@ Here are the main references used to compute the set of features and for signal 
 
 ## License
 
-This project is licensed under the *GNU GENERAL PUBLIC License* - see the [LICENSE.md](https://github.com/robinchampseix/hrvanalysis/blob/master/LICENSE) file for details
+This project is licensed under the *GNU GENERAL PUBLIC License* - see the [LICENSE.md](https://github.com/aura-healthcare/hrvanalysis/blob/master/LICENSE) file for details
 
+## How to contribute
+Please refer to [How To Contribute](https://github.com/aura-healthcare/hrvanalysis/blob/master/CONTRIBUTING.md)
 
 ## Acknowledgments
 
