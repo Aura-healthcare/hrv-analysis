@@ -21,6 +21,7 @@ WELCH_METHOD = "welch"
 LOMB_METHOD = "lomb"
 
 # Named Tuple for different frequency bands
+UlfBand = namedtuple("Ulf_band", ["low", "high"])
 VlfBand = namedtuple("Vlf_band", ["low", "high"])
 LfBand = namedtuple("Lf_band", ["low", "high"])
 HfBand = namedtuple("Hf_band", ["low", "high"])
@@ -199,6 +200,7 @@ def get_geometrical_features(nn_intervals: List[float]) -> dict:
 
 def get_frequency_domain_features(nn_intervals: List[float], method: str = WELCH_METHOD,
                                   sampling_frequency: int = 4, interpolation_method: str = "linear",
+                                  ulf_band: namedtuple = UlfBand(0, 0.003),
                                   vlf_band: namedtuple = VlfBand(0.003, 0.04),
                                   lf_band: namedtuple = LfBand(0.04, 0.15),
                                   hf_band: namedtuple = HfBand(0.15, 0.40)) -> dict:
@@ -219,6 +221,8 @@ def get_frequency_domain_features(nn_intervals: List[float], method: str = WELCH
     interpolation_method : str
         kind of interpolation as a string, by default "linear". No need to specify if Lomb
         method is used.
+    ulf_band : tuple
+        Ultra low frequency bands for features extraction from power spectral density.
     vlf_band : tuple
         Very low frequency bands for features extraction from power spectral density.
     lf_band : tuple
@@ -237,6 +241,8 @@ def get_frequency_domain_features(nn_intervals: List[float], method: str = WELCH
     Details about feature engineering...
 
     - **total_power** : Total power density spectral
+
+    - **ulf** : variance ( = power ) in HRV in the Ultra low Frequency (0 to .003 Hz by default).
 
     - **vlf** : variance ( = power ) in HRV in the Very low Frequency (.003 to .04 Hz by default). \
     Reflect an intrinsic rhythm produced by the heart which is modulated primarily by sympathetic \
@@ -273,10 +279,11 @@ def get_frequency_domain_features(nn_intervals: List[float], method: str = WELCH
     freq, psd = _get_freq_psd_from_nn_intervals(nn_intervals=nn_intervals, method=method,
                                                 sampling_frequency=sampling_frequency,
                                                 interpolation_method=interpolation_method,
-                                                vlf_band=vlf_band, hf_band=hf_band)
+                                                lower_band=ulf_band[0], upper_band=hf_band[1])
 
     # ---------- Features calculation ---------- #
     freqency_domain_features = _get_features_from_psd(freq=freq, psd=psd,
+                                                      ulf_band=ulf_band,
                                                       vlf_band=vlf_band,
                                                       lf_band=lf_band,
                                                       hf_band=hf_band)
@@ -287,8 +294,8 @@ def get_frequency_domain_features(nn_intervals: List[float], method: str = WELCH
 def _get_freq_psd_from_nn_intervals(nn_intervals: List[float], method: str = WELCH_METHOD,
                                     sampling_frequency: int = 4,
                                     interpolation_method: str = "linear",
-                                    vlf_band: namedtuple = VlfBand(0.003, 0.04),
-                                    hf_band: namedtuple = HfBand(0.15, 0.40)) -> Tuple:
+                                    lower_band: float = UlfBand[0],
+                                    upper_band: float = HfBand[1]) -> Tuple:
     """
     Returns the frequency and power of the signal.
 
@@ -304,10 +311,10 @@ def _get_freq_psd_from_nn_intervals(nn_intervals: List[float], method: str = WEL
     interpolation_method : str
         Kind of interpolation as a string, by default "linear". No need to specify if Lomb
         method is used.
-    vlf_band : tuple
-        Very low frequency bands for features extraction from power spectral density.
-    hf_band : tuple
-        High frequency bands for features extraction from power spectral density.
+    lower_band : float
+        Lower frequency band for features extraction from power spectral density.
+    upper_band : float
+        Upper frequency band for features extraction from power spectral density.
 
     Returns
     ---------
@@ -335,8 +342,8 @@ def _get_freq_psd_from_nn_intervals(nn_intervals: List[float], method: str = WEL
 
     elif method == LOMB_METHOD:
         freq, psd = LombScargle(timestamp_list, nn_intervals,
-                                normalization='psd').autopower(minimum_frequency=vlf_band[0],
-                                                               maximum_frequency=hf_band[1])
+                                normalization='psd').autopower(minimum_frequency=lower_band,
+                                                               maximum_frequency=upper_band)
     else:
         raise ValueError("Not a valid method. Choose between 'lomb' and 'welch'")
 
@@ -383,10 +390,11 @@ def _create_interpolated_timestamp_list(nn_intervals: List[float], sampling_freq
     time_nni = _create_timestamp_list(nn_intervals)
     # Create timestamp for interpolation
     nni_interpolation_tmstp = np.arange(0, time_nni[-1], 1 / float(sampling_frequency))
-    return nni_interpolation_tmstp
+    return list(nni_interpolation_tmstp)
 
 
-def _get_features_from_psd(freq: List[float], psd: List[float], vlf_band: namedtuple = VlfBand(0.003, 0.04),
+def _get_features_from_psd(freq: List[float], psd: List[float], ulf_band: namedtuple = UlfBand(0, 0.003),
+                           vlf_band: namedtuple = VlfBand(0.003, 0.04),
                            lf_band: namedtuple = LfBand(0.04, 0.15),
                            hf_band: namedtuple = HfBand(0.15, 0.40)) -> dict:
     """
@@ -398,6 +406,8 @@ def _get_features_from_psd(freq: List[float], psd: List[float], vlf_band: namedt
         Array of sample frequencies.
     psd : list
         Power spectral density or power spectrum.
+    ulf_band : tuple
+        Ultra low frequency bands for features extraction from power spectral density.
     vlf_band : tuple
         Very low frequency bands for features extraction from power spectral density.
     lf_band : tuple
@@ -413,6 +423,7 @@ def _get_features_from_psd(freq: List[float], psd: List[float], vlf_band: namedt
     """
 
     # Calcul of indices between desired frequency bands
+    ulf_indexes = np.logical_and(freq >= ulf_band[0], freq < ulf_band[1])
     vlf_indexes = np.logical_and(freq >= vlf_band[0], freq < vlf_band[1])
     lf_indexes = np.logical_and(freq >= lf_band[0], freq < lf_band[1])
     hf_indexes = np.logical_and(freq >= hf_band[0], freq < hf_band[1])
@@ -422,6 +433,7 @@ def _get_features_from_psd(freq: List[float], psd: List[float], vlf_band: namedt
     hf = np.trapz(y=psd[hf_indexes], x=freq[hf_indexes])
 
     # total power & vlf : Feature often used for  "long term recordings" analysis
+    ulf = np.trapz(y=psd[ulf_indexes], x=freq[ulf_indexes])
     vlf = np.trapz(y=psd[vlf_indexes], x=freq[vlf_indexes])
     total_power = vlf + lf + hf
 
@@ -436,7 +448,8 @@ def _get_features_from_psd(freq: List[float], psd: List[float], vlf_band: namedt
         'lfnu': lfnu,
         'hfnu': hfnu,
         'total_power': total_power,
-        'vlf': vlf
+        'vlf': vlf,
+        'ulf': ulf
     }
 
     return freqency_domain_features
