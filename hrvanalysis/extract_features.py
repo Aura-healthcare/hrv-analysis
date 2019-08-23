@@ -294,8 +294,8 @@ def get_frequency_domain_features(nn_intervals: List[float], method: str = WELCH
 def _get_freq_psd_from_nn_intervals(nn_intervals: List[float], method: str = WELCH_METHOD,
                                     sampling_frequency: int = 4,
                                     interpolation_method: str = "linear",
-                                    lower_band: float = UlfBand[0],
-                                    upper_band: float = HfBand[1]) -> Tuple:
+                                    lower_band: float = 0,
+                                    upper_band: float = 0.003) -> Tuple:
     """
     Returns the frequency and power of the signal.
 

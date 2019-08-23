@@ -85,7 +85,7 @@ There are 4 types of features you can get from NN-intervals:
 
 > Geometrical domain features : **Triangular_index, TINN**
 
-> Frequency domain features : **LF, HF, VLF, LH/HF ratio, LFnu, HFnu, Total_Power**
+> Frequency domain features : **LF, HF, VLF, ULF, LH/HF ratio, LFnu, HFnu, Total_Power**
 
 > Non Linear domain features : **CSI, CVI, Modified_CSI, SD1, SD2, SD1/SD2 ratio, SampEn**
 
