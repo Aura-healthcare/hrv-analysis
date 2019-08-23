@@ -77,7 +77,7 @@ def remove_outliers(rr_intervals: List[float], verbose: bool = True, low_rri: in
 
 
 def remove_ectopic_beats(rr_intervals: List[float], method: str = "malik",
-                         custom_removing_rule: float = 0.2) -> list:
+                         custom_removing_rule: float = 0.2, verbose: bool = True) -> list:
     """
     RR-intervals differing by more than the removing_rule from the one proceeding it are removed.
 
@@ -92,6 +92,8 @@ def remove_ectopic_beats(rr_intervals: List[float], method: str = "malik",
         that it is abnormal. If method is set to Karlsson, it is the percentage of difference
         between the absolute mean of previous and next RR-interval at which  to consider the beat
         as abnormal.
+    verbose : bool
+        Print information about ectopic beats.
 
     Returns
     ---------
@@ -138,7 +140,8 @@ def remove_ectopic_beats(rr_intervals: List[float], method: str = "malik",
                 outlier_count += 1
                 previous_outlier = True
 
-    print("{} ectopic beat(s) have been deleted with {} rule.".format(outlier_count, method))
+    if verbose :
+        print("{} ectopic beat(s) have been deleted with {} rule.".format(outlier_count, method))
 
     return nn_intervals
 
