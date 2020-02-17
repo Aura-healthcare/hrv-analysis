@@ -269,6 +269,10 @@ def get_frequency_domain_features(nn_intervals: List[float], method: str = WELCH
 
     """
 
+    # ----------  Handle pandas series  ---------- #
+
+    nn_intervals = list(nn_intervals)
+
     # ----------  Compute frequency & Power spectral density of signal  ---------- #
     freq, psd = _get_freq_psd_from_nn_intervals(nn_intervals=nn_intervals, method=method,
                                                 sampling_frequency=sampling_frequency,
@@ -276,12 +280,12 @@ def get_frequency_domain_features(nn_intervals: List[float], method: str = WELCH
                                                 vlf_band=vlf_band, hf_band=hf_band)
 
     # ---------- Features calculation ---------- #
-    freqency_domain_features = _get_features_from_psd(freq=freq, psd=psd,
+    frequency_domain_features = _get_features_from_psd(freq=freq, psd=psd,
                                                       vlf_band=vlf_band,
                                                       lf_band=lf_band,
                                                       hf_band=hf_band)
 
-    return freqency_domain_features
+    return frequency_domain_features
 
 
 def _get_freq_psd_from_nn_intervals(nn_intervals: List[float], method: str = WELCH_METHOD,

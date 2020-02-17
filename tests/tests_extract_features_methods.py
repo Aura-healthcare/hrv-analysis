@@ -4,9 +4,11 @@
 import os
 import unittest
 import numpy as np
+import pandas as pd
 from hrvanalysis.extract_features import (get_time_domain_features, get_geometrical_features,
                                           _create_interpolated_timestamp_list, get_sampen,
-                                          get_csi_cvi_features, get_poincare_plot_features)
+                                          get_csi_cvi_features, get_poincare_plot_features,
+                                          get_frequency_domain_features)
 
 
 TEST_DATA_FILENAME = os.path.join(os.path.dirname(__file__), 'test_nn_intervals.txt')
@@ -91,6 +93,16 @@ class ExtractFeaturesTestCase(unittest.TestCase):
         function_sampen_features = get_sampen(nn_intervals)
         sampen_plot_features = {'sampen': 1.2046675751816824}
         self.assertAlmostEqual(function_sampen_features, sampen_plot_features)
+
+    def test_if_get_frequency_domain_features_handles_pandas_series(self):
+
+        # TODO: Investigate: extract_features.py:432: RuntimeWarning: invalid value encountered in double_scalars
+        # Also occurs with list only.
+
+        try:
+            get_frequency_domain_features(pd.Series([42]*10000))
+        except KeyError:
+            self.fail()
 
 
 if __name__ == '__main__':

@@ -140,7 +140,7 @@ def remove_ectopic_beats(rr_intervals: List[float], method: str = "malik",
                 outlier_count += 1
                 previous_outlier = True
 
-    if verbose :
+    if verbose:
         print("{} ectopic beat(s) have been deleted with {} rule.".format(outlier_count, method))
 
     return nn_intervals
@@ -258,7 +258,11 @@ def _remove_outlier_acar(rr_intervals: List[float], custom_rule=0.2) -> Tuple[li
     return nn_intervals, outlier_count
 
 
-def interpolate_nan_values(rr_intervals: list, interpolation_method: str = "linear", limit=1) -> list:
+def interpolate_nan_values(rr_intervals: list,
+                           interpolation_method: str = "linear",
+                           limit_area: str = None,
+                           limit_direction: str = "forward",
+                           limit=None,) -> list:
     """
     Function that interpolate Nan values with linear interpolation
 
@@ -268,6 +272,10 @@ def interpolate_nan_values(rr_intervals: list, interpolation_method: str = "line
         RrIntervals list.
     interpolation_method : str
         Method used to interpolate Nan values of series.
+    limit_area: str
+        If limit is specified, consecutive NaNs will be filled with this restriction.
+    limit_direction: str
+        If limit is specified, consecutive NaNs will be filled in this direction.
     limit: int
         TODO
     Returns
@@ -279,11 +287,13 @@ def interpolate_nan_values(rr_intervals: list, interpolation_method: str = "line
     # Interpolate nan values and convert pandas object to list of values
     interpolated_rr_intervals = series_rr_intervals_cleaned.interpolate(method=interpolation_method,
                                                                         limit=limit,
-                                                                        limit_area="inside")
+                                                                        limit_area=limit_area,
+                                                                        limit_direction=limit_direction)
     return interpolated_rr_intervals.values.tolist()
 
 
 def get_nn_intervals(rr_intervals: List[float], low_rri: int = 300, high_rri: int = 2000,
+                     limit_area: str = None, limit_direction: str = "forward",
                      interpolation_method: str = "linear", ectopic_beats_removal_method: str = KAMATH_RULE,
                      verbose: bool = True) -> List[float]:
     """
@@ -301,6 +311,10 @@ def get_nn_intervals(rr_intervals: List[float], low_rri: int = 300, high_rri: in
         lowest RrInterval to be considered plausible.
     high_rri : int
         highest RrInterval to be considered plausible.
+    limit_area: str
+        If limit is specified, consecutive NaNs will be filled with this restriction.
+    limit_direction: str
+        If limit is specified, consecutive NaNs will be filled in this direction.
     verbose : bool
         Print information about deleted outliers.
 
@@ -311,10 +325,13 @@ def get_nn_intervals(rr_intervals: List[float], low_rri: int = 300, high_rri: in
     """
     rr_intervals_cleaned = remove_outliers(rr_intervals, low_rri=low_rri, high_rri=high_rri,
                                            verbose=verbose)
-    interpolated_rr_intervals = interpolate_nan_values(rr_intervals_cleaned, interpolation_method)
+    interpolated_rr_intervals = interpolate_nan_values(rr_intervals_cleaned, interpolation_method,
+                                                       limit_area=limit_area, limit_direction=limit_direction)
     nn_intervals = remove_ectopic_beats(interpolated_rr_intervals,
-                                        method=ectopic_beats_removal_method)
-    interpolated_nn_intervals = interpolate_nan_values(nn_intervals, interpolation_method)
+                                        method=ectopic_beats_removal_method,
+                                        verbose=verbose)
+    interpolated_nn_intervals = interpolate_nan_values(nn_intervals, interpolation_method,
+                                                       limit_area=limit_area, limit_direction=limit_direction)
     return interpolated_nn_intervals
 
 
