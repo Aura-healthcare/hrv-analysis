@@ -138,7 +138,7 @@ from hrvanalysis import plot_psd
 nn_intervals_list = [1000, 1050, 1020, 1080, ..., 1100, 1110, 1060]
 
 plot_psd(nn_intervals_list, method="welch")
-plot_distrib(nn_intervals_list, method="lomb")
+plot_psd(nn_intervals_list, method="lomb")
 ```
 
 ![alt text](https://github.com/aura-healthcare/hrvanalysis/blob/master/figures/psd_periodogram_plot.png)
