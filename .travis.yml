@@ -12,4 +12,4 @@ script:
   - coverage run tests/tests_preprocessing_methods.py
   - coverage run tests/tests_extract_features_methods.py
 after_success:
-  - codecov -f hrvanalysis/extract_features.py hrvanalysis/preprocessing.py
+  - bash <(curl -s https://codecov.io/bash)
