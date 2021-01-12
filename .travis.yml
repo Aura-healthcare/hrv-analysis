@@ -9,7 +9,10 @@ script:
   - export PYTHONPATH=$PYTHONPATH:$(pwd)
   - python tests/tests_preprocessing_methods.py
   - python tests/tests_extract_features_methods.py
+  - python tests/tests_plot_methods.py
   - coverage run tests/tests_preprocessing_methods.py
   - coverage run -a tests/tests_extract_features_methods.py
+  - coverage run -a tests/tests_plot_methods.py
+
 after_success:
   - bash <(curl -s https://codecov.io/bash)
