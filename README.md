@@ -11,7 +11,7 @@
 The development of this library started in July 2018 as part of [Aura Healthcare](https://www.aura.healthcare) project, in [OCTO Technology](https://www.octo.com/fr) R&D team and is maintained by Robin Champseix.
 
 
-![alt text](https://github.com/aura-healthcare/hrvanalysis/blob/master/figures/timeserie_distrib_plot.png)
+![alt text](https://github.com/Aura-healthcare/hrv-analysis/blob/master/figures/timeserie_distrib_plot.png)
 
 **Full documentation** : https://aura-healthcare.github.io/hrv-analysis
 
@@ -32,7 +32,7 @@ The easiest way to install hrv-analysis is using ``pip`` :
 
 you can also clone the repository:
 
-    $ git clone https://github.com/aura-healthcare/hrvanalysis.git
+    $ git clone https://github.com/Aura-healthcare/hrv-analysis.git
     $ python setup.py install
 
 #### Dependencies
@@ -143,7 +143,7 @@ plot_psd(nn_intervals_list, method="welch")
 plot_psd(nn_intervals_list, method="lomb")
 ```
 
-![alt text](https://github.com/aura-healthcare/hrvanalysis/blob/master/figures/psd_periodogram_plot.png)
+![alt text](https://github.com/Aura-healthcare/hrv-analysis/blob/master/figures/psd_periodogram_plot.png)
 
 
 ```python
@@ -156,7 +156,7 @@ plot_poincare(nn_intervals_list)
 plot_poincare(nn_intervals_list, plot_sd_features=True)
 ```
 
-![alt text](https://github.com/aura-healthcare/hrvanalysis/blob/master/figures/poincare_plot.png)
+![alt text](https://github.com/Aura-healthcare/hrv-analysis/blob/master/figures/poincare_plot.png)
 
 
 You can find how to use methods and details in the [documentation](https://aura-healthcare.github.io/hrv-analysis/tutorial.html):
@@ -168,7 +168,7 @@ You can find how to use methods and details in the [documentation](https://aura-
 
 Here is a high level view of the distinct building blocks of the package:
 
-![alt text](https://github.com/aura-healthcare/hrvanalysis/blob/master/figures/architecture.png)
+![alt text](https://github.com/Aura-healthcare/hrv-analysis/blob/master/figures/architecture.png)
 
 
 ## References
@@ -191,10 +191,10 @@ Here are the main references used to compute the set of features and for signal 
 
 ## License
 
-This project is licensed under the *GNU GENERAL PUBLIC License* - see the [LICENSE.md](https://github.com/aura-healthcare/hrvanalysis/blob/master/LICENSE) file for details
+This project is licensed under the *GNU GENERAL PUBLIC License* - see the [LICENSE.md](https://github.com/Aura-healthcare/hrv-analysis/blob/master/LICENSE) file for details
 
 ## How to contribute
-Please refer to [How To Contribute](https://github.com/aura-healthcare/hrvanalysis/blob/master/CONTRIBUTING.md)
+Please refer to [How To Contribute](https://github.com/Aura-healthcare/hrv-analysis/blob/master/CONTRIBUTING.md)
 
 ## Acknowledgments
 
