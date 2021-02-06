@@ -27,7 +27,30 @@ class ExtractFeaturesTestCase(unittest.TestCase):
 
     def test_if_time_domain_features_are_correct(self):
         nn_intervals = load_test_data(TEST_DATA_FILENAME)
-        function_time_domain_features = get_time_domain_features(nn_intervals)
+        function_time_domain_features = get_time_domain_features(nn_intervals=nn_intervals)
+        real_function_time_domain_features = {'mean_nni': 718.248,
+                                              'sdnn': 43.113074968427306,
+                                              'sdsd': 19.519367520775713,
+                                              'nni_50': 24,
+                                              'pnni_50': 2.4024024024024024,
+                                              'nni_20': 225,
+                                              'pnni_20': 22.52252252252252,
+                                              'rmssd': 19.519400785039664,
+                                              'median_nni': 722.5,
+                                              'range_nni': 249,
+                                              'cvsd': 0.027176408127888504,
+                                              'cvnni': 0.060025332431732914,
+                                              'mean_hr': 83.84733227281252,
+                                              'max_hr': 101.69491525423729,
+                                              'min_hr': 71.51370679380214,
+                                              'std_hr': 5.196775370674054}
+
+        self.assertDictEqual(function_time_domain_features, real_function_time_domain_features)
+
+
+    def test_if_time_domain_features_are_correct_for_pnni_as_percent_set_to_false(self):
+        nn_intervals = load_test_data(TEST_DATA_FILENAME)
+        function_time_domain_features = get_time_domain_features(nn_intervals=nn_intervals, pnni_as_percent=False)
         real_function_time_domain_features = {'mean_nni': 718.248,
                                               'sdnn': 43.113074968427306,
                                               'sdsd': 19.519367520775713,

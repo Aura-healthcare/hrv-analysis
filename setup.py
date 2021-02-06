@@ -10,7 +10,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="hrv-analysis",
-    version="1.0.3",
+    version="1.0.4",
     author="Robin Champseix",
     license="GPLv3",
     author_email="robin.champseix@gmail.com",
@@ -18,7 +18,7 @@ setuptools.setup(
     long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
     include_package_data=True,
-    url="https://github.com/robinchampseix/hrvanalysis",
+    url="https://github.com/Aura-healthcare/hrv-analysis",
     packages=setuptools.find_packages(),
     python_requires='>=3.5',
     install_requires=[

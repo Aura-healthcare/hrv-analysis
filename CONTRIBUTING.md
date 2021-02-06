@@ -3,14 +3,14 @@
 :+1::tada: First off, thanks for taking the time to contribute! :tada::+1:
 
 The following is a set of guidelines for contributing to AURA, which are hosted in the [AURA Organization](https://github.com/Aura-healthcare) on GitHub. These are mostly guidelines, not rules. Use your best judgment, and feel free to propose changes to this document in a pull request.
-We want you working on things you're excited about and respect the [Code Of Conduct](https://github.com/Aura-healthcare/hrvanalysis/blob/master/code-of-conduct.md)
+We want you working on things you're excited about and respect the [Code Of Conduct](https://github.com/Aura-healthcare/hrv-analysis/blob/master/code-of-conduct.md)
 
 Here are some important resources:
 
   * [AURA website](http://www.aura.healthcare) tells you who and where we are, and
-  * [Hrv analysis library road map](https://github.com/Aura-healthcare/hrvanalysis/projects/1) is an overview of the short term and long term tasks and features to be done in order to deliver the future releases.
+  * [Hrv analysis library road map](https://github.com/Aura-healthcare/hrv-analysis/projects/1) is an overview of the short term and long term tasks and features to be done in order to deliver the future releases.
   * For sharing state of the art technology and be part of passionate discussions on healthcare future, Feel free to join us on [Slack !](https://join.slack.com/t/associationaura/shared_invite/enQtMzczOTAwNjkzMTIwLTc0MjFmOWNhM2E0NzMyNGY3MjBlMTU5YWQ0NmRhZDVkZWZlNjNiMmJjMTU1YTY2NWZkMWVjYTVkMDdlZTJhYjI)
-  * Found BUGS? [Github issues](https://github.com/Aura-healthcare/hrvanalysis/issues) is where to report them
+  * Found BUGS? [Github issues](https://github.com/Aura-healthcare/hrv-analysis/issues) is where to report them
 
 ## Testing
 

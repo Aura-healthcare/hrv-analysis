@@ -11,15 +11,15 @@
 The development of this library started in July 2018 as part of [Aura Healthcare](https://www.aura.healthcare) project, in [OCTO Technology](https://www.octo.com/fr) R&D team and is maintained by Robin Champseix.
 
 
-![alt text](https://github.com/aura-healthcare/hrvanalysis/blob/master/figures/timeserie_distrib_plot.png)
+![alt text](https://github.com/Aura-healthcare/hrv-analysis/blob/master/figures/timeserie_distrib_plot.png)
 
-**Full documentation** : https://aura-healthcare.github.io/hrvanalysis/
+**Full documentation** : https://aura-healthcare.github.io/hrv-analysis
 
 **Website** : https://www.aura.healthcare
 
 **Github** : https://github.com/Aura-healthcare
 
-**Version** : 1.0.3
+**Version** : 1.0.4
 
 
 ## Installation / Prerequisites
@@ -32,7 +32,7 @@ The easiest way to install hrv-analysis is using ``pip`` :
 
 you can also clone the repository:
 
-    $ git clone https://github.com/aura-healthcare/hrvanalysis.git
+    $ git clone https://github.com/Aura-healthcare/hrv-analysis.git
     $ python setup.py install
 
 #### Dependencies
@@ -44,6 +44,8 @@ you can also clone the repository:
 - nolds >= 0.4.1
 - numpy >= 1.15.1
 - scipy >= 1.1.0
+
+Note: The package can be used with all Python versions from 3.5 to latest version (currently Python 3.9).
 
 
 ## Getting started
@@ -72,7 +74,7 @@ nn_intervals_list = remove_ectopic_beats(rr_intervals=interpolated_rr_intervals,
 interpolated_nn_intervals = interpolate_nan_values(rr_intervals=nn_intervals_list)
 ```
 
-You can find how to use the following methods, references and more details in the [documentation](https://aura-healthcare.github.io/hrvanalysis/tutorial.html):
+You can find how to use the following methods, references and more details in the [documentation](https://aura-healthcare.github.io/hrv-analysis/tutorial.html):
 - remove_outliers
 - remove_ectopic_beats
 
@@ -118,7 +120,7 @@ time_domain_features = get_time_domain_features(nn_intervals_list)
  'std_hr': 5.196}
 ```
 
-You can find how to use the following methods, references and details about each feature in the [documentation](https://aura-healthcare.github.io/hrvanalysis/tutorial.html):
+You can find how to use the following methods, references and details about each feature in the [documentation](https://aura-healthcare.github.io/hrv-analysis/tutorial.html):
 - get_time_domain_features
 - get_geometrical_features
 - get_frequency_domain_features
@@ -141,7 +143,7 @@ plot_psd(nn_intervals_list, method="welch")
 plot_psd(nn_intervals_list, method="lomb")
 ```
 
-![alt text](https://github.com/aura-healthcare/hrvanalysis/blob/master/figures/psd_periodogram_plot.png)
+![alt text](https://github.com/Aura-healthcare/hrv-analysis/blob/master/figures/psd_periodogram_plot.png)
 
 
 ```python
@@ -154,14 +156,19 @@ plot_poincare(nn_intervals_list)
 plot_poincare(nn_intervals_list, plot_sd_features=True)
 ```
 
-![alt text](https://github.com/aura-healthcare/hrvanalysis/blob/master/figures/poincare_plot.png)
+![alt text](https://github.com/Aura-healthcare/hrv-analysis/blob/master/figures/poincare_plot.png)
 
 
-You can find how to use methods and details in the [documentation](https://aura-healthcare.github.io/hrvanalysis/tutorial.html):
+You can find how to use methods and details in the [documentation](https://aura-healthcare.github.io/hrv-analysis/tutorial.html):
 - plot_distrib
 - plot_timeseries
 - plot_psd
 - plot_poincare
+
+
+Here is a high level view of the distinct building blocks of the package:
+
+![alt text](https://github.com/Aura-healthcare/hrv-analysis/blob/master/figures/architecture.png)
 
 
 ## References
@@ -184,10 +191,10 @@ Here are the main references used to compute the set of features and for signal 
 
 ## License
 
-This project is licensed under the *GNU GENERAL PUBLIC License* - see the [LICENSE.md](https://github.com/aura-healthcare/hrvanalysis/blob/master/LICENSE) file for details
+This project is licensed under the *GNU GENERAL PUBLIC License* - see the [LICENSE.md](https://github.com/Aura-healthcare/hrv-analysis/blob/master/LICENSE) file for details
 
 ## How to contribute
-Please refer to [How To Contribute](https://github.com/aura-healthcare/hrvanalysis/blob/master/CONTRIBUTING.md)
+Please refer to [How To Contribute](https://github.com/Aura-healthcare/hrv-analysis/blob/master/CONTRIBUTING.md)
 
 ## Acknowledgments
 

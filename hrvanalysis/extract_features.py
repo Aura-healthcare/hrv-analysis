@@ -28,7 +28,7 @@ HfBand = namedtuple("Hf_band", ["low", "high"])
 # ----------------- TIME DOMAIN FEATURES ----------------- #
 
 
-def get_time_domain_features(nn_intervals: List[float]) -> dict:
+def get_time_domain_features(nn_intervals: List[float], pnni_as_percent: bool = True) -> dict:
     """
     Returns a dictionary containing time domain features for HRV analysis.
     Mostly used on long term recordings (24h) but some studies use some of those features on
@@ -38,6 +38,8 @@ def get_time_domain_features(nn_intervals: List[float]) -> dict:
     ----------
     nn_intervals : list
         list of Normal to Normal Interval
+    pnni_as_percent: bool
+        whether to remove bias or not to compute pnni features.
 
     Returns
     -------
@@ -95,7 +97,7 @@ def get_time_domain_features(nn_intervals: List[float]) -> dict:
     """
 
     diff_nni = np.diff(nn_intervals)
-    length_int = len(nn_intervals)
+    length_int = len(nn_intervals) - 1 if pnni_as_percent else len(nn_intervals)
 
     # Basic statistics
     mean_nni = np.mean(nn_intervals)
