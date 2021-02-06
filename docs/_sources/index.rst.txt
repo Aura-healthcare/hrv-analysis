@@ -9,7 +9,7 @@ The development of this library started in July 2018 as part of *Aura Healthcare
     :width: 1000
 
 
-**Github:** https://github.com/robinchampseix/hrvanalysis
+**Github:** https://github.com/Aura-healthcare/hrvanalysis
 
 **Project's Website** : https://www.aura.healthcare
 

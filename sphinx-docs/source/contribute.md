@@ -24,4 +24,4 @@ To participate in this project or ask questions, feel free to contact us:
 
 **On Github**
 
-> *https://github.com/robinchampseix/hrvanalysis*
+> *https://github.com/Aura-healthcare/hrvanalysis*

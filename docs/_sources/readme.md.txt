@@ -25,7 +25,7 @@ The easiest way to install hrv-analysis is using ``pip`` :
 
 you can also clone the repository:
 
-    $ git clone https://github.com/robinchampseix/hrvanalysis.git
+    $ git clone https://github.com/Aura-healthcare/hrvanalysis.git
     $ python setup.py install
 
 #### Dependencies

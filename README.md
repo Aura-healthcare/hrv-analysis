@@ -45,6 +45,8 @@ you can also clone the repository:
 - numpy >= 1.15.1
 - scipy >= 1.1.0
 
+Note: The package can be used with all Python versions from 3.5 to latest version (currently Python 3.9).
+
 
 ## Getting started
 
@@ -162,6 +164,11 @@ You can find how to use methods and details in the [documentation](https://aura-
 - plot_timeseries
 - plot_psd
 - plot_poincare
+
+
+Here is a high level view of the distinct building blocks of the package:
+
+![alt text](https://github.com/aura-healthcare/hrvanalysis/blob/master/figures/architecture.png)
 
 
 ## References

@@ -18,7 +18,7 @@ setuptools.setup(
     long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
     include_package_data=True,
-    url="https://github.com/robinchampseix/hrvanalysis",
+    url="https://github.com/Aura-healthcare/hrvanalysis",
     packages=setuptools.find_packages(),
     python_requires='>=3.5',
     install_requires=[
