@@ -13,7 +13,7 @@ The development of this library started in July 2018 as part of [Aura Healthcare
 
 ![alt text](https://github.com/aura-healthcare/hrvanalysis/blob/master/figures/timeserie_distrib_plot.png)
 
-**Full documentation** : https://aura-healthcare.github.io/hrvanalysis/
+**Full documentation** : https://aura-healthcare.github.io/hrv-analysis
 
 **Website** : https://www.aura.healthcare
 
@@ -74,7 +74,7 @@ nn_intervals_list = remove_ectopic_beats(rr_intervals=interpolated_rr_intervals,
 interpolated_nn_intervals = interpolate_nan_values(rr_intervals=nn_intervals_list)
 ```
 
-You can find how to use the following methods, references and more details in the [documentation](https://aura-healthcare.github.io/hrvanalysis/tutorial.html):
+You can find how to use the following methods, references and more details in the [documentation](https://aura-healthcare.github.io/hrv-analysis/tutorial.html):
 - remove_outliers
 - remove_ectopic_beats
 
@@ -120,7 +120,7 @@ time_domain_features = get_time_domain_features(nn_intervals_list)
  'std_hr': 5.196}
 ```
 
-You can find how to use the following methods, references and details about each feature in the [documentation](https://aura-healthcare.github.io/hrvanalysis/tutorial.html):
+You can find how to use the following methods, references and details about each feature in the [documentation](https://aura-healthcare.github.io/hrv-analysis/tutorial.html):
 - get_time_domain_features
 - get_geometrical_features
 - get_frequency_domain_features
@@ -159,7 +159,7 @@ plot_poincare(nn_intervals_list, plot_sd_features=True)
 ![alt text](https://github.com/aura-healthcare/hrvanalysis/blob/master/figures/poincare_plot.png)
 
 
-You can find how to use methods and details in the [documentation](https://aura-healthcare.github.io/hrvanalysis/tutorial.html):
+You can find how to use methods and details in the [documentation](https://aura-healthcare.github.io/hrv-analysis/tutorial.html):
 - plot_distrib
 - plot_timeseries
 - plot_psd
