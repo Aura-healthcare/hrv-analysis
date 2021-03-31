@@ -290,7 +290,7 @@ def interpolate_nan_values(rr_intervals: list,
         while np.isnan(rr_intervals[start_idx]):
             start_idx += 1
 
-        rr_intervals[0:start_idx] = [rr_intervals[start_idx]] * (start_idx - 1)
+        rr_intervals[0:start_idx] = [rr_intervals[start_idx]] * start_idx
     else:
         pass
     # change rr_intervals to pd series
