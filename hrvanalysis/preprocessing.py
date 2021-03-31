@@ -283,6 +283,17 @@ def interpolate_nan_values(rr_intervals: list,
     interpolated_rr_intervals : list
         new list with outliers replaced by interpolated values.
     """
+    # search first nan data and fill it post value until it is not nan
+    if np.isnan(rr_intervals[0]):
+        start_idx = 0
+
+        while np.isnan(rr_intervals[start_idx]):
+            start_idx += 1
+
+        rr_intervals[0:start_idx] = [rr_intervals[start_idx]] * (start_idx - 1)
+    else:
+        pass
+    # change rr_intervals to pd series
     series_rr_intervals_cleaned = pd.Series(rr_intervals)
     # Interpolate nan values and convert pandas object to list of values
     interpolated_rr_intervals = series_rr_intervals_cleaned.interpolate(method=interpolation_method,
