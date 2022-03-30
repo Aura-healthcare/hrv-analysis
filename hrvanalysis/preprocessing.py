@@ -263,7 +263,7 @@ def interpolate_nan_values(rr_intervals: list,
                            limit_area: str = None,
                            limit_direction: str = "forward",
                            limit=None,) -> list:
-    """
+       """
     Function that interpolate Nan values with linear interpolation
 
     Parameters
@@ -283,16 +283,22 @@ def interpolate_nan_values(rr_intervals: list,
     interpolated_rr_intervals : list
         new list with outliers replaced by interpolated values.
     """
-    # search first nan data and fill it post value until it is not nan
-    if np.isnan(rr_intervals[0]):
-        start_idx = 0
-
-        while np.isnan(rr_intervals[start_idx]):
-            start_idx += 1
-
-        rr_intervals[0:start_idx] = [rr_intervals[start_idx]] * start_idx
-    else:
+    # search start & end nan data and fill it post & previous value until it is not nan
+    rr_intervals = np.array(rr_intervals)
+    # handing with first nan
+    idx_first = 0
+    idx_tail = len(rr_intervals) - 1
+    while np.isnan(rr_intervals[idx_first]):
+        idx_first += 1
+    # handing with tail nan
+    while np.isnan(rr_intervals[idx_tail]):
+        idx_tail -= 1
+    # interpolation start & end
+    if (idx_first == 0) & (idx_tail == len(rr_intervals) - 1):
         pass
+    else:
+        rr_intervals[idx_tail::] = rr_intervals[idx_tail]
+        rr_intervals[0:idx_first] = rr_intervals[idx_first]
     # change rr_intervals to pd series
     series_rr_intervals_cleaned = pd.Series(rr_intervals)
     # Interpolate nan values and convert pandas object to list of values
