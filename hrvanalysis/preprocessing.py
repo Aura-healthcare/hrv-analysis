@@ -258,12 +258,13 @@ def _remove_outlier_acar(rr_intervals: List[float], custom_rule=0.2) -> Tuple[li
     return nn_intervals, outlier_count
 
 
+
 def interpolate_nan_values(rr_intervals: list,
                            interpolation_method: str = "linear",
                            limit_area: str = None,
                            limit_direction: str = "forward",
                            limit=None,) -> list:
-       """
+    """
     Function that interpolate Nan values with linear interpolation
 
     Parameters
