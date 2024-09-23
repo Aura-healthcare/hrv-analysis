@@ -23,7 +23,7 @@ setuptools.setup(
     python_requires='>=3.5',
     install_requires=[
         "numpy>=1.15.1",
-        "astropy>=3.0.4",
+        "astropy>=3.2.2",
         "nolds>=0.4.1",
         "scipy>=1.1.0",
         "pandas>=0.23.4",
