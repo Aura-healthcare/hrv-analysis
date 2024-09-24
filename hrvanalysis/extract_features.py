@@ -9,7 +9,7 @@ import numpy as np
 import nolds
 from scipy import interpolate
 from scipy import signal
-from astropy.stats import LombScargle
+from astropy.timeseries import LombScargle
 
 # limit functions that user might import using "from hrv-analysis import *"
 __all__ = ['get_time_domain_features', 'get_frequency_domain_features',
