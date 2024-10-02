@@ -132,7 +132,7 @@ def remove_ectopic_beats(rr_intervals: List[float], method: str = "malik",
                 previous_outlier = False
                 continue
 
-            if is_valid_rr_interval(rr_interval, rr_intervals[i + 1], method=method,
+            if is_rr_interval_within_bounds(rr_interval, rr_intervals[i + 1], method=method,
                           custom_rule=custom_removing_rule):
                 nn_intervals.append(rr_intervals[i + 1])
             else:
@@ -146,10 +146,10 @@ def remove_ectopic_beats(rr_intervals: List[float], method: str = "malik",
     return nn_intervals
 
 
-def is_valid_rr_interval(rr_interval: int, next_rr_interval: float, method: str = "malik",
+def is_rr_interval_within_bounds(rr_interval: int, next_rr_interval: float, method: str = "malik",
                custom_rule: float = 0.2) -> bool:
     """
-    Test if the rr_interval is valid (not an outlier)
+    Test if the rr_interval is not an outlier according to certain criteria.
 
     Parameters
     ----------
