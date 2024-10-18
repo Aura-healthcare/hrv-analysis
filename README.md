@@ -1,7 +1,7 @@
 # Heart Rate Variability analysis
 
 [![PyPI version](https://badge.fury.io/py/hrv-analysis.svg)](https://badge.fury.io/py/hrv-analysis)
-[![Build Status](https://travis-ci.com/Aura-healthcare/hrv-analysis.svg?branch=master)](https://travis-ci.com/Aura-healthcare/hrv-analysis)
+[![Build Status](https://github.com/Aura-healthcare/hrv-analysis/actions/workflows/ci.yml/badge.svg)](https://github.com/Aura-healthcare/hrv-analysis/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/Aura-healthcare/hrv-analysis/branch/master/graph/badge.svg)](https://codecov.io/gh/Aura-healthcare/hrv-analysis)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Downloads](https://pepy.tech/badge/hrv-analysis)](https://pepy.tech/project/hrv-analysis)
@@ -33,7 +33,8 @@ The easiest way to install hrv-analysis is using ``pip`` :
 you can also clone the repository:
 
     $ git clone https://github.com/Aura-healthcare/hrv-analysis.git
-    $ python setup.py install
+    $ cd hrv-analysis
+    $ uv sync --all-extras
 
 #### Dependencies
 

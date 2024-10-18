@@ -14,7 +14,7 @@ Here are some important resources:
 
 ## Testing
 
-Travis CI is running after every commits and we have an overview of the code coverage using CodeCov.
+CI is running with github actions.
 
 ## Submitting changes
 
