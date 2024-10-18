@@ -1,0 +1,41 @@
+name: Python application
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout repository
+      - name: Check out hrv-analysis
+        uses: actions/checkout@v4
+
+      # Install the latest version of uv
+      - name: Install uv
+        uses: astral-sh/setup-uv@v2
+
+      # Install dependencies
+      - name: Install dependencies
+        run: uv sync --all-extras
+
+      # Launch tests
+      - name: Run unit tests
+        run: uv run pytest
+
+      # Run coverage
+      - name: Run coverage
+        run: |
+          coverage run -m pytest
+          coverage xml
+
+      - name: Upload coverage to Codecov
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage.xml
+          fail_ci_if_error: true

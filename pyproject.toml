@@ -26,6 +26,12 @@ dependencies = [
     "matplotlib>=2.2.2",
 ]
 
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "codecov",
+]
+
 [project.urls]
 "Homepage" = "https://github.com/Aura-healthcare/hrv-analysis"
 "Bug Tracker" = "https://github.com/Aura-healthcare/hrv-analysis/issues"
