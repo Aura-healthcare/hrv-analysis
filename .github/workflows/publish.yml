@@ -1,0 +1,25 @@
+---
+name: Publishing
+on:
+  release:
+    types: [published]
+jobs:
+  publish-on-pypi-servers:
+    name: Publish to PyPI Servers
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout repository
+      - name: Check out hrv-analysis
+        uses: actions/checkout@v4
+
+      # Install the latest version of uv
+      - name: Install uv
+        uses: astral-sh/setup-uv@v2
+
+      # Build and publish
+      - name: Build and publish
+        env:
+          UV_PUBLISH_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        run: |
+          uv build
+          uv publish
