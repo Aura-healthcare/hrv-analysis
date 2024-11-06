@@ -34,9 +34,10 @@ jobs:
           uv run coverage run -m pytest
           uv run coverage xml
 
-      - name: Upload coverage to Codecov
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        uses: codecov/codecov-action@v3
-        with:
-          files: ./coverage.xml
-          fail_ci_if_error: true
+      # Deactivate until we have a Codecov account
+      # - name: Upload coverage to Codecov
+      #   if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      #   uses: codecov/codecov-action@v3
+      #   with:
+      #     files: ./coverage.xml
+      #     fail_ci_if_error: true
