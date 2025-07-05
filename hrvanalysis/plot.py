@@ -38,7 +38,6 @@ def plot_timeseries(nn_intervals: List[float], normalize: bool = True,
         Custom max value might be set for y axis.
     """
 
-    style.use("seaborn-darkgrid")
     plt.figure(figsize=(12, 8))
     plt.title("Rr Interval time series")
     plt.ylabel("Rr Interval", fontsize=15)
@@ -70,7 +69,6 @@ def plot_distrib(nn_intervals: List[float], bin_length: int = 8):
     max_nn_i = max(nn_intervals)
     min_nn_i = min(nn_intervals)
 
-    style.use("seaborn-darkgrid")
     plt.figure(figsize=(12, 8))
     plt.title("Distribution of Rr Intervals", fontsize=20)
     plt.xlabel("Time (s)", fontsize=15)
@@ -118,7 +116,6 @@ def plot_psd(nn_intervals: List[float], method: str = "welch", sampling_frequenc
     label_list = ["VLF component", "LF component", "HF component"]
 
     # Plot parameters
-    style.use("seaborn-darkgrid")
     plt.figure(figsize=(12, 8))
     plt.xlabel("Frequency (Hz)", fontsize=15)
     plt.ylabel("PSD (s2/ Hz)", fontsize=15)
@@ -168,7 +165,6 @@ def plot_poincare(nn_intervals: List[float], plot_sd_features: bool = True):
     mean_nni = np.mean(nn_intervals)
 
     # Plot options and settings
-    style.use("seaborn-darkgrid")
     fig = plt.figure(figsize=(12, 12))
     ax = fig.add_subplot(111)
     plt.title("Poincaré / Lorentz Plot", fontsize=20)
