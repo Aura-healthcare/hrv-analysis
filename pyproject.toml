@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "hrv-analysis"
-version = "1.0.5"
+version = "1.0.6"
 authors = [
   { name="Robin Champseix", email="robin.champseix@gmail.com" },
 ]
