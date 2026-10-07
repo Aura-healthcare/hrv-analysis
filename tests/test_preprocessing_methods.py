@@ -45,6 +45,15 @@ class CleanOutliersTestCase(unittest.TestCase):
         self.assertEqual((remove_ectopic_beats(rr_intervals=rri_list, method="acar")),
                          [100, 100, 100, 100, 100, 100, 100, 100, 110, np.nan, 110, 100, np.nan])
 
+    def test_acar_custom_removing_rule(self):
+        # 125 differs by 25 % from the mean of the 9 previous intervals
+        rri_list = [100, 100, 100, 100, 100, 100, 100, 100, 100, 125, 100]
+        self.assertEqual(remove_ectopic_beats(rr_intervals=rri_list, method="acar"),
+                         [100, 100, 100, 100, 100, 100, 100, 100, 100, np.nan, 100])
+        self.assertEqual(remove_ectopic_beats(rr_intervals=rri_list, method="acar",
+                                              custom_removing_rule=0.3),
+                         rri_list)
+
     # def test_2_succesive_outliers_malik(self):
     #     rri_list = [103, 110, 100, 150, 50, 100, 100, 130, 115, 100, 78, 70, 100, 100]
     #     self.assertEqual(remove_ectopic_beats(rr_intervals=rri_list, method="Malik"),
