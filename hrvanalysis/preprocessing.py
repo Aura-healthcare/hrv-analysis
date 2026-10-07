@@ -91,7 +91,8 @@ def remove_ectopic_beats(rr_intervals: List[float], method: str = "malik",
         Percentage criteria of difference with previous RR-interval at which we consider
         that it is abnormal. If method is set to Karlsson, it is the percentage of difference
         between the absolute mean of previous and next RR-interval at which  to consider the beat
-        as abnormal.
+        as abnormal. If method is set to Acar, it is the percentage of difference with the mean
+        of the 9 previous RR-intervals.
     verbose : bool
         Print information about ectopic beats.
 
@@ -118,7 +119,8 @@ def remove_ectopic_beats(rr_intervals: List[float], method: str = "malik",
                                                                removing_rule=custom_removing_rule)
 
     elif method == ACAR_RULE:
-        nn_intervals, outlier_count = _remove_outlier_acar(rr_intervals=rr_intervals)
+        nn_intervals, outlier_count = _remove_outlier_acar(rr_intervals=rr_intervals,
+                                                           custom_rule=custom_removing_rule)
 
     else:
         # set first element in list
